@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="msg" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <!--<![endif]-->
@@ -8,7 +11,7 @@
     <meta charset="utf-8" />
     <title>约吧</title>
     <%@include file="../includes/head.jsp"%>
-
+    <link rel="stylesheet" href="/static/assets/css/_all-skins.min.css">
     <!--wangEditor-->
     <link href="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.css" rel="stylesheet">
 
@@ -64,7 +67,9 @@
                             <!--文本编辑器-->
                         <div class="col-md-6" >
                             <input type="hidden" id="pub1" >
+                            <input type="text" name="content" id="content"/>
                             <div id="pub" >
+
                             </div>
                                     <button id="pubFriend" type="button" class="btn green pull-right" style="padding:4px 8px ">
                                         <span>发布</span>
@@ -79,38 +84,35 @@
                          </div>
                         </div>
                         <div class="portlet-body">
+                            <c:forEach items="${friendList}" var="friendMessage">
                             <div class="timeline">
                                 <!-- TIMELINE ITEM -->
                                 <div class="timeline-item">
                                     <div class="timeline-badge">
                                         <!--头像-->
-                                        <img class="timeline-badge-userpic" src="/static/assets/pages/media/users/avatar80_1.jpg"> </div>
+                                        <img class="timeline-badge-userpic" src="${friendMessage.image}"> </div>
                                     <div class="timeline-body">
                                     <div class="timeline-body-arrow"> </div>
                                     <div class="timeline-body-head">
                                         <div class="timeline-body-head-caption">
-                                            <a href="javascript:;" class="timeline-body-title font-blue-madison">装鼎</a>
-                                            <span class="timeline-body-time font-grey-cascade">发布于 at 7:45 PM</span>
+                                            <a href="javascript:;" class="timeline-body-title font-blue-madison">${friendMessage.uname}</a>
+                                            <span class="timeline-body-time font-grey-cascade">发布于<fmt:formatDate value="${friendMessage.created}" pattern="yyyy-MM-dd HH:mm:ss"/> </span>
                                         </div>
                                     </div>
                                     <div class="timeline-body-content">
 
-                                        <img class="timeline-body-img pull-right" src="/static/assets/pages/media/blog/4.jpg" alt="">
+                                        <img class="timeline-body-img pull-right" src="${friendMessage.picture}" alt="">
                                         <span class="font-grey-cascade">
-                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                                                    quis nostrud exerci tationullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                                                <p>${friendMessage.content}</p>
                                         </span>
-
                                         <div class="pull-left">
+                                            <button  class="btn btn-circle btn-icon-only white" onclick="love(${friendMessage.id})">
+                                                <i class="fa fa-thumbs-o-up"></i>${friendMessage.praiseNum}
+                                            </button>
 
                                             <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
                                                 <i class="fa fa-link"></i>
                                             </a>
-                                            <a href="javascript:;" class="btn btn-circle btn-icon-only white">
-
-                                                <i class="fa fa-thumbs-o-up"></i>
-                                            </a>
-
                                         </div>
                                     </div>
 
@@ -118,46 +120,7 @@
 
                                 </div>
                             </div>
-                         <%--   <div class="timeline">
-                                <!-- TIMELINE ITEM -->
-                                <div class="timeline-item">
-                                    <div class="timeline-badge">
-                                        <!--头像-->
-                                        <img class="timeline-badge-userpic" src="/static/assets/pages/media/users/avatar80_1.jpg"> </div>
-                                    <div class="timeline-body">
-                                        <div class="timeline-body-arrow"> </div>
-                                        <div class="timeline-body-head">
-                                            <div class="timeline-body-head-caption">
-                                                <a href="javascript:;" class="timeline-body-title font-blue-madison">装鼎</a>
-                                                <span class="timeline-body-time font-grey-cascade">发布于 at 7:45 PM</span>
-                                            </div>
-                                            <div class="timeline-body-head-actions">
-
-                                            </div>
-                                        </div>
-                                        <div class="timeline-body-content">
-
-                                            <img class="timeline-body-img pull-right" src="/static/assets/pages/media/blog/4.jpg" alt="">
-                                            <span class="font-grey-cascade">
-                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                                                    quis nostrud exerci tationullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-                                            </span>
-
-                                            <div class="pull-left">
-
-                                                <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
-                                                    <i class="fa fa-link"></i>
-                                                </a>
-                                                <a href="javascript:;" class="btn btn-circle btn-icon-only white">
-                                                    <i class="fa fa-thumbs-o-up"></i>
-                                                </a>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>--%>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -180,14 +143,13 @@
         </div>
     </button>
 </div>
-
 <!-- END CONTAINER -->
 <!-- BEGIN QUICK SIDEBAR -->
 <a href="javascript:;" class="page-quick-sidebar-toggler">
     <i class="icon-login"></i>
 </a>
+<msg:modal/>
 <%@include file="../includes/chat.jsp"%>
-
 <%@include file="../includes/footer.jsp"%>
 <!--wangEditor-->
 <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
@@ -232,15 +194,31 @@
             'justify' // 对齐方式
         ],
             editor.customConfig.onchange = function (html) {
-                $("#info").val(html)
-            }
+                $("#content").val(html)
+            };
              editor1.customConfig.onchange = function (html) {
             $("#pub1").val(html)
-         }
+         };
         editor.create();
         editor1.create();
-
-    })
+    });
+    //点赞  id---朋友圈id
+    function love(id) {
+        var uid=${sessionScope.user.id};
+        $.ajax({
+            "url":"/love",
+            "data":{"praiseUid":uid,"fcmId":id},
+            "type":"POST",
+            "dataType":"JSON",
+            "success":function (data) {
+                $(".modal-body").html(data.message);
+                $("#modal-danger").modal("show");
+                $("#check").click(function () {
+                    window.location.reload();
+                })
+            }
+        });
+    }
 </script>
 </body>
 </html>
