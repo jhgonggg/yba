@@ -37,6 +37,7 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         <include refid="allColumns"></include>
         <include refid="left"></include>
         WHERE a.uid=#{id}
+        ORDER By a.created DESC
     </select>
 
     <!--通过id获取对象-->

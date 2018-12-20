@@ -34,6 +34,7 @@
             border-color: #e0e0e0;
         }
     </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa"></script>
 </head>
 <body class="allyb">
 <%@include file="../includes/header.jsp"%>
@@ -63,26 +64,31 @@
 
                             </div>
                         </div>
-                        <div class="row" id="share" style="display: none">
+                        <form action="/circle/push" method="post">
+                            <input type="hidden" name="uid" value="${sessionScope.user.id}"/>
+                            <input type="hidden" name="picture" id="picture">
+                            <div class="row" id="share" style="display: none">
                             <!--文本编辑器-->
-                        <div class="col-md-6" >
-                            <input type="hidden" id="pub1" >
-                            <input type="text" name="content" id="content"/>
-                            <div id="pub" >
+                            <input type="hidden" name="content" id="content"/>
+                            <div class="col-md-6">
+                                <div id="editor" >
+
+                                </div>
+                            </div>
+                                <!--图片上传-->
+                            <div class="col-md-6">
+                                 <div class="dropzone dropzone-file-area " id="my-dropzone" >
+                                     <h3 class="sbold">将图片拖到此处或点击上传</h3>
+                                     <i class="fa fa-photo" style="font-size: 50px;padding: 20px 20px"></i>
+                                 </div>
+                            </div>
+                                <div style="margin-left: 16px">
+                                    <i class="icon-pointer"></i><input type="text" name="location" id="location" readonly style="cursor: auto"/>
+                                </div>
+                                    <input type="submit" class="btn-danger pull-left" style="padding:4px 8px;margin-left: 16px;margin-top: 10px" value="发布"/>
 
                             </div>
-                                    <button id="pubFriend" type="button" class="btn green pull-right" style="padding:4px 8px ">
-                                        <span>发布</span>
-                                    </button>
-                        </div>
-                            <!--图片上传-->
-                        <div class="col-md-6">
-                             <div class="dropzone dropzone-file-area " id="my-dropzone" >
-                                 <h3 class="sbold">将图片拖到此处或点击上传</h3>
-                                 <i class="fa fa-photo" style="font-size: 50px;padding: 20px 20px"></i>
-                             </div>
-                         </div>
-                        </div>
+                        </form>
                         <div class="portlet-body">
                             <c:forEach items="${friendList}" var="friendMessage">
                             <div class="timeline">
@@ -155,53 +161,31 @@
 <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
 <!--dropZone-->
 <script src="/static/assets/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
-
+<script src="/static/assets/apps/wangEditor.js"></script>
 <script>
     $(function () {
+        //文件上传
         Dropzone.options.myDropzone = {
-            url: "/upload",//上传到哪个页面
-            dictDefaultMessage: "",//设置默认的提示语句
-            paramName: "dropzFile",//传到后台的参数名称
-            maxFilesize: 1,//最大上次数量
+            url: "/upload",
+            //最大上传文件数
+            maxFiles:"1",
+            dictDefaultMessage: "",
+            //传递过去的参数 取别名file 默认为file
+            paramName: "uploadFile",
+            //取消自动上传 false
+            autoProcessQueue:true,
+            init: function() {
+                this.on('success', function (files, data) {
+                    //文件上传成功之后的操作
+                    $("#picture").val(data.path);
+                });
+            }
         };
-
-        //启动wangEditor
-        var E = window.wangEditor;
-        var editor = new E('#editor1','#editor2');
-        var editor1 = new E('#pub');
-        editor.customConfig.uploadImgShowBase64 = true;
-
-        editor.customConfig.menus = [
-            'head',
-            'bold',
-            'italic',
-            'underline',
-            'emoticon',
-            'undo',
-            'image',
-            'table'
-        ],
-        editor1.customConfig.menus = [
-            'head',
-            'bold',
-            'italic',
-            'underline',
-            'emoticon',
-            'undo',
-            'table',
-            'link',  // 插入链接
-            'list',  // 列表
-            'justify' // 对齐方式
-        ],
-            editor.customConfig.onchange = function (html) {
-                $("#content").val(html)
-            };
-             editor1.customConfig.onchange = function (html) {
-            $("#pub1").val(html)
-         };
-        editor.create();
-        editor1.create();
     });
+
+    //Wang Editor
+    WangEditor.init("editor","content");
+
     //点赞  id---朋友圈id
     function love(id) {
         var uid=${sessionScope.user.id};
@@ -219,6 +203,23 @@
             }
         });
     }
+</script>
+<script type="text/javascript" >
+    var geolocation = new BMap.Geolocation();
+    // 创建地理编码实例
+    var myGeo = new BMap.Geocoder();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var pt = r.point;
+        // 根据坐标得到地址描述
+            myGeo.getLocation(pt, function(result){
+                if (result){
+                    var addComp = result.addressComponents;
+                    $("#location").val(addComp.province + " " + addComp.city + " " + addComp.district);
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>
