@@ -36,10 +36,14 @@ public class User extends AbstractBaseEntity {
     /**
      * 性别
      */
-    private Char gender;
+    private Integer gender;
     private Date birth;
     private String picture;
     private String location;
+
+    // 判断是否为管理员 1->管理员  0->普通用户
+    @Transient
+    private Integer isRole;
     //------------------------扩展的属性 用于修改密码时---------------------------
     //实体bean中默认所有的字段都会被映射到数据库中，如果某个属性不想被映射到数据库中@Transient 依赖persistence-api
     @Transient

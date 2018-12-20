@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 @Controller
@@ -44,14 +46,20 @@ public class LoginController{
      * @param request
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "/login")
     public String login(String loginId, String password, String remember, Model model, HttpServletRequest request, HttpServletResponse response){
         User user = profileService.login(loginId, password);
+        // 用户名或密码错误
         if(user==null){
             model.addAttribute(SystemConstants.CACHE_KEY_MESSAGE,"用户或密码错误");
-            return "login";
+            return "0";
         }
         else{
+            // 如果是管理员
+            if (user.getIsRole() == 1){
+                return "3";
+            }
             //勾选记住我 保存Cookie
             if(remember!=null){
                 CookieUtils.setCookie(request,response,COOKIE_NAME,String.format("%s:%s",loginId,password),3600*7*24);
@@ -64,7 +72,7 @@ public class LoginController{
                 }
             }
             //request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
-            return "redirect:/main";
+            return "1";
         }
     }
 
