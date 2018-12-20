@@ -58,6 +58,7 @@ public class LoginController{
         else{
             // 如果是管理员
             if (user.getIsRole() == 1){
+                request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
                 return "3";
             }
             //勾选记住我 保存Cookie
@@ -71,7 +72,7 @@ public class LoginController{
                     CookieUtils.deleteCookie(request,response,COOKIE_NAME);
                 }
             }
-            //request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
+            request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
             return "1";
         }
     }

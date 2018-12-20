@@ -28,22 +28,22 @@
     <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"></mvc:resources>
 
     <!--配置拦截器 拦截顺序：先执行后定义的，排在第一位的最后执行 最后面的<mvc:interceptor>先执行-->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--&lt;!&ndash;拦截所有拦截器必须是/**代表拦截所有&ndash;&gt;-->
-            <!--<mvc:mapping path="/**"/>-->
-            <!--&lt;!&ndash;exclude除了下面的不拦截&ndash;&gt;-->
-            <!--<mvc:exclude-mapping path="/login"></mvc:exclude-mapping>-->
-            <!--<mvc:exclude-mapping path="/static/**"></mvc:exclude-mapping>-->
-            <!--&lt;!&ndash;配置用哪个拦截器&ndash;&gt;-->
-            <!--<bean class="com.yb.yue.ba.admin.interceptor.LoginInterceptor"></bean>-->
-        <!--</mvc:interceptor>-->
-        <!--<mvc:interceptor>-->
-            <!--&lt;!&ndash;拦截登录&ndash;&gt;-->
-            <!--<mvc:mapping path="/login"/>-->
-            <!--<bean class="com.yb.yue.ba.admin.interceptor.PermissionInterceptor"></bean>-->
-        <!--</mvc:interceptor>-->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--拦截所有拦截器必须是/**代表拦截所有-->
+            <mvc:mapping path="/**"/>
+            <!--exclude除了下面的不拦截-->
+            <mvc:exclude-mapping path="/login"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/static/**"></mvc:exclude-mapping>
+            <!--配置用哪个拦截器-->
+            <bean class="com.yb.yue.ba.admin.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <!--拦截登录-->
+            <mvc:mapping path="/login"/>
+            <bean class="com.yb.yue.ba.admin.interceptor.PermissionInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 上传文件拦截，设置最大上传文件大小 10M = 10*1024*1024(B) = 10485760 bytes -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

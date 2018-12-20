@@ -35,7 +35,7 @@
                         <ul class="dropdown-menu-v2" role="menu">
 
                             <li>
-                                <a href="page_user_login_1.html">
+                                <a href="/logout">
                                     <i class="icon-key"></i>注销 </a>
                             </li>
                         </ul>

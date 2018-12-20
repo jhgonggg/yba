@@ -17,7 +17,8 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
           a.created,
           a.location,
           a.phone,
-          a.updated
+          a.updated,
+          a.is_role AS isRole
         FROM
           yb_user AS a
     </sql>
@@ -35,7 +36,7 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
     <!--编辑-->
     <update id="update">
         update
-        user
+        yb_user
         set
         <!--用来判断传递过来的参数是否为空 不为空就才执行-->
         <if test="password!=null and password!=''">
@@ -84,8 +85,8 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
     </select>
     <!--添加-->
     <insert id="insert">
-        INSERT INTO yb_user(username,password,phone,email,created,updated,gender,birth,picture,location)
-        values(#{username},#{password},#{phone},#{email},#{created},#{updated},#{gender},#{birth},#{picture},#{location})
+        INSERT INTO yb_user(username,password,email,created,updated,gender)
+        values(#{username},#{password},#{email},#{created},#{updated},#{gender})
     </insert>
     <!--批量删除-->
     <delete id="delete">
