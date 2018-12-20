@@ -35,6 +35,8 @@
             <!--exclude除了下面的不拦截-->
             <mvc:exclude-mapping path="/login"></mvc:exclude-mapping>
             <mvc:exclude-mapping path="/static/**"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/user/check"></mvc:exclude-mapping>
+            <mvc:exclude-mapping path="/user/register"></mvc:exclude-mapping>
             <!--配置用哪个拦截器-->
             <bean class="com.yb.yue.ba.admin.interceptor.LoginInterceptor"></bean>
         </mvc:interceptor>

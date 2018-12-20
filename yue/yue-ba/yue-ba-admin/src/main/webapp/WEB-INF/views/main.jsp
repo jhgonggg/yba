@@ -40,36 +40,36 @@
                                 </canvas>
                                 <div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
                                     <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 11px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 11px; text-align: center;">
                                             02/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 102px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 102px; text-align: center;">
                                             03/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 193px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 193px; text-align: center;">
                                             04/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 285px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 285px; text-align: center;">
                                             05/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 376px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 376px; text-align: center;">
                                             06/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 467px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 467px; text-align: center;">
                                             07/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 559px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 559px; text-align: center;">
                                             08/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 650px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 650px; text-align: center;">
                                             09/2018</div>
-                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 742px; text-align: center;">
+                                        <div style="position: absolute; max-width: 69px; top: 285px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 742px; text-align: center;">
                                             10/2018</div>
                                     </div>
-                                    <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div style="position: absolute; top: 273px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 22px; text-align: right;">
+                                    <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div style="position: absolute; top: 273px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 22px; text-align: right;">
                                             0</div>
-                                        <div style="position: absolute; top: 220px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
+                                        <div style="position: absolute; top: 220px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
                                             1000</div>
-                                        <div style="position: absolute; top: 166px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
+                                        <div style="position: absolute; top: 166px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
                                             2000</div>
-                                        <div style="position: absolute; top: 113px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
+                                        <div style="position: absolute; top: 113px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
                                             3000</div>
-                                        <div style="position: absolute; top: 59px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
+                                        <div style="position: absolute; top: 59px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
                                             4000</div>
-                                        <div style="position: absolute; top: 6px; font: small-caps 400 11px/14px &quot;Open Sans&quot;, sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
+                                        <div style="position: absolute; top: 6px; font: small-caps 400 11px/14px 'Open Sans', sans-serif; color: rgb(111, 123, 138); left: 1px; text-align: right;">
                                             5000</div>
                                     </div>
                                 </div>
