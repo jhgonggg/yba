@@ -1,0 +1,184 @@
+article,
+footer,
+header,
+nav {
+	display: block
+}
+
+html {
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%
+}
+
+a {
+	text-decoration: none;
+	outline: none;
+	border: 0
+}
+
+a:hover,
+a:active {
+	outline: 0
+}
+
+img {
+	max-width: 100%;
+	vertical-align: middle;
+	border: 0;
+	-ms-interpolation-mode: bicubic
+}
+
+button,
+input,
+select,
+textarea {
+	margin: 0;
+	font-size: 100%;
+	vertical-align: middle
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
+button,
+input {
+	*overflow: visible;
+	line-height: normal;
+	outline: none
+}
+
+textarea {
+	overflow: auto;
+	vertical-align: top
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	font-weight: 500;
+	text-rendering: optimizelegibility
+}
+
+ul,
+ol,
+li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	outline: none
+}
+
+p {
+	margin: 0;
+	padding: 0
+}
+
+.locale_en,
+.locale_en textarea,
+.locale_en input,
+.locale_en select,
+.locale_en button {
+	font-family: "Avenir", "Lucida grande", "Microsoft Yahei", Tahoma, Verdana, Arial, Sans-serif
+}
+
+.locale_zh,
+.locale_zh textarea,
+.locale_zh input,
+.locale_zh select,
+.locale_zh button {
+	font-family: Helvetica Neue, PingFang SC, Helvetica, Arial, Hiragino Sans GB, Microsoft Yahei, \\5FAE\8F6F\96C5\9ED1, STHeiti, \\534E\6587\7EC6\9ED1, sans-serif
+}
+
+.locale_zh-tr,
+.locale_zh-tr textarea,
+.locale_zh-tr input,
+.locale_zh-tr select,
+.locale_zh-tr button {
+	font-family: Helvetica Neue, PingFang SC, Helvetica, Arial, Hiragino Sans GB, Microsoft Yahei, \\5FAE\8F6F\96C5\9ED1, STHeiti, \\534E\6587\7EC6\9ED1, sans-serif
+}
+
+.locale_jp,
+.locale_jp textarea,
+.locale_jp input,
+.locale_jp select,
+.locale_jp button {
+	font-family: Helvetica, Arial, 'Lucida grande', Tahoma, Verdana, "Hiragino kaku gothic pro", Meiryo, "MS Pgothic", Sans-serif
+}
+
+.clearfix {
+	*zoom: 1
+}
+
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	line-height: 0;
+	content: ""
+}
+
+.clearfix:after {
+	clear: both
+}
+
+.hide {
+	display: none
+}
+
+.btn {
+	font-size: 11px;
+	color: #666;
+	text-align: center;
+	padding: 5px 10px;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	border: 1px solid #C5C5C5;
+	border-radius: 5px;
+	background-color: #FCFCFC;
+	cursor: pointer;
+	text-transform: capitalize;
+	font-family: inherit;
+	-webkit-transition: all .25s;
+	-moz-transition: all .25s;
+	-ms-transition: all .25s;
+	-o-transition: all .25s;
+	transition: all .25s
+}
+
+.btn:hover {
+	border: 1px solid #CCC
+}
+
+.input {
+	-webkit-transition: all 0.25s;
+	-moz-transition: all 0.25s;
+	-o-transition: all 0.25s;
+	transition: all 0.25s;
+	border: 1px solid #CCC;
+	border-radius: 4px;
+	font-size: 13px;
+	outline: none;
+	padding: 7px;
+	color: #333
+}
+
+.input:focus {
+	border: 1px solid #999;
+	background-color: #fff
+}
+
+.input.disabled {
+	background: #f9f9f9;
+	color: #999
+}
+
+body {
+	margin: 0;
+	font-size: 12px
+}

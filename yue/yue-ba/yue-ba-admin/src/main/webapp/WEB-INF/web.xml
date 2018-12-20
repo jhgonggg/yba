@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <!--配置属性文件的位置 这里即是容器的位置 classpath的路径默认是resources-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context*.xml</param-value>
+    </context-param>
+    <!--监听器服务器启动的时候初始化applicationContext容器-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <!--设置过滤器 编码格式utf-8-->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <!--设置编码格式-->
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+        <init-param>
+            <!--forceEncoding用来设置是否理会 request.getCharacterEncoding()方法，设置为true则强制覆盖之前的编码格式-->
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!--设置前端控制器并自启动(保证在所有请求之前就启动)接收符合映射关系的请求-->
+    <servlet>
+        <!--这个名字即为spingmvc的配置文件的名字 默认位置是WEB-INF/目录下名字.servlet.xml -->
+        <servlet-name>spring</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--用来重新定义springmvc配置文件的名字以及位置 classpath的路径默认是resources-->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <!--classpath*的使用：当项目中有多个classpath路径，并同时加载多个classpath路径下（此种情况多数不会遇到）
+            的文件，*就发挥了作用，如果不加*，则表示仅仅加载第一个classpath路径。第二个*表示以spring-mvc开头的文件-->
+            <param-value>classpath*:/spring-mvc*.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>spring</servlet-name>
+        <!--/代表接收所有请求 包括静态的资源文件 一般用这个设置前端控制器的映射-->
+        <!--/* 代表接收所有请求 包括静态的资源文件 以及.jsp页面的请求也接收 会导致请求.jsp页面都是404-->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

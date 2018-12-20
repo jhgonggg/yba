@@ -1,0 +1,54 @@
+package com.yb.yue.ba.admin.utils;
+/**
+ * 正则表达式工具类
+ * <p>Title: RegexpUtils</p>
+ * <p>Description: </p>
+ *
+ * @author Qy
+ * @version 1.0.0
+ * @date 2018/12/17  10:02
+ */
+public class RegexpUtils {
+    /**
+     * 验证手机号
+     */
+    public static final String PHONE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
+
+    /**
+     * 验证邮箱地址
+     */
+    public static final String EMAIL = "\\w+(\\.\\w)*@\\w+(\\.\\w{2,3}){1,3}";
+
+    /**
+     * 验证密码
+     */
+    public static final String PASSWORD ="^[a-zA-Z0-9_]{6,16}$";
+
+    /**
+     * 验证手机号
+     * @param phone
+     * @return
+     */
+    public static boolean checkPhone(String phone) {
+        return phone.matches(PHONE);
+    }
+
+    /**
+     * 验证邮箱
+     * @param email
+     * @return
+     */
+    public static boolean checkEmail(String email) {
+        return email.matches(EMAIL);
+    }
+
+    /*
+     * 验证密码 只能为 字母数字 下划线
+     */
+    public static boolean checkPassword(String password) {
+        return password.matches(PASSWORD);
+    }
+
+
+
+}

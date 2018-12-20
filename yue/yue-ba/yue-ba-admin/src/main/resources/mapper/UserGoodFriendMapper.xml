@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--对象关系映射文件——将原生java对象(POJO)与数据库表相关联
+对持久层的sql语句进行映射
+namespace等于mapper接口类路径，这样实现通过映射文件找到对应的mapper接口是哪个-->
+<mapper namespace="com.yb.yue.ba.admin.mapper.UserGoodFriendMapper">
+    <!--查询用户所有的好友id-->
+    <select id="getAllFriends" resultType="java.lang.Long">
+        SELECT friend_id
+        FROM yb_user_goodfriend
+        WHERE uid =#{id}
+        UNION ALL
+        SELECT uid
+        FROM yb_user_goodfriend
+        WHERE friend_id = #{id}
+    </select>
+
+    <!--添加好友-->
+    <insert id="insert">
+       INSERT INTO yb_user_goodfriend
+        (
+          uid,
+          friend_id,
+          created,
+          updated
+        )
+        values
+        (
+          #{uid},
+          #{friendId},
+          #{created},
+          #{updated}
+        )
+    </insert>
+
+    <!--批量删除-->
+    <delete id="delete">
+        DELETE  FROM  yb_user_goodfriend
+        <if test="array!=null and array.length>0">
+            WHERE id IN
+            <foreach collection="array" open="(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
+</mapper>

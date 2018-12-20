@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--对象关系映射文件——将原生java对象(POJO)与数据库表相关联
+对持久层的sql语句进行映射
+namespace等于mapper接口类路径，这样实现通过映射文件找到对应的mapper接口是哪个-->
+<mapper namespace="com.yb.yue.ba.admin.mapper.PraiseDetailMapper">
+    <!--查询所有语句-->
+    <sql id="allColumns">
+        SELECT
+          a.id,
+          a.praise_uid AS praiseUid ,
+          a.fcmid AS fcmId,
+          a.created
+        FROM
+          yb_praise_detail AS a
+    </sql>
+
+    <!--添加点赞对象-->
+    <insert id="insert">
+        insert into yb_praise_detail
+        (
+          praise_uid,
+          fcmid,
+          created
+        )
+        VALUES
+        (
+          #{praiseUid},
+          #{fcmId},
+          #{created}
+        )
+    </insert>
+
+    <!--根据用户id与朋友圈id查询点赞对象  -->
+    <select id="getPraiseDetail" resultType="PraiseDetail">
+        <include refid="allColumns"></include>
+        WHERE a.praise_uid=#{praiseUid} AND a.fcmid=#{fcmId}
+    </select>
+
+    <!--取消点赞 找到了这条记录时删除这条记录 通过这条记录id-->
+    <delete id="deleteById">
+        DELETE  FROM  yb_praise_detail
+        WHERE id=#{id}
+    </delete>
+
+    <!--当删除朋友圈时 删除点赞表记录 根据朋友圈id-->
+    <delete id="deleteByFcmId">
+        DELETE  FROM  yb_praise_detail
+        where fcmid=#{id}
+    </delete>
+</mapper>

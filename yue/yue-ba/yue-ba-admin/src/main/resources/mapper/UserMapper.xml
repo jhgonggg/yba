@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--对象关系映射文件——将原生java对象(POJO)与数据库表相关联
+对持久层的sql语句进行映射
+namespace等于mapper接口类路径，这样实现通过映射文件找到对应的mapper接口是哪个-->
+<mapper namespace="com.yb.yue.ba.admin.mapper.UserMapper">
+    <!--查询所有语句-->
+    <sql id="allColumns">
+        SELECT
+          a.id,
+          a.username,
+          a.password,
+          a.email,
+          a.gender,
+          a.birth,
+          a.picture,
+          a.created,
+          a.location,
+          a.phone,
+          a.updated
+        FROM
+          yb_user AS a
+    </sql>
+    <!--登录id获取对象-->
+    <select id="login" resultType="User">
+        <include refid="allColumns"></include>
+        where a.username=#{username} OR a.phone=#{phone} OR a.email=#{email}
+    </select>
+    <!--id获取对象-->
+    <select id="getById" resultType="User">
+        <include refid="allColumns"></include>
+        where
+        a.id=#{id}
+    </select>
+    <!--编辑-->
+    <update id="update">
+        update
+        user
+        set
+        <!--用来判断传递过来的参数是否为空 不为空就才执行-->
+        <if test="password!=null and password!=''">
+            password=#{password},
+        </if>
+        username=#{username},
+        email=#{email},
+        phone=#{phone},
+        updated=#{updated}
+        where
+        id=#{id}
+    </update>
+    <!--分页查询-->
+    <select id="page" resultType="User" parameterType="java.util.Map">
+        <include refid="allColumns"></include>
+        <!--模糊查询-->
+        <where>
+            <if test="user!=null and user.username!=null and user.username!=''">
+                AND a.username LIKE CONCAT ('%', #{user.username}, '%')
+            </if>
+            <if test="user!=null and user.phone!=null and user.phone!=''">
+                AND a.phone  LIKE CONCAT ('%', #{user.phone}, '%')
+            </if>
+            <if test="user!=null and user.email!=null and user.email!=''">
+                AND a.email  LIKE CONCAT ('%', #{user.email}, '%')
+            </if>
+        </where>
+        ORDER by created DESC
+        LIMIT #{start},#{length}
+    </select>
+    <!--查询总数据数-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from yb_user As a
+        <!--模糊查询-->
+        <where>
+            <if test="username!=null and username!=''">
+                AND a.username LIKE CONCAT ('%', #{username}, '%')
+            </if>
+            <if test="phone!=null and phone!=''">
+                AND a.phone  LIKE CONCAT ('%', #{phone}, '%')
+            </if>
+            <if test="email!=null and email!=''">
+                AND a.email  LIKE CONCAT ('%', #{email}, '%')
+            </if>
+        </where>
+    </select>
+    <!--添加-->
+    <insert id="insert">
+        INSERT INTO yb_user(username,password,phone,email,created,updated,gender,birth,picture,location)
+        values(#{username},#{password},#{phone},#{email},#{created},#{updated},#{gender},#{birth},#{picture},#{location})
+    </insert>
+    <!--批量删除-->
+    <delete id="delete">
+        DELETE  FROM  yb_user
+        <if test="array!=null and array.length>0">
+            WHERE id IN
+            <foreach collection="array" open="(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </delete>
+
+</mapper>

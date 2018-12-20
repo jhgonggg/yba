@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--SqlSession对象包含以数据库为背景的所有执行SQL操作的方法,
+    它的底层封装了JDBC连接,可以用SqlSession实例来直接执行被映射的SQL语句.
+    sqlSession是线程不安全的,面向程序员的接口,当放在多线程容易造成数据冲突,适合在方法体内作为局部变量.-->
+    <!-- 配置SqlSession 使客户端与数据库的连接有状态需要注入数据源-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 用于配置对应实体类所在的包，多个 package 之间可以用 ',' 号分割 -->
+        <property name="typeAliasesPackage" value="com.yb.yue.ba.admin.entity"/>
+        <!-- 用于配置对象关系映射配置文件所在目录 -->
+        <!-- 自动扫描mapper目录下.xml文件 mybatis加载sql映射语句-->
+        <property name="mapperLocations" value="classpath:/mapper/**/*.xml"/>
+        <!-- 文件映射器,指定类文件 -->
+        <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+    </bean>
+    <!-- 配置扫描器扫描Mapper 告诉mybatis 数据访问接口的位置 通过这个接口和mapper映射文件做匹配
+    从映射文件拿到所需要的东西
+    创建mapper代理对象 用来操作mapper的业务-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.yb.yue.ba.admin.mapper" />
+    </bean>
+</beans>
