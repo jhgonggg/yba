@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yb.yue.ba.admin.mapper.RecordMapper">
+    <!--查询所有语句-->
+    <sql id="allColumns">
+          SELECT
+          a.id,
+          a.sender_id AS 'senderId',
+          a.receiver_id AS 'receiverId',
+          a.message,
+          a.created
+        FROM
+          yb_record  AS a
+    </sql>
+    <sql id="left">
+
+    </sql>
+
+    <!--通过发送方ID与接收方ID获取聊天记录 按创建时间排序-->
+    <select id="getRecordById" resultType="Record" >
+        <include refid="allColumns"></include>
+        WHERE (a.sender_id=#{senderId} AND a.receiver_id =#{receiverId}) OR (
+        a.sender_id=#{receiverId} AND a.receiver_id =#{senderId}
+        )
+          ORDER By a.created DESC
+    </select>
+
+    <!--添加-->
+    <insert id="insert">
+        INSERT INTO yb_record
+        (
+          sender_id,
+          receiver_id,
+          message,
+          created
+        )
+        values
+        (
+          #{senderId},
+          #{receiverId},
+          #{message},
+          #{created}
+        )
+    </insert>
+</mapper>
