@@ -109,21 +109,36 @@
 
                                         <img class="timeline-body-img pull-right" src="${friendMessage.picture}" alt="">
                                         <span class="font-grey-cascade">
-                                                <p>${friendMessage.content}</p>
+                                            <p>${friendMessage.content}</p>
                                         </span>
+                                    </div>
                                         <div class="pull-left">
-                                            <button  class="btn btn-circle btn-icon-only white" onclick="love(${friendMessage.id})">
+                                            <button class="btn btn-circle btn-icon-only white" onclick="love(${friendMessage.id})">
                                                 <i class="fa fa-thumbs-o-up"></i>${friendMessage.praiseNum}
                                             </button>
-
                                             <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
                                                 <i class="fa fa-link"></i>
-                                            </a>
+                                            </a></br></br>
+                                            <c:forEach items="${friendMessage.comments}" var="comment" >
+                                                    <span class="ellipsis">
+                                                    【${comment.customer.username}】:
+                                                    </span>
+                                                <span class="ellipsis">${comment.content}</span>
+                                                <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${comment.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </span>
+                                                <br />
+                                                <c:if test="${!empty comment.replyComment}">
+                                                    <c:forEach items="${comment.replyComment}" var="reply">
+                                                        【${reply.replyCustomer.username}】<a class="date-dz-pl pl-hf hf-con-block">回复</a>【${reply.customer.username}】:
+                                                        <span class="ellipsis">${reply.content}</span>
+                                                        <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${reply.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+    				                                        </span>
+                                                        <br />
+                                                    </c:forEach>
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
-                                    </div>
-
                                 </div>
-
                                 </div>
                             </div>
                             </c:forEach>
@@ -190,7 +205,7 @@
     function love(id) {
         var uid=${sessionScope.user.id};
         $.ajax({
-            "url":"/love",
+            "url":"/praise/love",
             "data":{"praiseUid":uid,"fcmId":id},
             "type":"POST",
             "dataType":"JSON",
@@ -220,6 +235,8 @@
             });
         }
     });
+
+
 </script>
 </body>
 </html>

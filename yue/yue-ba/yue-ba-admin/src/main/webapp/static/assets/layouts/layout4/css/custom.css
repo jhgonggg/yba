@@ -1,1 +1,17 @@
 /* here you can put your own css to customize and override the theme */
+/* here you can put your own css to customize and override the theme */
+td {
+    white-space: nowrap;
+}
+
+.table.dataTable.no-footer {
+    border-bottom: 0px;
+}
+
+.dropzone-file-area {
+    border: 2px dashed #028AF4 !important;
+    background: #fff !important;
+    padding: 20px !important;
+    margin: 0 auto;
+    text-align: center
+}

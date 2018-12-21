@@ -21,4 +21,5 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.yb.yue.ba.admin.mapper" />
     </bean>
+
 </beans>
