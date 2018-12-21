@@ -1,4 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="msg" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <!--<![endif]-->
@@ -46,18 +49,19 @@
                             </div>
                         </div>
                         <div class="portlet-body">
+                            <c:forEach items="${myList}" var="myMessage">
                             <div class="timeline">
                                 <!-- TIMELINE ITEM -->
                                 <div class="timeline-item">
                                     <div class="timeline-badge">
                                         <!--头像-->
-                                        <img class="timeline-badge-userpic" src="/static/assets/pages/media/users/avatar80_1.jpg"> </div>
+                                        <img class="timeline-badge-userpic" src="${myMessage.image}"> </div>
                                     <div class="timeline-body">
                                         <div class="timeline-body-arrow"> </div>
                                         <div class="timeline-body-head">
                                             <div class="timeline-body-head-caption">
-                                                <a href="javascript:;" class="timeline-body-title font-blue-madison">装鼎</a>
-                                                <span class="timeline-body-time font-grey-cascade">发布于 at 7:45 PM</span>
+                                                <a href="javascript:;" class="timeline-body-title font-blue-madison">${myMessage.uname}</a>
+                                                <span class="timeline-body-time font-grey-cascade">发布于 <fmt:formatDate value="${myMessage.created}" pattern="yyyy-MM-dd HH:mm:ss"/> </span>
                                             </div>
                                             <div class="timeline-body-head-actions">
 
@@ -65,17 +69,24 @@
                                         </div>
                                         <div class="timeline-body-content">
 
-                                            <img class="timeline-body-img pull-right" src="/static/assets/pages/media/blog/4.jpg" alt="">
+                                            <img class="timeline-body-img pull-right" src="${myMessage.picture}" alt="">
                                             <span class="font-grey-cascade">
-                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
-                                                    quis nostrud exerci tationullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                                                <p>${myMessage.content}</p>
                                             </span>
-
                                             <div class="pull-left">
+                                                <button class="btn btn-circle btn-icon-only white" onclick="love(${myMessage.id})">
+                                                    <i class="fa fa-thumbs-o-up"></i>${myMessage.praiseNum}
+                                                </button>
+
+                                                <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
+                                                    <i class="fa fa-link"></i>
+                                                </a>
+                                            </div>
+                                            <%--<div class="pull-left">
                                                 <span>点赞数</span>
                                                 :
                                                 <a href="javascript:;">
-                                                    125
+                                                    ${myMessage.praiseNum}
                                                 </a>
                                                 <span>评论量</span>
                                                 :
@@ -83,13 +94,14 @@
                                                     26
                                                 </a>
 
-                                            </div>
+                                            </div>--%>
                                         </div>
 
                                     </div>
 
                                 </div>
                             </div>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>
@@ -112,7 +124,7 @@
         </div>
     </button>
 </div>
-
+<msg:modal/>
 <!-- END CONTAINER -->
 <!-- BEGIN QUICK SIDEBAR -->
 <a href="javascript:;" class="page-quick-sidebar-toggler">
@@ -121,6 +133,24 @@
 <%@include file="../includes/chat.jsp"%>
 
 <%@include file="../includes/footer.jsp"%>
-
+<script>
+    //点赞  id---朋友圈id
+    function love(id) {
+        var uid=${sessionScope.user.id};
+        $.ajax({
+            "url":"/love",
+            "data":{"praiseUid":uid,"fcmId":id},
+            "type":"POST",
+            "dataType":"JSON",
+            "success":function (data) {
+                $(".modal-body").html(data.message);
+                $("#modal-danger").modal("show");
+                $("#check").click(function () {
+                    window.location.reload();
+                })
+            }
+        });
+    }
+</script>
 </body>
 </html>

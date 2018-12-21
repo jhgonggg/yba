@@ -45,14 +45,16 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         username=#{username},
         email=#{email},
         phone=#{phone},
-        updated=#{updated},
-        gender=#{gender},
         <if test="location!=null and location!=''">
             location=#{location},
         </if>
         <if test="birth!=null">
-            birth=#{birth}
+            birth=#{birth},
         </if>
+        <if test=" gender!=null">
+            gender=#{ gender},
+        </if>
+        updated=#{updated}
         where
         id=#{id}
     </update>

@@ -54,6 +54,8 @@ public class FriendCircleMessageServiceImpl extends AbstractBaseCrudServiceImpl<
     @Transactional(readOnly = false)
     public void sendFriendMessage(FriendCircleMessage friendCircleMessage) {
         //在朋友圈消息表添加该用户发布的朋友圈  添加后自动返回该表的id给该对象
+        Date date=new Date();
+        friendCircleMessage.setCreated(date);
         mapper.insert(friendCircleMessage);
 
         //查询该用户的所有好友id
@@ -61,7 +63,6 @@ public class FriendCircleMessageServiceImpl extends AbstractBaseCrudServiceImpl<
 
         //在该用户以及所有好友的时间轴表添加消息
         Long fcmid = friendCircleMessage.getId();
-        Date date=new Date();
         //保存时间轴的集合
         List<TimeLine> timeLines= Lists.newArrayList();
         //设置用户自己的时间轴

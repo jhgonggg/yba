@@ -186,7 +186,7 @@ var languages = {
                 f = /\w+@[0-9a-zA-Z_]+?\.[a-zA-Z]{2,6}/;
             "user_name" === a && ($text($("signup_url_label"), c), "" === c && ($("signup_url_label").innerHTML = ""));
             /*"nick_name" === a && (0 != c.length ? signup.check_suc(a) : signup.check_fail(a));*/
-            "user_name" === a && (0 == c.length ? signup.check_fail(a) : !e.test(c) && 3 < c.length ? ($text(d, "检测中"), $style.set(b, "backgroundImage", "")  ,$ajax(rootURL + ":8080/user/check", {
+            "user_name" === a && (0 == c.length ? signup.check_fail(a) : /*!e.test(c) && 3 < c.length ?*/ ($text(d, "检测中"), $style.set(b, "backgroundImage", "")  ,$ajax(rootURL + ":8080/user/check", {
                 data: {
                     type: "user_name",
                     user_name: c
@@ -194,7 +194,7 @@ var languages = {
                 success: function(b) {
                     b==1 ? ($text(d, text["name-ok"]), signup.check_suc(a)) : ($text(d, "此用户名已用"), signup.check_fail(a))
                 }
-            })) : ($text(d, text["name-format"]), signup.check_fail(a)));
+            }))/* : ($text(d, text["name-format"]), signup.check_fail(a))*/);
             "password" === a && (0 == c.length ? signup.check_fail(a) : 5 >= c.length ? ($text(d, text["pw-str0"]), signup.check_fail(a)) : ($text(d, 10 >= c.length ? text["pw-str1"] : 15 >= c.length ? text["pw-str2"] : text["pw-str3"]), signup.check_suc(a)));
             "email" === a && (0 == c.length ? signup.check_fail(a) : f.test(c) ? ($text(d, text.checking + "...") ,$ajax(rootURL + ":8080/user/check", {
                 data: {
