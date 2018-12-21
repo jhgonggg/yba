@@ -47,6 +47,9 @@ public class User extends AbstractBaseEntity {
     // 判断是否为管理员 1->管理员  0->普通用户
     @Transient
     private Integer isRole;
+
+    // 判断是否在线 1->在线  0->离线
+   // private Integer isOnline;
     //------------------------扩展的属性 用于修改密码时---------------------------
     //实体bean中默认所有的字段都会被映射到数据库中，如果某个属性不想被映射到数据库中@Transient 依赖persistence-api
     @Transient

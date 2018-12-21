@@ -2,6 +2,8 @@ package com.yb.yue.ba.admin.controller;
 import com.yb.yue.ba.admin.constants.SystemConstants;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.service.ProfileService;
+import com.yb.yue.ba.admin.service.UserGoodFriendService;
+import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.CookieUtils;
 import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 @Controller
 public class LoginController{
 
@@ -20,6 +24,10 @@ public class LoginController{
 
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private UserService userService;
+
     /**
      * 进入登录页
      * @return
@@ -72,7 +80,11 @@ public class LoginController{
                     CookieUtils.deleteCookie(request,response,COOKIE_NAME);
                 }
             }
+
+
+            List<User> friends = userService.getFriends(user.getId());
             request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
+            request.getSession().setAttribute(SystemConstants.CACHE_KEY_FRIENDS,friends);
             return "1";
         }
     }
