@@ -191,13 +191,123 @@
             editor.customConfig.onchange = function (html) {
                  $("#info").val(html)
              }
-            editor.customConfig.onblur = function (html) {
-                console.log('onblur', html)
-            }
 
             editor.create();
 
-        })
+            //初始化Vue
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    unreadCount : '89',
+                }
+            })
+
+            //初始化goEasy对象
+             goEasy = new GoEasy({appkey: 'BC-697822f1a335419da17331bb84427a10'});
+
+            //初始化监听接口，接受消息
+            goEasy.subscribe({
+                channel:sender_id,
+                onMessage: function(message){
+
+                    $("#record").append("<div class=\"recevie\">\n" +
+                        "    <div class=\"row\">\n" +
+                        "        <div class=\"col-md-1\"></div>\n" +
+                        "        <div class=\"col-md-11\" style=\"float: left\"><p >"+new Date() +"</p></div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"heard_img right\">\n" +
+                        "        <img src=\"/static/images/1.jpg\">\n" +
+                        "    </div>\n" +
+                        "    <div style=\"width: 8px\"></div>\n" +
+                        "    <div class=\"question_text clear\" style=\"max-width: 543px;\">\n" +
+                        "        <p>"+message.content+"</p>\n" +
+                        "        <i></i>\n" +
+                        "    </div>\n" +
+                        "</div>");
+                }
+            });
+
+
+
+           
+
+
+
+        //点击好友
+        function getRecord(friendId) {
+            recevier_id = friendId;
+            $.ajax({
+                url:"/record/list",
+                type:"post",
+                data:{
+                  "uid":sender_id,
+                  "friendId":recevier_id
+                },
+                success:function (data) {
+                    //返回聊天记录
+                    $("#record").empty();
+                    for (var i = 0; i <data.length ; i++) {
+                        if(data[i].senderId==sender_id){
+                            var created = DateFormat.formatDate(new Date(data[i].created));
+                            $("#record").append(" <div class=\"post in\">"+data[i].message+" </div><br/>");
+                        }
+                        else{
+                            $("#record").append(" <div class=\"post out\">"+data[i].message+" </div><br/>");
+                        }
+
+                    }
+                }
+            });
+
+
+        }
+
+
+        //推送消息
+        function send(){
+           var message =  removeTAG($("#info").val());
+
+           //清空编辑区域
+            editor.txt.clear();
+            goEasy.publish({
+                channel:recevier_id+"",
+                message:message,
+                onSuccess:function(){
+                    $.ajax({
+                        url:"/record/save",
+                        type:"post",
+                        data:{
+                            "senderId":sender_id,
+                            "recevierId":recevier_id,
+                            "message":message,
+                        }
+                    });
+                    $("#record").append("<div class=\"send\">\n" +
+                        "    <div class=\"row\">\n" +
+                        "        <div class=\"col-md-9\"></div>\n" +
+                        "        <div class=\"col-md-3\" style=\"float: right\">\n" +
+                        "            <p >17:50</p>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"heard_img left\"><img src=\"/static/images/1.jpg\"></div>\n" +
+                        "    <div style=\"width: 8px\"></div>\n" +
+                        "    <div class=\"answer_text\">\n" +
+                        "        <p>您可以向我提问哦</p>\n" +
+                        "        <i></i>\n" +
+                        "    </div>\n" +
+                        "</div>");
+
+                }
+
+            })
+        }
+
+
+        //去除富文本标签
+        function removeTAG(str,len){
+            return str.replace(/<[^>]+>/g, "");
+        }
+
     </script>
 
     <%--<script src="images/jquery.min(1).js"></script>--%>
