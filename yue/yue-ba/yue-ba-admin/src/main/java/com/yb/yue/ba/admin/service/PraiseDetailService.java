@@ -12,5 +12,5 @@ public interface PraiseDetailService extends BaseCrudService<PraiseDetail> {
      * @param praiseUid 点赞用户id
      * @param fcmId 朋友圈id
      */
-    void ClickPraise(Long praiseUid, Long fcmId);
+    String ClickPraise(Long praiseUid, Long fcmId);
 }

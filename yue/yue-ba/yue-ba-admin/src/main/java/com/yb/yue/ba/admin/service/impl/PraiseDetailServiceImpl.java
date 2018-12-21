@@ -30,7 +30,8 @@ public class PraiseDetailServiceImpl extends AbstractBaseCrudServiceImpl<PraiseD
      */
     @Override
     @Transactional(readOnly = false)
-    public void ClickPraise(Long praiseUid, Long fcmId) {
+    public String ClickPraise(Long praiseUid, Long fcmId) {
+        String message=null;
         Map<String,Long> map= Maps.newHashMap();
         map.put("praiseUid",praiseUid);
         map.put("fcmId",fcmId);
@@ -50,6 +51,7 @@ public class PraiseDetailServiceImpl extends AbstractBaseCrudServiceImpl<PraiseD
 
             //点赞数加1
             friendCircleMessage.setPraiseNum(friendCircleMessage.getPraiseNum()+1);
+            message="点赞成功";
         }
         //记录存在 则为取消赞行为
         else{
@@ -57,9 +59,11 @@ public class PraiseDetailServiceImpl extends AbstractBaseCrudServiceImpl<PraiseD
             mapper.deleteById(praiseDetail.getId());
             //点赞数减1
             friendCircleMessage.setPraiseNum(friendCircleMessage.getPraiseNum()-1);
+            message="点赞已取消";
         }
 
         //更新数据库点赞数
         friendCircleMessageMapper.update(friendCircleMessage);
+        return message;
     }
 }
