@@ -19,7 +19,7 @@
 <link href="/static/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
 <!-- END THEME GLOBAL STYLES -->
 <!-- BEGIN THEME LAYOUT STYLES -->
-<link href="/static/assets/layouts/layout6/css/layout.min.css" rel="stylesheet" type="text/css" />
+<link href="/static/assets/layouts/layout6/css/layout.css" rel="stylesheet" type="text/css" />
 <link href="/static/assets/layouts/layout6/css/custom.min.css" rel="stylesheet" type="text/css" />
 <!-- END THEME LAYOUT STYLES -->
 <link rel="shortcut icon" href="favicon.ico" /> </head>

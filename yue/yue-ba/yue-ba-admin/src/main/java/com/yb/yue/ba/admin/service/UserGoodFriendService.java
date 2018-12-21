@@ -13,4 +13,6 @@ public interface UserGoodFriendService extends BaseCrudService<UserGoodFriend> {
      * @param uid2
      */
     void save(Long uid1, Long uid2);
+
+
 }

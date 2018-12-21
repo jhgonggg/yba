@@ -7,4 +7,5 @@ package com.yb.yue.ba.admin.constants;
 public final class SystemConstants {
     public final static String CACHE_KEY_USER="user";
     public final static String CACHE_KEY_MESSAGE="message";
+    public final static String CACHE_KEY_FRIENDS="friends";
 }
