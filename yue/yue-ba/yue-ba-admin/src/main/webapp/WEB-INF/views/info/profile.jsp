@@ -42,7 +42,7 @@
                     <!-- item -->
                     <div class="col-md-4">
                         <a class="work-item work-image" href="#">
-                            <img src="${sessionScope.user/pictrue}" alt="">
+                            <img src="${sessionScope.user.picture}" alt="">
                             <i class="ti-image"></i>
                             <div class="work-info">
                                 <h3><span>${sessionScope.user.username}</span></h3>
@@ -158,14 +158,14 @@
                                     <i class="fa fa-close" style="font-size: 40px;color: grey"></i>
                                 </a>
                             </div>
-                            <%--<div class="pull-right">--%>
-                            <%--<a href="/index/update"><button type="submit" class="btn green">--%>
-                            <%--修改--%>
-                            <%--</button></a>--%>
-                            <%--<button type="button" class="btn default " onclick="history.go(-1)">--%>
-                            <%--返回--%>
-                            <%--</button>--%>
-                            <%--</div>--%>
+                            <div class="pull-right">
+                            <a href="/index/update"><button type="submit" class="btn green">
+                            修改
+                            </button></a>
+                            <button type="button" class="btn default " onclick="history.go(-1)">
+                            返回
+                            </button>
+                            </div>
                             <!-- END FORM-->
                         </div>
                     </div>
