@@ -12,7 +12,6 @@
     <link href="/static/assets/plugins/commons.css" rel="stylesheet" type="text/css"/>
     <!--wangEditor-->
     <link href="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.css" rel="stylesheet">
-
 </head>
 <body class="allyb">
     <%@include file="includes/header.jsp"%>
@@ -169,18 +168,12 @@
 <%@include file="includes/footer.jsp"%>
 <!--wangEditor-->
 <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
-    <script src = "/static/assets/apps/modal/dateUtils.js"></script>
 
     <script>
-        var editor;
-        var sender_id = ${user.id}+"";
-        var recevier_id;
-        var goEasy;
-
         $(function () {
-            //初始化wangEditor
+            //启动wangEditor
             var E = window.wangEditor;
-             editor = new E('#editor1','#editor2');
+            var editor = new E('#editor1','#editor2');
             editor.customConfig.uploadImgShowBase64 = true;
             editor.customConfig.menus = [
                 'head',
@@ -196,10 +189,9 @@
                 '#000000',
             ],
             editor.customConfig.onchange = function (html) {
-                 $("#info").val(html);
-
-
+                 $("#info").val(html)
              }
+
             editor.create();
 
             //初始化Vue
@@ -237,8 +229,7 @@
 
 
 
-
-        })
+           
 
 
 
@@ -316,6 +307,7 @@
         function removeTAG(str,len){
             return str.replace(/<[^>]+>/g, "");
         }
+
     </script>
 
     <%--<script src="images/jquery.min(1).js"></script>--%>

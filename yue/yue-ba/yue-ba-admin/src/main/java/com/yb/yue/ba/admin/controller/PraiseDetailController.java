@@ -6,9 +6,11 @@ import com.yb.yue.ba.admin.entity.PraiseDetail;
 import com.yb.yue.ba.admin.service.PraiseDetailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping(value = "/praise")
 public class PraiseDetailController extends AbstractBaseController<PraiseDetail, PraiseDetailService> {
     @ResponseBody
     @PostMapping("/love")

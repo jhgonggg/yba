@@ -20,11 +20,19 @@
     <link href="/static/assets/global/plugins/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
 
     <link href="/static/assets/plugins/commons.css" rel="stylesheet" type="text/css"/>
+    <!--BEGIN sweetalert -->
+    <link href="/static/assets/global/plugins/bootstrap-sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+    <!--END sweetalert -->
     <style>
         .btn.white:not(.btn-outline).active, .btn.white:not(.btn-outline):active, .btn.white:not(.btn-outline):hover, .open>.btn.white:not(.btn-outline).dropdown-toggle {
             color: #ffffff;
             background-color: #ff2d51;
             border-color: #e0e0e0;
+        }
+        .load2{
+            height: 90px;
+            width: 330px;
+            border: 1px solid pink;
         }
     </style>
 </head>
@@ -64,7 +72,15 @@
                                                 <span class="timeline-body-time font-grey-cascade">发布于 <fmt:formatDate value="${myMessage.created}" pattern="yyyy-MM-dd HH:mm:ss"/> </span>
                                             </div>
                                             <div class="timeline-body-head-actions">
-
+                                                <button class="btn btn-circle red btn-sm dropdown-toggle mt-sweetalert"
+                                                        data-title="确定删除么?"
+                                                        data-type="info" data-show-confirm-button="true" data-confirm-button-class="btn-success"
+                                                        data-show-cancel-button="true" data-cancel-button-class="btn-default"
+                                                        data-close-on-confirm="false" data-close-on-cancel="false" data-confirm-button-text= "确定"
+                                                        data-cancel-button-text="取消" data-popup-title-success="删除成功"
+                                                        data-popup-title-cancel="取消成功"
+                                                        data-id="${myMessage.id}" data-url="/circle/delete/circles"><i class="fa fa-trash"></i>删除
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="timeline-body-content">
@@ -77,24 +93,43 @@
                                                 <button class="btn btn-circle btn-icon-only white" onclick="love(${myMessage.id})">
                                                     <i class="fa fa-thumbs-o-up"></i>${myMessage.praiseNum}
                                                 </button>
-
+                                                <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="$('#loadOrther').toggle()">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
                                                 <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
                                                     <i class="fa fa-link"></i>
                                                 </a>
+                                                <div class="" style="height: 10px"></div>
+                                                <div id="loadOrther"  style="display: none">
+                                                    <input type="hidden" id="loadInput" >
+                                                    <div id="load1" class="load1">
+                                                    </div>
+                                                    <div id="load2" class="load2">
+                                                    </div>
+                                                    <button id="loadFriend" type="button" class="btn green" style="padding:4px 8px ">
+                                                        <span>确定</span>
+                                                    </button>
+                                                </div>
+                                                </br></br>
+                                                <c:forEach items="${myMessage.comments}" var="comment" >
+                                                    <span class="ellipsis">
+                                                    【${comment.customer.username}】:
+                                                    </span>
+                                                    <span class="ellipsis">${comment.content}</span>
+                                                    <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${comment.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                    </span>
+                                                    <br />
+                                                    <c:if test="${!empty comment.replyComment}">
+                                                        <c:forEach items="${comment.replyComment}" var="reply">
+                                                            【${reply.replyCustomer.username}】<a class="date-dz-pl pl-hf hf-con-block">回复</a>【${reply.customer.username}】:
+                                                            <span class="ellipsis">${reply.content}</span>
+                                                            <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${reply.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+    				                                        </span>
+                                                            <br />
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </c:forEach>
                                             </div>
-                                            <%--<div class="pull-left">
-                                                <span>点赞数</span>
-                                                :
-                                                <a href="javascript:;">
-                                                    ${myMessage.praiseNum}
-                                                </a>
-                                                <span>评论量</span>
-                                                :
-                                                <a href="javascript:;">
-                                                    26
-                                                </a>
-
-                                            </div>--%>
                                         </div>
 
                                     </div>
@@ -133,12 +168,18 @@
 <%@include file="../includes/chat.jsp"%>
 
 <%@include file="../includes/footer.jsp"%>
+<!--BEGIN sweetalert -->
+<script src="/static/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js" type="text/javascript"></script>
+<!--END sweetalert -->
+<script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
+<script src="/static/assets/apps/sweetalert.js"></script>
+<script src="/static/assets/apps/wangEditor.js"></script>
 <script>
     //点赞  id---朋友圈id
     function love(id) {
         var uid=${sessionScope.user.id};
         $.ajax({
-            "url":"/love",
+            "url":"/praise/love",
             "data":{"praiseUid":uid,"fcmId":id},
             "type":"POST",
             "dataType":"JSON",
@@ -151,6 +192,60 @@
             }
         });
     }
+
+
+    //启动wangEditor
+    var E = window.wangEditor;
+    var editor = new E('#editor1','#editor2');
+    var editor1 = new E('#pub');
+    var editor2 = new E('#load1','#load2');
+    editor.customConfig.uploadImgShowBase64 = true;
+
+    editor.customConfig.menus = [
+        'head',
+        'bold',
+        'italic',
+        'underline',
+        'emoticon',
+        'undo',
+        'image',
+        'table'
+    ],
+        editor1.customConfig.menus = [
+            'head',
+            'bold',
+            'italic',
+            'underline',
+            'emoticon',
+            'undo',
+            'table',
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify' // 对齐方式
+        ],
+        editor2.customConfig.menus = [
+            'head',
+            'bold',
+            'italic',
+            'underline',
+            'emoticon',
+            'undo',
+            'image',
+            'table'
+        ],
+        editor.customConfig.onchange = function (html) {
+            $("#info").val(html)
+        }
+    editor1.customConfig.onchange = function (html) {
+        $("#pub1").val(html)
+    }
+    editor2.customConfig.onchange = function (html) {
+        $("#loadInput").val(html)
+    }
+    editor.create();
+    editor1.create();
+    editor2.create();
+
 </script>
 </body>
 </html>

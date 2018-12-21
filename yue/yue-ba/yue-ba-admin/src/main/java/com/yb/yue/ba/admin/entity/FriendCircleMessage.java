@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * 保存用户发表的朋友圈信息
@@ -42,4 +43,10 @@ public class FriendCircleMessage extends AbstractBaseEntity {
      */
     @Transient
     private String image;
+
+    /**
+     * 保存该朋友圈的所有评论
+     */
+    @Transient
+    private List<Comment> comments;
 }
