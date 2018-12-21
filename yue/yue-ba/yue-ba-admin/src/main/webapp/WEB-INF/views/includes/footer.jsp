@@ -30,7 +30,11 @@
 <script src="/static/assets/pages/scripts/dashboard.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- BEGIN THEME LAYOUT SCRIPTS -->
-<script src="/static/assets/layouts/layout6/scripts/layout.min.js" type="text/javascript"></script>
+<script src="/static/assets/layouts/layout6/scripts/layout.js" type="text/javascript"></script>
 <script src="/static/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
 <script src="/static/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
+<!--GoEasy-->
+<script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
+<!--Vue-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>

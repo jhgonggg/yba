@@ -8,21 +8,25 @@
           a.sender_id AS 'senderId',
           a.receiver_id AS 'receiverId',
           a.message,
-          a.created
+          a.created,
+          b.username AS 'senderName',
+		  c.username AS 'receiverName'
         FROM
           yb_record  AS a
     </sql>
     <sql id="left">
-
+      LEFT  JOIN yb_user  AS b ON a.sender_id = b.id
+      LEFT  JOIN yb_user  AS c ON a.receiver_id = c.id
     </sql>
 
     <!--通过发送方ID与接收方ID获取聊天记录 按创建时间排序-->
     <select id="getRecordById" resultType="Record" >
         <include refid="allColumns"></include>
+        <include refid="left"></include>
         WHERE (a.sender_id=#{senderId} AND a.receiver_id =#{receiverId}) OR (
         a.sender_id=#{receiverId} AND a.receiver_id =#{senderId}
         )
-          ORDER By a.created DESC
+          ORDER By a.created ASC
     </select>
 
     <!--添加-->
