@@ -3,15 +3,20 @@ package com.yb.yue.ba.admin.controller;
 
 import com.yb.yue.ba.admin.abstracts.AbstractBaseController;
 import com.yb.yue.ba.admin.entity.User;
+import com.yb.yue.ba.admin.service.UserGoodFriendService;
 import com.yb.yue.ba.admin.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "user")
 public class UserController extends AbstractBaseController<User, UserService> {
+
 
 
     @ResponseBody
