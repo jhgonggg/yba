@@ -94,4 +94,10 @@ public class UserController extends AbstractBaseController<User, UserService> {
                 "}"*/;
     }
 
+    @GetMapping(value = "profile")
+    public String profile(){
+
+        return "/info/profile";
+    }
+
 }
