@@ -55,5 +55,68 @@
     border: 1px solid #fff;
     width: 300px;
 }
+.dropdown-menu-v2 {
+    background: rgba(255, 186, 202, 0.32);
+}
+.dropdown-menu-v2:before {
+    border-color: transparent transparent rgba(255, 186, 202, 0.32);
+}
+.load2{
+    border: 1px solid #0a6aa1;
+    width: 500px;
+    height: 500px;
+}
+
+
+.heard_img {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #ddd;
+    display: block;
+}
+.left {
+    float: right;
+}
+.right{
+    float: left;
+}
+.answer_text p {
+    background: lightgreen;
+    float: right;
+}
+.question_text p{
+    background-color: #fff;
+}
+.question_text p, .answer_text p {
+    border-radius: 10px;
+    padding: .5rem;
+    margin: 0;
+    font-size: 10px;
+    line-height: 20px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    display: table-cell;
+    height: 40px;
+    word-wrap: break-word;
+}
+p {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+.question_text i, .answer_text i {
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    position: absolute;
+    top: 25px;
+}
+.chat-border{
+    overflow-x:hidden;
+    height: 500px;
+}
 
 

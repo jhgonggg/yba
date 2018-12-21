@@ -217,10 +217,21 @@
             goEasy.subscribe({
                 channel:sender_id,
                 onMessage: function(message){
-                    $("#record").append(message.content);
-                    $("#record").append("<br/>");
 
-
+                    $("#record").append("<div class=\"recevie\">\n" +
+                        "    <div class=\"row\">\n" +
+                        "        <div class=\"col-md-1\"></div>\n" +
+                        "        <div class=\"col-md-11\" style=\"float: left\"><p >"+new Date() +"</p></div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"heard_img right\">\n" +
+                        "        <img src=\"/static/images/1.jpg\">\n" +
+                        "    </div>\n" +
+                        "    <div style=\"width: 8px\"></div>\n" +
+                        "    <div class=\"question_text clear\" style=\"max-width: 543px;\">\n" +
+                        "        <p>"+message.content+"</p>\n" +
+                        "        <i></i>\n" +
+                        "    </div>\n" +
+                        "</div>");
                 }
             });
 
@@ -280,7 +291,20 @@
                             "message":message,
                         }
                     });
-                    $("#record").append(" <div class=\"post in\">"+message+" </div><br/>");
+                    $("#record").append("<div class=\"send\">\n" +
+                        "    <div class=\"row\">\n" +
+                        "        <div class=\"col-md-9\"></div>\n" +
+                        "        <div class=\"col-md-3\" style=\"float: right\">\n" +
+                        "            <p >17:50</p>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"heard_img left\"><img src=\"/static/images/1.jpg\"></div>\n" +
+                        "    <div style=\"width: 8px\"></div>\n" +
+                        "    <div class=\"answer_text\">\n" +
+                        "        <p>您可以向我提问哦</p>\n" +
+                        "        <i></i>\n" +
+                        "    </div>\n" +
+                        "</div>");
 
                 }
 
