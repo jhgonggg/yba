@@ -1,5 +1,6 @@
 package com.yb.yue.ba.admin.controller;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
@@ -10,5 +11,15 @@ public class MainController {
     @RequestMapping(value = {"","/main"})
     public String main(){
         return "main";
+    }
+
+
+    /**
+     * 后台首页
+     * @return
+     */
+    @RequestMapping("/back/main")
+    public String backMain(){
+        return "back/main";
     }
 }

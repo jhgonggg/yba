@@ -56,8 +56,17 @@ public abstract class AbstractBaseController<T extends AbstractBaseEntity,S exte
      * @return map
      */
     @ResponseBody
-    @GetMapping(value = "/page")   //get 请求查询 保证幂等性
-    public PageInfo<T> page(int draw, int start, int length , T entity){
+    @PostMapping(value = "/page")
+    public PageInfo<T> page(HttpServletRequest request, T entity){
+        String strDraw = request.getParameter("draw");
+        String strStart = request.getParameter("start");
+        String strLength= request.getParameter("length");
+
+
+        int draw = StringUtils.isBlank(strDraw) ? 1 : Integer.parseInt(strDraw);
+        int start = StringUtils.isBlank(strStart) ? 0 : Integer.parseInt(strStart);
+        int length = StringUtils.isBlank(strLength) ? 5 : Integer.parseInt(strLength);
+
         PageInfo pageInfo = service.page(entity,start,length,draw);
         return pageInfo;
     }

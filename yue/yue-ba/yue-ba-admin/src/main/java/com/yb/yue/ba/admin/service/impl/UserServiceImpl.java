@@ -8,6 +8,9 @@ import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @Service
 public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMapper> implements UserService {
@@ -18,6 +21,8 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
      */
     @Override
     public int save(User user) {
+
+
         String password = null;
         // 加密
         if (StringUtils.isNoneBlank(user.getPassword())){

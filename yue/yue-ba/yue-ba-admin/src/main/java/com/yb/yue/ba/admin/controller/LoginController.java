@@ -58,7 +58,7 @@ public class LoginController{
         else{
             // 如果是管理员
             if (user.getIsRole() == 1){
-                request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
+                request.getSession().setAttribute("admin",user);
                 return "3";
             }
             //勾选记住我 保存Cookie
@@ -76,6 +76,12 @@ public class LoginController{
             return "1";
         }
     }
+    @GetMapping("/back/login")
+    public String backLogin(){
+        return "back/login";
+    }
+
+
 
     /**
      * 注销
@@ -88,4 +94,7 @@ public class LoginController{
         request.getSession().invalidate();
         return "redirect:/login";
     }
+
+
+
 }
