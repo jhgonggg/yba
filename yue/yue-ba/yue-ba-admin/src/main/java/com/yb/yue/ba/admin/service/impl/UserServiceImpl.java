@@ -1,5 +1,6 @@
 package com.yb.yue.ba.admin.service.impl;
 
+import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.mapper.UserMapper;
@@ -7,6 +8,9 @@ import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -36,5 +40,19 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         }
         return User.UPDATE;
 
+    }
+
+    /**
+     * 瀑布流的分页查询
+     * @param start
+     * @param length
+     * @return
+     */
+    @Override
+    public List<User> show(int start, int length) {
+        Map<String,Object> map= Maps.newHashMap();
+        map.put("start",start);
+        map.put("length",length);
+        return mapper.page(map);
     }
 }

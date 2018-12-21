@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <!--<![endif]-->
@@ -15,6 +16,37 @@
 <body class="allyb">
     <%@include file="includes/header.jsp"%>
 <!-- BEGIN CONTAINER -->
+
+    <style>
+        * {
+            margin: 0;
+        }
+
+        .jq22-container {
+            margin-top: 50px;
+        }
+
+        #div1 {
+            margin: auto;
+            position: relative;
+        }
+
+        .box {
+            float: left;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f7f7f7;
+            box-shadow: 0 0 8px #ccc;
+        }
+
+        .box:hover {
+            box-shadow: 0 0 10px #999;
+        }
+
+        .box img {
+            width: 240px;
+        }
+    </style>
 
 <div class="container-fluid">
     <div class="page-content page-content-popup">
@@ -82,6 +114,34 @@
 
         </div>
         <div class="clearfix"></div>
+
+
+        <div class="waterfall">
+            <div class="jq22-container">
+                <div class="jq22-content bgcolor-3">
+                    <div id="div1" style="height: 2992px;">
+                        <c:forEach items="${show}" var="user">
+                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="#"><img src="${user.picture}" alt=""></a></div>
+                        </c:forEach>
+                        <%--<div class="box" style="position: absolute; top: 0px; left: 130px; opacity: 1;"><a href="#"><img src="/static/upload/1.jpg" alt=""></a></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 0px; left: 402px; opacity: 1;"><img src="/static/upload/2.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 0px; left: 674px; opacity: 1;"><img src="/static/upload/3.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 0px; left: 946px; opacity: 1;"><img src="/static/upload/4.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 155px; left: 946px; opacity: 1;"><img src="/static/upload/5.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 276px; left: 402px; opacity: 1;"><img src="/static/upload/6.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 310px; left: 946px; opacity: 1;"><img src="/static/upload/7.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 365px; left: 130px; opacity: 1;"><img src="/static/upload/8.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 365px; left: 674px; opacity: 1;"><img src="/static/upload/2.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 416px; left: 402px; opacity: 1;"><img src="/static/upload/3.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 450px; left: 946px; opacity: 1;"><img src="/static/upload/4.jpg" alt=""></div>--%>
+                        <%--<div class="box" style="position: absolute; top: 581px; left: 130px; opacity: 1;"><img src="/static/upload/5.jpg" alt=""></div>--%>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
     </div>
     <!-- BEGIN FOOTER -->
     <p class="copyright-v2"> 2018 &copy; Metronic Theme By
@@ -138,6 +198,66 @@
             editor.create();
 
         })
+    </script>
+
+    <%--<script src="images/jquery.min(1).js"></script>--%>
+    <script src="/static/assets/jquery.waterfall.js"></script>
+    <script>
+        var currentpage = 2;
+        var respdata = null;
+        $("#div1").waterfall({
+            itemClass: ".box",
+            minColCount: 2,
+            spacingHeight: 10,
+            resizeable: true,
+            ajaxCallback: function(success, end) {
+                if (currentpage < 10){
+                    $.get("user/show",{page:currentpage},function (data) {
+                        // var data = JSON.parse(data);
+                        var data = data;
+                        var str = "";
+                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="{{src}}" /></div></div>'
+
+                        /*for(var i = 0; i < data.data.length; i++) {
+                            str += templ.replace("{{src}}", data.data[i].src);
+                        }*/
+                        for(var i = 0; i < data.length; i++) {
+                            str += templ.replace("{{src}}", data[i].picture);
+                        }
+                        $(str).appendTo($("#div1"));
+                        currentpage++;
+                        success();
+                        end();
+                    });
+                }
+
+                /*var data = {
+                    "data": [{
+                        "src": "3.jpg"
+                    }, {
+                        "src": "4.jpg"
+                    }, {
+                        "src": "2.jpg"
+                    }, {
+                        "src": "5.jpg"
+                    }, {
+                        "src": "1.jpg"
+                    }, {
+                        "src": "6.jpg"
+                    }]
+                };
+                console.log(data);
+                var str = "";
+                var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="/static/upload/{{src}}" /></div></div>'
+
+                for(var i = 0; i < data.data.length; i++) {
+                    str += templ.replace("{{src}}", data.data[i].src);
+                }
+                $(str).appendTo($("#div1"));
+                success();
+                end();*/
+            }
+        });
     </script>
 </body>
 </html>
