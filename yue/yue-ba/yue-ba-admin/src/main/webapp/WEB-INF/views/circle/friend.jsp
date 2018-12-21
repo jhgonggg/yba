@@ -205,7 +205,7 @@
     function love(id) {
         var uid=${sessionScope.user.id};
         $.ajax({
-            "url":"/love",
+            "url":"/praise/love",
             "data":{"praiseUid":uid,"fcmId":id},
             "type":"POST",
             "dataType":"JSON",
