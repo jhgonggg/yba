@@ -2,10 +2,12 @@ package com.yb.yue.ba.admin.entity;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.yb.yue.ba.admin.abstracts.AbstractBaseEntity;
+import com.yb.yue.ba.admin.groups.UpdatePwd;
 import com.yb.yue.ba.admin.utils.RegexpUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -31,12 +33,13 @@ public class User extends AbstractBaseEntity {
     private String email;
     @Pattern(regexp = RegexpUtils.PHONE,message = "手机号格式不正确")
     private String phone;
-    @Pattern(regexp = RegexpUtils.PASSWORD,message = "密码格式不正确，请输入6-16位字母数字或下划线")
+    @Pattern(regexp = RegexpUtils.PASSWORD,message = "密码格式不正确，请输入6-16位字母数字或下划线",groups = UpdatePwd.class)
     private String password;
     /**
      * 性别
      */
     private Integer gender;
+    @DateTimeFormat
     private Date birth;
     private String picture;
     private String location;
@@ -50,7 +53,7 @@ public class User extends AbstractBaseEntity {
     //------------------------扩展的属性 用于修改密码时---------------------------
     //实体bean中默认所有的字段都会被映射到数据库中，如果某个属性不想被映射到数据库中@Transient 依赖persistence-api
     @Transient
-    @NotBlank(message ="原密码不能为空")
+    @NotBlank(message ="原密码不能为空",groups = UpdatePwd.class)
     private String oldPwd;
 
     @Transient

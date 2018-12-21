@@ -29,6 +29,11 @@
             background-color: #ff2d51;
             border-color: #e0e0e0;
         }
+        .load2{
+            height: 90px;
+            width: 330px;
+            border: 1px solid pink;
+        }
     </style>
 </head>
 <body class="allyb">
@@ -88,9 +93,24 @@
                                                 <button class="btn btn-circle btn-icon-only white" onclick="love(${myMessage.id})">
                                                     <i class="fa fa-thumbs-o-up"></i>${myMessage.praiseNum}
                                                 </button>
+                                                <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="$('#loadOrther').toggle()">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
                                                 <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
                                                     <i class="fa fa-link"></i>
-                                                </a></br></br>
+                                                </a>
+                                                <div class="" style="height: 10px"></div>
+                                                <div id="loadOrther"  style="display: none">
+                                                    <input type="hidden" id="loadInput" >
+                                                    <div id="load1" class="load1">
+                                                    </div>
+                                                    <div id="load2" class="load2">
+                                                    </div>
+                                                    <button id="loadFriend" type="button" class="btn green" style="padding:4px 8px ">
+                                                        <span>确定</span>
+                                                    </button>
+                                                </div>
+                                                </br></br>
                                                 <c:forEach items="${myMessage.comments}" var="comment" >
                                                     <span class="ellipsis">
                                                     【${comment.customer.username}】:
@@ -110,7 +130,6 @@
                                                     </c:if>
                                                 </c:forEach>
                                             </div>
-
                                         </div>
 
                                     </div>
@@ -152,13 +171,15 @@
 <!--BEGIN sweetalert -->
 <script src="/static/assets/global/plugins/bootstrap-sweetalert/sweetalert.min.js" type="text/javascript"></script>
 <!--END sweetalert -->
+<script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
 <script src="/static/assets/apps/sweetalert.js"></script>
+<script src="/static/assets/apps/wangEditor.js"></script>
 <script>
     //点赞  id---朋友圈id
     function love(id) {
         var uid=${sessionScope.user.id};
         $.ajax({
-            "url":"/love",
+            "url":"/praise/love",
             "data":{"praiseUid":uid,"fcmId":id},
             "type":"POST",
             "dataType":"JSON",
@@ -171,6 +192,60 @@
             }
         });
     }
+
+
+    //启动wangEditor
+    var E = window.wangEditor;
+    var editor = new E('#editor1','#editor2');
+    var editor1 = new E('#pub');
+    var editor2 = new E('#load1','#load2');
+    editor.customConfig.uploadImgShowBase64 = true;
+
+    editor.customConfig.menus = [
+        'head',
+        'bold',
+        'italic',
+        'underline',
+        'emoticon',
+        'undo',
+        'image',
+        'table'
+    ],
+        editor1.customConfig.menus = [
+            'head',
+            'bold',
+            'italic',
+            'underline',
+            'emoticon',
+            'undo',
+            'table',
+            'link',  // 插入链接
+            'list',  // 列表
+            'justify' // 对齐方式
+        ],
+        editor2.customConfig.menus = [
+            'head',
+            'bold',
+            'italic',
+            'underline',
+            'emoticon',
+            'undo',
+            'image',
+            'table'
+        ],
+        editor.customConfig.onchange = function (html) {
+            $("#info").val(html)
+        }
+    editor1.customConfig.onchange = function (html) {
+        $("#pub1").val(html)
+    }
+    editor2.customConfig.onchange = function (html) {
+        $("#loadInput").val(html)
+    }
+    editor.create();
+    editor1.create();
+    editor2.create();
+
 </script>
 </body>
 </html>
