@@ -38,6 +38,10 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         ORDER BY a.created DESC
     </select>
 
-
+    <!--添加评论-->
+    <insert id="insert">
+        INSERT INTO yb_comment(fcmid,parent_comment_id,commentator_id,content,created)
+        values(#{fcmid},#{parentCommentId},#{commentatorId},#{content},#{created})
+    </insert>
 
 </mapper>

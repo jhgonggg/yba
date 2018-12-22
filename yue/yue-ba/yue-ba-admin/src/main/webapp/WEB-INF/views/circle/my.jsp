@@ -34,7 +34,9 @@
             width: 330px;
             border: 1px solid pink;
         }
+       div { white-space:nowrap; }
     </style>
+    <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
 </head>
 <body class="allyb">
 <%@include file="../includes/header.jsp"%>
@@ -93,24 +95,47 @@
                                                 <button class="btn btn-circle btn-icon-only white" onclick="love(${myMessage.id})">
                                                     <i class="fa fa-thumbs-o-up"></i>${myMessage.praiseNum}
                                                 </button>
-                                                <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="$('#loadOrther').toggle()">
+                                                <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="cc(${myMessage.id})">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
                                                     <i class="fa fa-link"></i>
                                                 </a>
                                                 <div class="" style="height: 10px"></div>
-                                                <div id="loadOrther"  style="display: none">
-                                                    <input type="hidden" id="loadInput" >
-                                                    <div id="load1" class="load1">
+                                                <div id="loadOrther_${myMessage.id}" style="display: none">
+                                                    <input type="text" id="loadInput_${myMessage.id}" >
+                                                    <div id="load1_${myMessage.id}" class="load1">
                                                     </div>
-                                                    <div id="load2" class="load2">
+                                                    <div id="load2_${myMessage.id}" class="load2">
                                                     </div>
-                                                    <button id="loadFriend" type="button" class="btn green" style="padding:4px 8px ">
+                                                    <button id="loadFriend" type="button" class="btn green" style="padding:4px 8px " onclick="sb(${myMessage.id})">
                                                         <span>确定</span>
                                                     </button>
                                                 </div>
+                                                <script>
+                                                    var E = window.wangEditor;
+                                                    var editor2 = new E('#'+('load1_'+${myMessage.id}),'#'+('load2_'+${myMessage.id}));
+                                                    editor2.customConfig.menus = [
+                                                        'head',
+                                                        'bold',
+                                                        'italic',
+                                                        'underline',
+                                                        'emoticon',
+                                                        'undo',
+                                                        'image',
+                                                        'table'
+                                                    ],
+                                                        editor2.customConfig.onchange = function (html) {
+                                                            var content=html;
+                                                            content = content.replace(/(\n)/g, "");
+                                                            content = content.replace(/(\r)/g, "");
+                                                            content = content.replace(/<\/?p[^>]*>/gi, "");
+                                                            $("#loadInput_"+${myMessage.id}).val(content)
+                                                        };
+                                                    editor2.create();
+                                                </script>
                                                 </br></br>
+                                                <div>
                                                 <c:forEach items="${myMessage.comments}" var="comment" >
                                                     <span class="ellipsis">
                                                     【${comment.customer.username}】:
@@ -129,6 +154,7 @@
                                                         </c:forEach>
                                                     </c:if>
                                                 </c:forEach>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -193,14 +219,28 @@
         });
     }
 
+    function cc(id) {
+        $('#'+('loadOrther_'+id)).toggle();
+    }
+    //提交评论
+    function sb(id) {
+        var uid=${sessionScope.user.id}
+        var content=$("#loadInput_"+id).val()
+        $.ajax({
+            "url":"/comment/first",
+            "data":{"commentatorId":uid,"fcmid":id,"content":content},
+            "type":"POST",
+            "dataType":"JSON",
+            "success":function (data) {
+                window.location.reload();
+            }
+        });
+    }
 
     //启动wangEditor
     var E = window.wangEditor;
     var editor = new E('#editor1','#editor2');
-    var editor1 = new E('#pub');
-    var editor2 = new E('#load1','#load2');
     editor.customConfig.uploadImgShowBase64 = true;
-
     editor.customConfig.menus = [
         'head',
         'bold',
@@ -211,40 +251,10 @@
         'image',
         'table'
     ],
-        editor1.customConfig.menus = [
-            'head',
-            'bold',
-            'italic',
-            'underline',
-            'emoticon',
-            'undo',
-            'table',
-            'link',  // 插入链接
-            'list',  // 列表
-            'justify' // 对齐方式
-        ],
-        editor2.customConfig.menus = [
-            'head',
-            'bold',
-            'italic',
-            'underline',
-            'emoticon',
-            'undo',
-            'image',
-            'table'
-        ],
-        editor.customConfig.onchange = function (html) {
-            $("#info").val(html)
-        }
-    editor1.customConfig.onchange = function (html) {
-        $("#pub1").val(html)
-    }
-    editor2.customConfig.onchange = function (html) {
-        $("#loadInput").val(html)
-    }
+    editor.customConfig.onchange = function (html) {
+        $("#info").val(html.replace(/<\/?(img|a)[^>]*>/gi, ''))
+    };
     editor.create();
-    editor1.create();
-    editor2.create();
 
 </script>
 </body>

@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 @Controller
 public class MainController extends AbstractBaseController<User, UserService> {
     /**
-     * 进入首页 输入空白时也进入拦截器 登录过就进主页
+     * 进入首页 输入空白时也进入拦截器 登录就进主页
      * @return
      */
     @RequestMapping(value = {"","/main"})
