@@ -24,4 +24,10 @@ public interface CommentMapper extends BaseCrudMapper<Comment> {
      * @return
      */
     List<Comment> selectChildCommentByParentCommentId(Long parentCommentId);
+
+    /**
+     * 删除朋友圈评论
+     * @param fcmid
+     */
+    void delete(Long fcmid);
 }
