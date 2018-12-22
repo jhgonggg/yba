@@ -146,7 +146,7 @@ var languages = {
                     password: $("login_password").value
                 },
                 success: function(a) {
-                    a != "0" ? (window.location.href="/main") : ($text($("login_status"), text.login_fail), $show($("login_status")));
+                    a == "1" ? (window.location.href="/main") : a != "3" ? ($text($("login_status"), text.login_fail), $show($("login_status"))) : ($text($("login_status"), "管理员请登录后台"), $show($("login_status")));
                     $className.remove($("login_go"), "loading")
                 }
             })

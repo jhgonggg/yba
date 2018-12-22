@@ -3,7 +3,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
+import com.yb.yue.ba.admin.entity.UserInfo;
 import com.yb.yue.ba.admin.mapper.UserGoodFriendMapper;
+import com.yb.yue.ba.admin.mapper.UserInfoMapper;
 import com.yb.yue.ba.admin.mapper.UserMapper;
 import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.StringUtils;
@@ -17,6 +19,9 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
 
     @Autowired
     private UserGoodFriendMapper userGoodFriendMapper;
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     /**
      * 重写基类的保存方法，在原有的基础上添加密码加密方法
@@ -34,17 +39,28 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
 
         //添加
         if(user.preSave(user)){
+            // 添加 yb_user 表
             mapper.insert(user);
+            user.getUserInfo().setUserId(user.getId());
+            user.getUserInfo().setCreated(user.getCreated());
+            user.getUserInfo().setUpdated(user.getUpdated());
+            userInfoMapper.insert(user.getUserInfo());
             return User.ADD;
         }
         //编辑啊
         else {
+            // 更新 yb_user 表
             mapper.update(user);
+            user.getUserInfo().setUserId(user.getId());
+            user.getUserInfo().setCreated(user.getCreated());
+            user.getUserInfo().setUpdated(user.getUpdated());
+            // 更新 yb_user_info 表
+            userInfoMapper.update(user.getUserInfo());
         }
+
         return User.UPDATE;
 
     }
-
 
 
     /**
