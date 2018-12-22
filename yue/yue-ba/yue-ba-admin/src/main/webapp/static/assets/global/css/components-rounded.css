@@ -14201,8 +14201,8 @@ Timeline
     font-size: 14px;
     margin-top: 35px; }
   .timeline .timeline-body-img {
-    width: 100px;
-    height: 100px;
+    /*width: 100px;*/
+    height: 180px;
     margin: 5px 20px 0 0px; }
   .timeline.white-bg:before {
     background: #fff; }

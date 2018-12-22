@@ -44,4 +44,7 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         values(#{fcmid},#{parentCommentId},#{commentatorId},#{content},#{created})
     </insert>
 
+    <delete id="delete">
+        delete from yb_comment WHERE fcmid=#{fcmid}
+    </delete>
 </mapper>
