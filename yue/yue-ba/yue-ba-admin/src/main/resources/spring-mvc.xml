@@ -4,8 +4,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <description>Spring MVC Configuration</description>
-    <!-- 使用 Annotation 自动注册 bean,只扫描 @Controller
+    <!-- 使用 Annotation 自动注册 bean,让只扫描 @Controller
     use-default-filters用来指示是否自动扫描带有@Component、@Repository、@Service和@Controller的类，默认为true，即默认扫描-->
+
     <context:component-scan base-package="com.yb.yue.ba" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>
     </context:component-scan>

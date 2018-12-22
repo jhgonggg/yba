@@ -3,6 +3,7 @@ import com.google.common.collect.Lists;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.FriendCircleMessage;
 import com.yb.yue.ba.admin.entity.TimeLine;
+import com.yb.yue.ba.admin.mapper.CommentMapper;
 import com.yb.yue.ba.admin.mapper.FriendCircleMessageMapper;
 import com.yb.yue.ba.admin.mapper.PraiseDetailMapper;
 import com.yb.yue.ba.admin.mapper.TimeLineMapper;
@@ -25,6 +26,9 @@ public class FriendCircleMessageServiceImpl extends AbstractBaseCrudServiceImpl<
 
     @Autowired
     private PraiseDetailMapper praiseDetailMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
     /**
      * 获取用户朋友圈
@@ -90,6 +94,10 @@ public class FriendCircleMessageServiceImpl extends AbstractBaseCrudServiceImpl<
 
         //根据朋友圈id删除点赞表中的朋友圈记录
         praiseDetailMapper.deleteByFcmId(id);
+
+        //删除评论
+        commentMapper.delete(id);
+
     }
 
     /***
