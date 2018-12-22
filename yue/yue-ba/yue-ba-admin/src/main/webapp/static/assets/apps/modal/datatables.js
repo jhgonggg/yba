@@ -30,7 +30,11 @@ var DataTables = function () {
              * @param grid
              */
             onDataLoad: function(grid) {
-                SweetAlert.initSweetAlert();
+                // SweetAlert.initSweetAlert();
+                AppIcheck.init();
+                $(".modal-footer .btn-primary").bind("click", function () {
+                    del(idArray,"/back/user/delete");
+                });
             },
             loadingMessage: '加载中...',
             dataTable: {

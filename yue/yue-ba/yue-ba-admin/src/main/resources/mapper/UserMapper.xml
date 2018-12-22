@@ -71,6 +71,9 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         <if test=" picture != null">
             picture = #{picture},
         </if>
+        <if test="picture!=null and picture!=''">
+            picture=#{picture},
+        </if>
         updated=#{updated}
         where
         id=#{id}
@@ -128,6 +131,11 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
                 #{id}
             </foreach>
         </if>
+    </delete>
+    <!--删除单个-->
+    <delete id="delOne">
+        DELETE  FROM  yb_user
+        WHERE id =#{id}
     </delete>
 
 

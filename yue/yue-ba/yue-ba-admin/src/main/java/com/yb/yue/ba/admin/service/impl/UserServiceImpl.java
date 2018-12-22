@@ -3,17 +3,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
-import com.yb.yue.ba.admin.entity.UserInfo;
 import com.yb.yue.ba.admin.mapper.UserGoodFriendMapper;
-import com.yb.yue.ba.admin.mapper.UserInfoMapper;
 import com.yb.yue.ba.admin.mapper.UserMapper;
 import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import java.util.List;
 import java.util.Map;
+
 @Service
 public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMapper> implements UserService {
 
@@ -39,13 +38,20 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
 
         //添加
         if(user.preSave(user)){
-            // 添加 yb_user 表
             mapper.insert(user);
-            user.getUserInfo().setUserId(user.getId());
-            user.getUserInfo().setCreated(user.getCreated());
-            user.getUserInfo().setUpdated(user.getUpdated());
-            userInfoMapper.insert(user.getUserInfo());
             return User.ADD;
+        }
+        //编辑
+        else {
+            mapper.update(user);
+        }
+        // 添加 yb_user 表
+        mapper.insert(user);
+        user.getUserInfo().setUserId(user.getId());
+        user.getUserInfo().setCreated(user.getCreated());
+        user.getUserInfo().setUpdated(user.getUpdated());
+        userInfoMapper.insert(user.getUserInfo());
+        return User.ADD;
         }
         //编辑啊
         else {
@@ -57,11 +63,8 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
             // 更新 yb_user_info 表
             userInfoMapper.update(user.getUserInfo());
         }
-
         return User.UPDATE;
-
     }
-
 
     /**
      * 获取指定用户的好友
@@ -83,9 +86,9 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         for (Long friendId : friendIds) {
             friendList.add( mapper.getById(friendId));
         }
-
         return friendList;
-  }
+    }
+
     /**
      * 瀑布流的分页查询
      * @param start
@@ -98,6 +101,15 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         map.put("start",start);
         map.put("length",length);
         return mapper.page(map);
+    }
 
+    /**
+     * 删除单个
+     *
+     */
+    @Transactional(readOnly = false)
+    @Override
+    public void delOne(String id) {
+        mapper.delOne(id);
     }
 }

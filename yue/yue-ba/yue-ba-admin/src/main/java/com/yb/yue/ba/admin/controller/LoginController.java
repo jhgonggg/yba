@@ -88,10 +88,7 @@ public class LoginController{
             return "1";
         }
     }
-    @GetMapping("/back/login")
-    public String backLogin(){
-        return "back/login";
-    }
+
 
 
 
@@ -106,6 +103,7 @@ public class LoginController{
         request.getSession().invalidate();
         return "redirect:/login";
     }
+
 
 
 

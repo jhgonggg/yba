@@ -4,11 +4,13 @@ import com.yb.yue.ba.admin.constants.SystemConstants;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+
 @Controller
 public class MainController extends AbstractBaseController<User, UserService> {
     /**
@@ -34,4 +36,10 @@ public class MainController extends AbstractBaseController<User, UserService> {
 
         return "main";
     }
+
+    @GetMapping("back/main")
+    public String backMain(){
+        return "back/main";
+    }
+
 }

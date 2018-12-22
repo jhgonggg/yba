@@ -16,11 +16,29 @@ public class LoginInterceptor implements HandlerInterceptor {
         //判断是否登录 否则跳转登录 利用session判断
         // 之所以有session 是因为Cookie  当请求的时候http是无状态的 通过session来代替cookie
         User user = (User) request.getSession().getAttribute(SystemConstants.CACHE_KEY_USER);
-        if(user==null){
-            response.sendRedirect("/login");
-            return false;
+        User admin = (User) request.getSession().getAttribute("admin");
+
+        if (admin != null){
+            return true;
         }
-        return true;
+
+         if(user != null){
+             return true;
+         }
+
+
+         else{
+
+             if(admin==null){
+                 response.sendRedirect("/back/login");
+                 return false;
+             }
+             response.sendRedirect("/login");
+             return false;
+         }
+
+
+
     }
 
     @Override
