@@ -22,8 +22,8 @@
                 <ul class="nav navbar-nav pull-right">
                     <li class="dropdown dropdown-user dropdown-dark">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <span class="username username-hide-on-mobile"> ${sessionScope.user.username} </span>
-                            <img alt="" class="img-circle" src="/static/assets/layouts/layout4/img/avatar9.jpg" /> </a>
+                            <span class="username username-hide-on-mobile"> ${sessionScope.admin.username} </span>
+                            <img alt="" class="img-circle" src="${sessionScope.admin.picture}" /> </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
                                 <a href="/back/profile/info">
@@ -31,17 +31,17 @@
                             </li>
                             <li class="divider"> </li>
                             <li>
-                                <a href="/logout">
+                                <a href="/back/logout">
                                     <i class="icon-key"></i> 注销 </a>
                             </li>
                         </ul>
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
                     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
-                    <li class="dropdown dropdown-extended quick-sidebar-toggler">
-                        <span class="sr-only">Toggle Quick Sidebar</span>
-                        <i class="icon-logout"></i>
-                    </li>
+                    <%--<li class="dropdown dropdown-extended quick-sidebar-toggler">--%>
+                        <%--<span class="sr-only">Toggle Quick Sidebar</span>--%>
+                        <%--<i class="icon-logout"></i>--%>
+                    <%--</li>--%>
                     <!-- END QUICK SIDEBAR TOGGLER -->
                 </ul>
             </div>

@@ -51,13 +51,13 @@ public class BackProfileController  {
             profileService.save(user);
 
             // 将更新信息放入 session
-            User sessionUser = (User) request.getSession().getAttribute(SystemConstants.CACHE_KEY_USER);
+            User sessionUser = (User) request.getSession().getAttribute("admin");
             BeanUtils.copyPropertiesIgnoreNull(user, sessionUser);
-            request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER, sessionUser);
+            request.getSession().setAttribute("admin", sessionUser);
             redirectAttributes.addFlashAttribute(SystemConstants.CACHE_KEY_MESSAGE, "保存个人信息成功");
         }
 
-        return "redirect:back/profile/info";
+        return "redirect:/back/profile/info";
     }
 
 

@@ -11,10 +11,18 @@
 <head>
     <title>约吧| 管理员个人信息</title>
     <%@ include file="../includes/head.jsp" %>
+    <link href="/static/assets/global/plugins/dropzone/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/assets/global/plugins/dropzone/basic.min.css" rel="stylesheet" type="text/css" />
 
     <!-- BEGIN PAGE LEVEL STYLES -->
     <link href="/static/assets/pages/css/profile.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL STYLES -->
+
+    <style>
+        .control-label .required, .form-group .required{
+            color: black;
+        }
+    </style>
 </head>
 <!-- END HEAD -->
 
@@ -47,7 +55,7 @@
                         <!-- PORTLET MAIN -->
                         <div class="portlet light profile-sidebar-portlet bordered">
                             <div class="profile-userpic">
-                                <img src="/static/assets/pages/media/profile/profile_user.jpg" class="img-responsive" alt="">
+                                <img src="${sessionScope.admin.picture}" class="img-responsive" alt="">
                             </div>
 
                             <div class="profile-usertitle">
@@ -110,48 +118,35 @@
                                             </div>
                                             <!-- END PERSONAL INFO TAB -->
                                             <!-- CHANGE AVATAR TAB -->
+                                            <!-- CHANGE AVATAR TAB -->
                                             <div class="tab-pane" id="tab_1_2">
-                                                <p> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
-                                                    eiusmod. </p>
-                                                <form action="#" role="form">
-                                                    <div class="form-group">
-                                                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                                                            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" /> </div>
-                                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
-                                                            <div>
-                                                                        <span class="btn default btn-file">
-                                                                            <span class="fileinput-new"> Select image </span>
-                                                                            <span class="fileinput-exists"> Change </span>
-                                                                            <input type="file" name="..."> </span>
-                                                                <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="clearfix margin-top-10">
-                                                            <span class="label label-danger">NOTE! </span>
-                                                            <span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="margin-top-10">
-                                                        <a href="javascript:;" class="btn green"> Submit </a>
-                                                        <a href="javascript:;" class="btn default"> Cancel </a>
-                                                    </div>
+                                                <form action="/back/profile/save" method="post">
+                                                    <input id="picture" type="hidden" name="picture" value="${sessionScope.admin.picture}"/>
+                                                    <input type="hidden" name="username" value="${sessionScope.admin.username}"/>
+                                                    <input type="hidden" name="email" value="${sessionScope.admin.email}"/>
+                                                    <input type="hidden" name="id" value="${sessionScope.admin.id}"/>
+                                                <div action="/upload" class="dropzone dropzone-file-area " id="my-dropzone" style="width: 500px; margin-top: 50px;">
+                                                    <h3 class="sbold">拖文件至此或点击此处上传文件</h3>
+                                                    <p> 上传文件 </p>
+                                                </div>
+                                                    <input type="submit" value="确定"/>
                                                 </form>
                                             </div>
+                                            <!-- END CHANGE AVATAR TAB -->
                                             <!-- END CHANGE AVATAR TAB -->
                                             <!-- CHANGE PASSWORD TAB -->
                                             <div class="tab-pane" id="tab_1_3">
                                                 <form id="pwdForm" action="/back/profile/modify/password" method="post">
-                                                    <input type="hidden" name="id" value="${sessionScope.user.id}" />
+                                                    <input type="hidden" name="id" value="${sessionScope.admin.id}" />
                                                     <div class="form-group">
                                                         <label class="control-label">当前密码</label>
-                                                        <input id="oldPassword" name="oldPassword" type="password" class="form-control required" /> </div>
+                                                        <input id="oldPassword" name="oldPwd" type="password" class="form-control required" /> </div>
                                                     <div class="form-group">
                                                         <label class="control-label">新密码</label>
-                                                        <input id="newPassword" name="newPassword" type="password" class="form-control required" /> </div>
+                                                        <input id="newPassword" name="newPwd" type="password" class="form-control required" /> </div>
                                                     <div class="form-group">
                                                         <label class="control-label">确认密码</label>
-                                                        <input id="repeatPassword" name="repeatPassword" type="password" class="form-control required" /> </div>
+                                                        <input id="repeatPassword" name="repeatPwd" type="password" class="form-control required" /> </div>
                                                     <div class="margin-top-10">
                                                         <button type="submit" class="btn green"> 保存 </button>
                                                     </div>
@@ -177,6 +172,8 @@
 <script src="/static/assets/global/plugins/jquery-validation/js/localization/messages_zh.min.js" type="text/javascript"></script>
 <script src="/static/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
 <script src="/static/assets/apps/modal/validation.js" type="text/javascript"></script>
+
+<script src="/static/assets/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
 <script>
     $(function () {
         Validation.initValidation("pwdForm", {
@@ -184,6 +181,18 @@
                 equalTo: "#newPassword"
             }
         });
+
+
+        Dropzone.options.myDropzone = {
+            dictDefaultMessage: "",
+            paramName: "uploadFile",
+            maxFilesize: 2,
+            init:function(){
+                this.on("success", function (file, data) {
+                    $("#picture").val(data.path);
+                });
+            }
+        };
     });
 </script>
 <!-- END PAGE LEVEL SCRIPTS -->

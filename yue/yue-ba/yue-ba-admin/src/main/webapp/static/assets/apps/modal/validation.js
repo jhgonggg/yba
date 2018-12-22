@@ -82,4 +82,5 @@ var Validation = function () {
 
 jQuery(document).ready(function () {
     Validation.initValidation("inputForm");
+    console.log("11..");
 });
