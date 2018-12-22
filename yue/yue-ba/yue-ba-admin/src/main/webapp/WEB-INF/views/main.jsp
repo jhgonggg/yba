@@ -12,7 +12,6 @@
     <link href="/static/assets/plugins/commons.css" rel="stylesheet" type="text/css"/>
     <!--wangEditor-->
     <link href="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.css" rel="stylesheet">
-
 </head>
 <body class="allyb">
     <%@include file="includes/header.jsp"%>
@@ -122,7 +121,7 @@
                 <div class="jq22-content bgcolor-3">
                     <div id="div1" style="height: 2992px;">
                         <c:forEach items="${show}" var="user">
-                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="#"><img src="${user.picture}" alt=""></a></div>
+                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="/user/info?id=${user.id}"><img src="${user.picture}" alt=""></a></div>
                         </c:forEach>
                         <%--<div class="box" style="position: absolute; top: 0px; left: 130px; opacity: 1;"><a href="#"><img src="/static/upload/1.jpg" alt=""></a></div>--%>
                         <%--<div class="box" style="position: absolute; top: 0px; left: 402px; opacity: 1;"><img src="/static/upload/2.jpg" alt=""></div>--%>
@@ -169,18 +168,12 @@
 <%@include file="includes/footer.jsp"%>
 <!--wangEditor-->
 <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
-    <script src = "/static/assets/apps/modal/dateUtils.js"></script>
 
     <script>
-        var editor;
-        var sender_id = ${user.id}+"";
-        var recevier_id;
-        var goEasy;
-
         $(function () {
-            //初始化wangEditor
+            //启动wangEditor
             var E = window.wangEditor;
-             editor = new E('#editor1','#editor2');
+            var editor = new E('#editor1','#editor2');
             editor.customConfig.uploadImgShowBase64 = true;
             editor.customConfig.menus = [
                 'head',
@@ -196,10 +189,9 @@
                 '#000000',
             ],
             editor.customConfig.onchange = function (html) {
-                 $("#info").val(html);
-
-
+                 $("#info").val(html)
              }
+
             editor.create();
 
             //初始化Vue
@@ -217,17 +209,27 @@
             goEasy.subscribe({
                 channel:sender_id,
                 onMessage: function(message){
-                    $("#record").append(message.content);
-                    $("#record").append("<br/>");
 
-
+                    $("#record").append("<div class=\"recevie\">\n" +
+                        "    <div class=\"row\">\n" +
+                        "        <div class=\"col-md-1\"></div>\n" +
+                        "        <div class=\"col-md-11\" style=\"float: left\"><p >"+new Date() +"</p></div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"heard_img right\">\n" +
+                        "        <img src=\"/static/images/1.jpg\">\n" +
+                        "    </div>\n" +
+                        "    <div style=\"width: 8px\"></div>\n" +
+                        "    <div class=\"question_text clear\" style=\"max-width: 543px;\">\n" +
+                        "        <p>"+message.content+"</p>\n" +
+                        "        <i></i>\n" +
+                        "    </div>\n" +
+                        "</div>");
                 }
             });
 
 
 
-
-        })
+           
 
 
 
@@ -280,7 +282,20 @@
                             "message":message,
                         }
                     });
-                    $("#record").append(" <div class=\"post in\">"+message+" </div><br/>");
+                    $("#record").append("<div class=\"send\">\n" +
+                        "    <div class=\"row\">\n" +
+                        "        <div class=\"col-md-9\"></div>\n" +
+                        "        <div class=\"col-md-3\" style=\"float: right\">\n" +
+                        "            <p >17:50</p>\n" +
+                        "        </div>\n" +
+                        "    </div>\n" +
+                        "    <div class=\"heard_img left\"><img src=\"/static/images/1.jpg\"></div>\n" +
+                        "    <div style=\"width: 8px\"></div>\n" +
+                        "    <div class=\"answer_text\">\n" +
+                        "        <p>您可以向我提问哦</p>\n" +
+                        "        <i></i>\n" +
+                        "    </div>\n" +
+                        "</div>");
 
                 }
 
@@ -292,6 +307,7 @@
         function removeTAG(str,len){
             return str.replace(/<[^>]+>/g, "");
         }
+
     </script>
 
     <%--<script src="images/jquery.min(1).js"></script>--%>
@@ -310,13 +326,13 @@
                         // var data = JSON.parse(data);
                         var data = data;
                         var str = "";
-                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="{{src}}" /></div></div>'
+                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><a href="/user/info?id={{id}}"><img src="{{src}}" /></a></div></div>'
 
                         /*for(var i = 0; i < data.data.length; i++) {
                             str += templ.replace("{{src}}", data.data[i].src);
                         }*/
                         for(var i = 0; i < data.length; i++) {
-                            str += templ.replace("{{src}}", data[i].picture);
+                            str += templ.replace("{{src}}", data[i].picture).replace("{{id}}", data[i].id);
                         }
                         $(str).appendTo($("#div1"));
                         currentpage++;
@@ -325,31 +341,6 @@
                     });
                 }
 
-                /*var data = {
-                    "data": [{
-                        "src": "3.jpg"
-                    }, {
-                        "src": "4.jpg"
-                    }, {
-                        "src": "2.jpg"
-                    }, {
-                        "src": "5.jpg"
-                    }, {
-                        "src": "1.jpg"
-                    }, {
-                        "src": "6.jpg"
-                    }]
-                };
-                console.log(data);
-                var str = "";
-                var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="/static/upload/{{src}}" /></div></div>'
-
-                for(var i = 0; i < data.data.length; i++) {
-                    str += templ.replace("{{src}}", data.data[i].src);
-                }
-                $(str).appendTo($("#div1"));
-                success();
-                end();*/
             }
         });
     </script>

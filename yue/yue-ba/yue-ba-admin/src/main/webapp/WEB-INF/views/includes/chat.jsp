@@ -43,7 +43,37 @@
                                 <i class="icon-arrow-left"></i>返回</a>
                         </div>
                         <!--聊天记录-->
-                        <div class="" id="record">
+                        <!--这是聊天框-->
+                        <div class="chat-border" id="record">
+                            <div class="answer">
+                                <div class="row">
+                                    <div class="col-md-9"></div>
+                                    <div class="col-md-3" style="float: right">
+                                        <p >17:50</p>
+                                    </div>
+                                </div>
+                                <div class="heard_img left"><img src="/static/images/1.jpg"></div>
+                                <div style="width: 8px"></div>
+                                <div class="answer_text">
+                                    <p>您可以向我提问哦</p>
+                                    <i></i>
+                                </div>
+                            </div>
+                            <div style="height: 5px"></div>
+                            <div class="question">
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11" style="float: left"><p >17:50</p></div>
+                                </div>
+                                <div class="heard_img right">
+                                    <img src="/static/images/1.jpg">
+                                </div>
+                                <div style="width: 8px"></div>
+                                <div class="question_text clear" style="max-width: 543px;">
+                                    <p>我曹尼玛垃圾页面</p>
+                                    <i></i>
+                                </div>
+                            </div>
 
                         </div>
                         <!--这是聊天框-->

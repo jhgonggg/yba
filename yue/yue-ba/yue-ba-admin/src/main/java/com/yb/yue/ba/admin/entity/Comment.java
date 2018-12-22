@@ -22,8 +22,8 @@ public class Comment extends AbstractBaseEntity {
     @Transient
     private List<Comment> replyComment; // 评论回复信息集合
     @Transient
-    private User customer;// 评论人姓名
+    private User customer;// 评论人
     @Transient
-    private User replyCustomer; // 回复评论的人姓名
+    private User replyCustomer; // 回复评论的人
 
 }

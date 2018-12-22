@@ -4,6 +4,7 @@
 对持久层的sql语句进行映射
 namespace等于mapper接口类路径，这样实现通过映射文件找到对应的mapper接口是哪个-->
 <mapper namespace="com.yb.yue.ba.admin.mapper.UserMapper">
+
     <!--查询所有语句-->
     <sql id="allColumns">
         SELECT
@@ -18,21 +19,34 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
           a.location,
           a.phone,
           a.updated,
-          a.is_role AS isRole
+          a.is_role AS 'isRole',
+          b.profession AS 'userInfo.profession',
+          b.personal_signature AS 'userInfo.personalSignature',
+          b.hobby AS 'userInfo.hobby'
         FROM
           yb_user AS a
     </sql>
+    <!-- 联查语句 -->
+    <sql id="left">
+      LEFT  JOIN yb_user_info  AS b ON a.id = b.user_id
+    </sql>
+
     <!--登录id获取对象-->
     <select id="login" resultType="User">
         <include refid="allColumns"></include>
-        where a.username=#{username} OR a.phone=#{phone} OR a.email=#{email}
+        <include refid="left"></include>
+        where a.username=#{username}
+        OR a.email=#{email}
     </select>
+
     <!--id获取对象-->
     <select id="getById" resultType="User">
         <include refid="allColumns"></include>
+        <include refid="left"></include>
         where
         a.id=#{id}
     </select>
+
     <!--编辑-->
     <update id="update">
         update
@@ -52,7 +66,10 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
             birth=#{birth},
         </if>
         <if test=" gender!=null">
-            gender=#{ gender},
+            gender=#{gender},
+        </if>
+        <if test=" picture != null">
+            picture = #{picture},
         </if>
         <if test="picture!=null and picture!=''">
             picture=#{picture},
@@ -61,9 +78,11 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         where
         id=#{id}
     </update>
+
     <!--分页查询-->
     <select id="page" resultType="User" parameterType="java.util.Map">
         <include refid="allColumns"></include>
+        <include refid="left"></include>
         <!--模糊查询-->
         <where>
             <if test="user!=null and user.username!=null and user.username!=''">
@@ -79,6 +98,7 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         ORDER by created DESC
         LIMIT #{start},#{length}
     </select>
+
     <!--查询总数据数-->
     <select id="count" resultType="java.lang.Integer">
         select count(*) from yb_user As a
@@ -95,11 +115,13 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
             </if>
         </where>
     </select>
+
     <!--添加-->
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO yb_user(username,password,email,created,updated,gender)
         values(#{username},#{password},#{email},#{created},#{updated},#{gender})
     </insert>
+
     <!--批量删除-->
     <delete id="delete">
         DELETE  FROM  yb_user

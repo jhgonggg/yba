@@ -15,7 +15,7 @@
 <link href="/static/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css" />
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN THEME GLOBAL STYLES -->
-<link href="/static/assets/global/css/components-rounded.min.css" rel="stylesheet" id="style_components" type="text/css" />
+<link href="/static/assets/global/css/components-rounded.css" rel="stylesheet" id="style_components" type="text/css" />
 <link href="/static/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
 <!-- END THEME GLOBAL STYLES -->
 <!-- BEGIN THEME LAYOUT STYLES -->

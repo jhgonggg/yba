@@ -1,5 +1,4 @@
 package com.yb.yue.ba.admin.service.impl;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
@@ -11,17 +10,17 @@ import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
-
-
 import java.util.List;
 import java.util.Map;
 
-
-
 @Service
 public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMapper> implements UserService {
+
+    @Autowired
     private UserGoodFriendMapper userGoodFriendMapper;
 
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     /**
      * 重写基类的保存方法，在原有的基础上添加密码加密方法
@@ -30,8 +29,6 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
      */
     @Override
     public int save(User user) {
-
-
         String password = null;
         // 加密
         if (StringUtils.isNoneBlank(user.getPassword())){
@@ -48,8 +45,25 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         else {
             mapper.update(user);
         }
+        // 添加 yb_user 表
+        mapper.insert(user);
+        user.getUserInfo().setUserId(user.getId());
+        user.getUserInfo().setCreated(user.getCreated());
+        user.getUserInfo().setUpdated(user.getUpdated());
+        userInfoMapper.insert(user.getUserInfo());
+        return User.ADD;
+        }
+        //编辑啊
+        else {
+            // 更新 yb_user 表
+            mapper.update(user);
+            user.getUserInfo().setUserId(user.getId());
+            user.getUserInfo().setCreated(user.getCreated());
+            user.getUserInfo().setUpdated(user.getUpdated());
+            // 更新 yb_user_info 表
+            userInfoMapper.update(user.getUserInfo());
+        }
         return User.UPDATE;
-
     }
 
     /**
@@ -72,10 +86,8 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         for (Long friendId : friendIds) {
             friendList.add( mapper.getById(friendId));
         }
-
         return friendList;
     }
-
 
     /**
      * 瀑布流的分页查询
@@ -90,8 +102,6 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         map.put("length",length);
         return mapper.page(map);
     }
-
-
 
     /**
      * 删除单个
