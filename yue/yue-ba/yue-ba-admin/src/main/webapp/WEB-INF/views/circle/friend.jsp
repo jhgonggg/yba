@@ -21,6 +21,16 @@
 
     <link href="/static/assets/plugins/commons.css" rel="stylesheet" type="text/css"/>
     <style>
+        .btn.white:not(.btn-outline).active, .btn.white:not(.btn-outline):active, .btn.white:not(.btn-outline):hover, .open>.btn.white:not(.btn-outline).dropdown-toggle {
+            color: #ffffff;
+            background-color: #ff2d51;
+            border-color: #e0e0e0;
+        }
+        .load2{
+            height: 90px;
+            width: 330px;
+            border: 1px solid pink;
+        }
         .dropzone-file-area {
             border: 2px dashed #f47983 !important;
             background: #fff !important;
@@ -34,6 +44,7 @@
             border-color: #e0e0e0;
         }
     </style>
+    <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa"></script>
 </head>
 <body class="allyb">
@@ -116,9 +127,42 @@
                                             <button class="btn btn-circle btn-icon-only white" onclick="love(${friendMessage.id})">
                                                 <i class="fa fa-thumbs-o-up"></i>${friendMessage.praiseNum}
                                             </button>
+                                            <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="cc(${friendMessage.id})">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
                                             <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
                                                 <i class="fa fa-link"></i>
-                                            </a></br></br>
+                                            </a>
+                                            <div class="" style="height: 10px"></div>
+                                            <div id="loadOrther_${friendMessage.id}" style="display: none">
+                                                <input type="text" id="loadInput_${friendMessage.id}" >
+                                                <div id="load1_${friendMessage.id}" class="load1">
+                                                </div>
+                                                <div id="load2_${friendMessage.id}" class="load2">
+                                                </div>
+                                                <button id="loadFriend" type="button" class="btn green" style="padding:4px 8px " onclick="sb(${friendMessage.id})">
+                                                    <span>确定</span>
+                                                </button>
+                                            </div>
+                                            <script>
+                                                var E = window.wangEditor;
+                                                var editor2 = new E('#load1_'+${friendMessage.id},'#load2_'+${friendMessage.id});
+                                                editor2.customConfig.menus = [
+                                                    'head',
+                                                    'bold',
+                                                    'italic',
+                                                    'underline',
+                                                    'emoticon',
+                                                    'undo',
+                                                    'image',
+                                                    'table'
+                                                ],
+                                                editor2.customConfig.onchange = function (html) {
+                                                    $("#loadInput_"+${friendMessage.id}).val(html)
+                                                };
+                                                editor2.create();
+                                            </script>
+                                            </br></br>
                                             <c:forEach items="${friendMessage.comments}" var="comment" >
                                                     <span class="ellipsis">
                                                     【${comment.customer.username}】:
@@ -172,8 +216,6 @@
 <msg:modal/>
 <%@include file="../includes/chat.jsp"%>
 <%@include file="../includes/footer.jsp"%>
-<!--wangEditor-->
-<script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
 <!--dropZone-->
 <script src="/static/assets/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
 <script src="/static/assets/apps/wangEditor.js"></script>
@@ -235,8 +277,25 @@
             });
         }
     });
+    //朋友圈id
+    function cc(id) {
+        $('#'+('loadOrther_'+id)).toggle();
+    }
 
-
+    //提交评论
+    function sb(id) {
+        var uid=${sessionScope.user.id}
+        var content=$("#loadInput_"+id).val();
+        $.ajax({
+            "url":"/comment/first",
+            "data":{"commentatorId":uid,"fcmid":id,"content":content},
+            "type":"POST",
+            "dataType":"JSON",
+            "success":function (data) {
+                window.location.reload();
+            }
+        });
+    }
 </script>
 </body>
 </html>

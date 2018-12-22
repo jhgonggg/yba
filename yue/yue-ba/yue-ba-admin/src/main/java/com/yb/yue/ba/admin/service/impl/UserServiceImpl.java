@@ -1,10 +1,6 @@
 package com.yb.yue.ba.admin.service.impl;
-
-
 import com.google.common.collect.Lists;
-
 import com.google.common.collect.Maps;
-
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.mapper.UserGoodFriendMapper;
@@ -14,16 +10,8 @@ import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 import java.util.List;
 import java.util.Map;
-
-
-
 @Service
 public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMapper> implements UserService {
 
@@ -49,7 +37,7 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
             mapper.insert(user);
             return User.ADD;
         }
-        //编辑
+        //编辑啊
         else {
             mapper.update(user);
         }
