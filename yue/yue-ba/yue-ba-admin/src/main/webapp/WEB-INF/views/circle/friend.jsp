@@ -191,6 +191,7 @@
             autoProcessQueue:true,
             init: function() {
                 this.on('success', function (files, data) {
+                    console.log(data.path);
                     //文件上传成功之后的操作
                     $("#picture").val(data.path);
                 });

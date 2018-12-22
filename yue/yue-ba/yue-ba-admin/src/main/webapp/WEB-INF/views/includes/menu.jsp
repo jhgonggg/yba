@@ -27,7 +27,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item  ">
-                        <a href="/index/main" class="nav-link ">
+                        <a href="/main" class="nav-link ">
                             <span class="title">首页</span>
                         </a>
                     </li>
@@ -55,7 +55,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item  ">
-                        <a href="ui_metronic_grid.html" class="nav-link ">
+                        <a href="/user/profile" class="nav-link ">
                             <span class="title">个人资料</span>
                         </a>
                     </li>

@@ -7,8 +7,12 @@ import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.service.UserGoodFriendService;
 import com.yb.yue.ba.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,11 +20,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "user")
 public class UserController extends AbstractBaseController<User, UserService> {
+
+    /**
+     * 格式化 前端表单提交的日期
+     * @param binder
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));//true:允许为空, false:不允许为空
+    }
 
 
     /**
@@ -99,10 +116,45 @@ public class UserController extends AbstractBaseController<User, UserService> {
                 "}"*/;
     }
 
+    /**
+     * 个人信息页面的跳转
+     * @return
+     */
     @GetMapping(value = "profile")
     public String profile(){
 
         return "/info/profile";
     }
+
+    /**
+     * 用户编辑页面的跳转
+     */
+    @GetMapping(value = "update")
+    public String update(){
+        return "/info/update";
+    }
+
+    /**
+     * 用户编辑请求
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "save")
+    public String save(User user, HttpServletRequest request){
+        service.save(user);
+        updateSession(user,SystemConstants.CACHE_KEY_USER,request);
+        return "/info/profile";
+    }
+
+    @GetMapping(value = "info")
+    public String info(String id, Model model){
+        User user = null;
+        if (id != null && id != ""){
+            user = service.getById(Long.parseLong(id));
+        }
+        model.addAttribute("user",user);
+        return "info/info";
+    }
+
 
 }

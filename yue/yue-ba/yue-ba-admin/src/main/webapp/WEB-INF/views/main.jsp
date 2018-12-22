@@ -121,7 +121,7 @@
                 <div class="jq22-content bgcolor-3">
                     <div id="div1" style="height: 2992px;">
                         <c:forEach items="${show}" var="user">
-                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="#"><img src="${user.picture}" alt=""></a></div>
+                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="/user/info?id=${user.id}"><img src="${user.picture}" alt=""></a></div>
                         </c:forEach>
                         <%--<div class="box" style="position: absolute; top: 0px; left: 130px; opacity: 1;"><a href="#"><img src="/static/upload/1.jpg" alt=""></a></div>--%>
                         <%--<div class="box" style="position: absolute; top: 0px; left: 402px; opacity: 1;"><img src="/static/upload/2.jpg" alt=""></div>--%>
@@ -216,13 +216,13 @@
                         // var data = JSON.parse(data);
                         var data = data;
                         var str = "";
-                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="{{src}}" /></div></div>'
+                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><a href="/user/info?id={{id}}"><img src="{{src}}" /></a></div></div>'
 
                         /*for(var i = 0; i < data.data.length; i++) {
                             str += templ.replace("{{src}}", data.data[i].src);
                         }*/
                         for(var i = 0; i < data.length; i++) {
-                            str += templ.replace("{{src}}", data[i].picture);
+                            str += templ.replace("{{src}}", data[i].picture).replace("{{id}}", data[i].id);
                         }
                         $(str).appendTo($("#div1"));
                         currentpage++;
@@ -231,31 +231,6 @@
                     });
                 }
 
-                /*var data = {
-                    "data": [{
-                        "src": "3.jpg"
-                    }, {
-                        "src": "4.jpg"
-                    }, {
-                        "src": "2.jpg"
-                    }, {
-                        "src": "5.jpg"
-                    }, {
-                        "src": "1.jpg"
-                    }, {
-                        "src": "6.jpg"
-                    }]
-                };
-                console.log(data);
-                var str = "";
-                var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="/static/upload/{{src}}" /></div></div>'
-
-                for(var i = 0; i < data.data.length; i++) {
-                    str += templ.replace("{{src}}", data.data[i].src);
-                }
-                $(str).appendTo($("#div1"));
-                success();
-                end();*/
             }
         });
     </script>
