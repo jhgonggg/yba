@@ -69,38 +69,45 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
 
     /**
      * 获取指定用户的好友
+     *
      * @param id 用户 ID
      * @return
      */
-    public List<User>  getFriends(Long id){
+    public List<User> getFriends(Long id) {
         //创建存储好友的集合
         List<User> friendList = Lists.newArrayList();
         //获取所有好友的 ID
         List<Long> friendIds = userGoodFriendMapper.getAllFriends(id);
 
         //判断是否有好友
-        if(friendIds.size() == 0){
-            return  null;
+        if (friendIds.size() == 0) {
+            return null;
         }
 
         //遍历得到所有好友
         for (Long friendId : friendIds) {
-            friendList.add( mapper.getById(friendId));
+            friendList.add(mapper.getById(friendId));
         }
         return friendList;
     }
 
     /**
      * 瀑布流的分页查询
+     * * @param allFriends 好友的 ID 集合，在首页中不展示，所以过滤掉
+     *
+     * @param gender 根据性别来查询展示陌生人
      * @param start
      * @param length
      * @return
      */
     @Override
-    public List<User> show(int start, int length) {
-        Map<String,Object> map= Maps.newHashMap();
-        map.put("start",start);
-        map.put("length",length);
+    public List<User> show(List<Long> allFriends, Integer gender, int start, int length) {
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("allFriends", allFriends);
+        map.put("gender", gender);
+        map.put("start", start);
+        map.put("length", length);
+
         return mapper.page(map);
     }
 

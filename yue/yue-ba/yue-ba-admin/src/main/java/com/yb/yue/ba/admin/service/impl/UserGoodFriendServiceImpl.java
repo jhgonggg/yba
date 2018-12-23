@@ -80,4 +80,13 @@ public class UserGoodFriendServiceImpl extends AbstractBaseCrudServiceImpl<UserG
             list.add(timeLine);
         }
     }
+
+    /**
+     * 查询所有好友 ID 的集合
+     * @param id  当前用户的id
+     * @return
+     */
+    public List<Long> getAllFriends(Long id){
+        return mapper.getAllFriends(id);
+    }
 }
