@@ -21,6 +21,12 @@ public interface UserService extends BaseCrudService<User> {
     public List<User> show(List<Long> allFriends, Integer gender, int start, int length);
 
     /**
+     * 查重
+     * @param user
+     * @return
+     */
+    Integer countByItems(User user);
+
      * 删除单个
      */
     public void delOne(String id);

@@ -4,6 +4,7 @@ import com.yb.yue.ba.admin.entity.User;
 import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper extends BaseCrudMapper<User> {
+    Integer countByItems(User user);
         //删除单个
         void delOne(String id);
 }

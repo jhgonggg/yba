@@ -120,4 +120,9 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
     public void delOne(String id) {
         mapper.delOne(id);
     }
+
+    @Override
+    public Integer countByItems(User user) {
+        return mapper.countByItems(user);
+    }
 }

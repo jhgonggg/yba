@@ -2,9 +2,9 @@ package com.yb.yue.ba.admin.controller;
 import com.yb.yue.ba.admin.constants.SystemConstants;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.service.ProfileService;
-import com.yb.yue.ba.admin.service.UserGoodFriendService;
 import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.CookieUtils;
+import com.yb.yue.ba.admin.utils.ServerUtils;
 import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,8 +83,23 @@ public class LoginController{
 
 
             List<User> friends = userService.getFriends(user.getId());
+            for (User friend : friends) {
+                System.out.println(friend);
+            }
+
+            //设置用户状态为在线
+            user.setIsOnline(1);
+            user.setPassword(null);
+            userService.save(user);
+
+
             request.getSession().setAttribute(SystemConstants.CACHE_KEY_USER,user);
             request.getSession().setAttribute(SystemConstants.CACHE_KEY_FRIENDS,friends);
+
+
+
+            //用户登录成功后由服务器推送消息至频道
+            ServerUtils.publish(user.getId()+":in");
             return "1";
         }
     }
@@ -98,12 +113,19 @@ public class LoginController{
      * @return
      */
     @GetMapping(value="/logout")
-    public String logout( HttpServletRequest request){
+    public String logout( HttpServletRequest request,String id){
+
+        User user = (User)request.getSession().getAttribute("user");
+        //设置离线
+        user.setIsOnline(0);
+        user.setPassword(null);
+        userService.save(user);
+
         //清空session
         request.getSession().invalidate();
+
         return "redirect:/login";
     }
-
 
 
 
