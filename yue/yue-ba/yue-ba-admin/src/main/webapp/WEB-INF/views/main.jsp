@@ -195,6 +195,10 @@
             editor.customConfig.onchange = function (html) {
                  $("#info").val(html)
              }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d2940ace0f0f32c74503642ed75e422f532f337
             editor.create();
 
             //初始化goEasy对象
@@ -224,6 +228,7 @@
                             $("#"+id).append("离线");
                         }
 
+<<<<<<< HEAD
                     }
                     else {
                         $("#record").append(" <div class=\"answer\">\n" +
@@ -247,6 +252,10 @@
 
         })
 
+=======
+
+           
+>>>>>>> 9d2940ace0f0f32c74503642ed75e422f532f337
 
 
 
@@ -360,6 +369,11 @@
         function removeTAG(str,len){
             return str.replace(/<[^>]+>/g, "");
         }
+<<<<<<< HEAD
+=======
+
+    </script>
+>>>>>>> 9d2940ace0f0f32c74503642ed75e422f532f337
 
         //滚动条事件
         $("#record").scroll(function() {
