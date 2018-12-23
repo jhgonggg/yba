@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sys" tagdir="/WEB-INF/tags/sys" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
 <!--[if IE 8]> <html class="ie8 no-js"> <![endif]-->
@@ -17,7 +18,13 @@
     <link href="/static/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
     <link href="/static/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" type="text/css" />
     <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="/static/assets/global/plugins/iCheck/all.css">
+    <link rel="stylesheet" href="/static/assets/global/plugins/icheck/skins/all.css">
+
+    <style>
+        .control-label .required, .form-group .required{
+            color: black;
+        }
+    </style>
 </head>
 <!-- END HEAD -->
 
@@ -90,24 +97,30 @@
                             <div class="caption">
                                 <span class="caption-subject font-blue bold uppercase">用户列表</span>
                             </div>
-                            <div class="actions">
-                                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;" title="搜索" onclick="$('.search-area').toggle('fast');">
-                                    <i class="icon-magnifier"></i>
-                                </a>
-                            </div>
+                            <%--<div class="actions">--%>
+                               <%----%>
+                            <%--</div>--%>
 
                         </div>
-
                         <div class="portlet-body">
                             <div class="table_top">
                                 <a class="btn btn-circle btn-icon-only btn-default" href="/back/user/form" title="新增">
-                                    <i class="icon-plus"></i>
+                                    <i class="fa fa-plus"></i>
+                                </a>&nbsp&nbsp&nbsp&nbsp
+
+                                <a class="btn btn-circle btn-icon-only btn-default" onclick="batchDel()" title="删除">
+                                    <i class="fa fa-trash"></i>
+                                </a>&nbsp&nbsp&nbsp&nbsp
+
+                                <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;" title="搜索" onclick="$('.search-area').toggle('fast');">
+                                    <i class="icon-magnifier"></i>
                                 </a>
+
                             </div>
                             <table id="dataTable" class="table table-striped table-hover table-bordered">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" class="minimal" /></th>
+                                    <th><input type="checkbox" class="minimal checkbox-master" /></th>
                                     <th> 姓名 </th>
                                     <th> 邮箱 </th>
                                     <th> 更新时间 </th>
@@ -134,8 +147,10 @@
 <script src="/static/assets/apps/modal/sweetalert.js" type="text/javascript"></script>
 
 <!-- iCheck 1.0.1 -->
-<script src="/static/assets/global/plugins/iCheck/icheck.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/icheck/icheck.js" type="text/javascript"></script>
+<script src="/static/assets/apps/modal/app.js" type="text/javascript"></script>
 
+<tags:model1 ></tags:model1>
 <script>
     var _grid;
 
@@ -143,34 +158,33 @@
         _grid = DataTables.initDataTable("/back/user/page", [
             {
                 "data": function (row, type, set, meta) {
-                    return '<input id="\' + row.id + \'" type="checkbox" class="minimal" />';
+                    return '<input id="' + row.id + '" type="checkbox" class="minimal" />';
                 }
             },
             {"data": "username"},
             {"data": "email"},
             {
                 "data": function (row, type, set, meta) {
-                    return DateUtils.format(row.updated, 'yyyy-MM-dd');
+                    return  DateFormat.formatDate(row.updated, 'yyyy-MM-dd');
                 }
             },
             {
                 "data": function (row, type, set, meta) {
                     return '<a href="/back/user/form?id=' + row.id + '" class="btn default green-stripe"> 编辑 </a>&nbsp;&nbsp;' +
-                        '<button class="btn default red-stripe mt-sweetalert" \n' +
-                        '        data-title="确定删除当前数据项吗？" \n' +
-                        '        data-type="warning" \n' +
-                        '        data-show-confirm-button="true" \n' +
-                        '        data-confirm-button-class="btn-danger" \n' +
-                        '        data-show-cancel-button="true" \n' +
-                        '        data-cancel-button-class="btn-default" \n' +
-                        '        data-close-on-confirm="false" \n' +
-                        '        data-close-on-cancel="false" \n' +
-                        '        data-confirm-button-text=\'确定\'\n' +
-                        '        data-cancel-button-text=\'取消\' \n' +
-                        '        data-popup-title-success="已删除" \n' +
-                        '        data-popup-title-cancel="已取消" \n' +
-                        '        data-url="/user/delete?id='+ row.id +'" \n' +
-                        '        >删除</button>'
+                        // '<button class="btn default red-stripe mt-sweetalert" \n' +
+                        // '        data-title="确定删除当前数据项吗？" \n' +
+                        // '        data-type="warning" \n' +
+                        // '        data-show-confirm-button="true" \n' +
+                        // '        data-confirm-button-class="btn-danger" \n' +
+                        // '        data-show-cancel-button="true" \n' +
+                        // '        data-cancel-button-class="btn-default" \n' +
+                        // '        data-close-on-confirm="false" \n' +
+                        // '        data-close-on-cancel="false" \n' +
+                        // '        data-confirm-button-text=\'确定\'\n' +
+                        // '        data-cancel-button-text=\'取消\' \n' +
+                        // '        data-popup-title-success="已删除" \n' +
+                        // '        data-popup-title-cancel="已取消" \n' +
+                        '<a href="/back/user/delOne?id=' + row.id + '" class="btn default red-stripe">删除</a>'
                 }
             }
         ]);
@@ -203,6 +217,67 @@
 
 
     }
+
+    var idArray = new Array();
+
+    function batchDel() {
+
+        // 定义一个存放 ID 的数组
+        // var idArray = new Array();
+
+        idArray=[];
+
+        //将选中的 ID 的放入数组中
+        var _checkbox = $("tbody").find("[type='checkbox']");
+        _checkbox.each(function () {
+            var _id = $(this).attr("id");
+            if (_id != null && _id != "undefine" && $(this).is(":checked")){
+                idArray.push(_id);
+            }
+        })
+
+        // 如果id为空 设置提示
+        if (idArray.length === 0){
+            $("#modal-message").html("您还没有选择任何数据，请至少选择一项");
+        }
+        else {
+            console.log(idArray);
+            $("#modal-message").html("您确定删除数据项吗？")
+        }
+
+        // 弹出模态框
+        $("#modal-default").modal("show");
+    }
+    $(function () {
+        $(".modal-footer .btn-primary").bind("click", function () {
+            del(idArray,"/back/user/delete");
+        })
+    })
+    function del(idArray, url){
+        if (idArray.length == 0) {
+            $("#modal-default").modal("hide");
+        }
+        else {
+            $.ajax({
+                "url":url,
+                "type":"POST",
+                "data": { "ids" : idArray.toString() },
+                "dateType":"JSON",
+                "success":function (data) {
+                    if (data.status === 200){
+                        window.location.reload();
+                    }
+                    else {
+                        $("#modal-message").html(data.message);
+                        $(".modal-footer .btn-primary").one("click", function () {
+                            $("#modal-default").modal("hide");
+                        })
+                    }
+                }
+            });
+        }
+    }
+
 </script>
 </body>
 </html>

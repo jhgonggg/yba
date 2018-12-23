@@ -20,4 +20,8 @@ public interface UserService extends BaseCrudService<User> {
      */
     public List<User> show(List<Long> allFriends, Integer gender, int start, int length);
 
+    /**
+     * 删除单个
+     */
+    public void delOne(String id);
 }

@@ -87,22 +87,20 @@
                                         </div>
                                         <div class="timeline-body-content">
 
-                                            <img class="timeline-body-img pull-right" src="${myMessage.picture}" alt="">
-                                            <span class="font-grey-cascade">
+                                            <img class="timeline-body-img pull-right" src="${myMessage.picture}" id="pic_${myMessage.id}">
+                                            <span class="font-grey-cascade" id="content_${myMessage.id}">
                                                 <p>${myMessage.content}</p>
                                             </span>
                                             <div class="pull-left">
-                                                <button class="btn btn-circle btn-icon-only white" onclick="love(${myMessage.id})">
+                                                <button class="btn btn-circle btn-icon-only white" onclick="Images.love(${sessionScope.user.id},${myMessage.id})">
                                                     <i class="fa fa-thumbs-o-up"></i>${myMessage.praiseNum}
                                                 </button>
                                                 <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="cc(${myMessage.id})">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
+                                                <button class="btn btn-circle btn-icon-only grey-cascade" onclick="shareToXl('${myMessage.id}')">
                                                     <i class="fa fa-link"></i>
-                                                </a>
-                                                <a href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=真实的appkey',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','图片链接|默认为空','标题|默认当前页标题','内容链接|默认当前页location','页面编码gb2312|utf-8默认gb2312'));">分享至微博</a>
-                                                <div class="" style="height: 10px"></div>
+                                                </button>
                                                 <div id="loadOrther_${myMessage.id}" style="display: none">
                                                     <input type="hidden" id="loadInput_${myMessage.id}" >
                                                     <div id="load1_${myMessage.id}" class="load1">
@@ -129,8 +127,9 @@
                                                     editor2.customConfig.onchange = function (html) {
                                                         //过滤部分标签
                                                         var content=html;
-                                                        content = content.replace(/(\n)/g, "");
                                                         content = content.replace(/(\r)/g, "");
+                                                        content = content.replace(/(\n)/g, "");
+                                                        content = content.replace(/(<br>)/g, "");
                                                         content = content.replace(/<\/?p[^>]*>/gi, "");
                                                         $("#loadInput_"+${myMessage.id}).val(content)
                                                     };
@@ -172,16 +171,15 @@
         <div class="clearfix"></div>
     </div>
     <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
     <button type="button" class="quick-sidebar-toggler" data-toggle="collapse">
         <span class="sr-only"></span>
-        <%--<i class="icon-logout"></i>--%>
-        <span style="font-size: 20px;font-family: '微软雅黑 Light';color: hotpink">约</span>
+        <span aria-hidden="true" class="icon-bubbles" style="color: lightgreen;font-size: 40px"></span>
         <div class="quick-sidebar-notification">
-            <span class="badge badge-danger">5</span>
+            <span class="badge badge-danger"></span>
         </div>
     </button>
 </div>
@@ -201,25 +199,8 @@
 <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
 <script src="/static/assets/apps/sweetalert.js"></script>
 <script src="/static/assets/apps/wangEditor.js"></script>
+<script src="/static/assets/apps/friendImage.js"></script>
 <script>
-    //点赞  id---朋友圈id
-    function love(id) {
-        var uid=${sessionScope.user.id};
-        $.ajax({
-            "url":"/praise/love",
-            "data":{"praiseUid":uid,"fcmId":id},
-            "type":"POST",
-            "dataType":"JSON",
-            "success":function (data) {
-                $(".modal-body").html(data.message);
-                $("#modal-danger").modal("show");
-                $("#check").click(function () {
-                    window.location.reload();
-                })
-            }
-        });
-    }
-
     //启动wangEditor
     var E = window.wangEditor;
     var editor = new E('#editor1','#editor2');
@@ -263,7 +244,20 @@
         cc(fcmid);
         parentCommentId=id;
     }
-
+    function shareToXl(id){
+        var title=$("#content_"+id).html();
+        //去除内容的html标签
+        title=title.replace(/<[^>]+>/g,"");
+        //获取图片地址 并将\转换为/
+        var picurl=$("#pic_"+id).attr("src");
+        picurl=picurl.replace("\\", "\/");
+        var sharesinastring='http://v.t.sina.com.cn/share/share.php?title='+title+'&url='+document.URL+'&content=utf-8&sourceUrl='+document.URL+'&pic='+picurl;
+        window.open(sharesinastring,'newwindow','height=400,width=400,top=100,left=100');
+    }
+    //音乐播放
+    audiojs.events.ready(function() {
+        audiojs.createAll();
+    });
 </script>
 </body>
 </html>

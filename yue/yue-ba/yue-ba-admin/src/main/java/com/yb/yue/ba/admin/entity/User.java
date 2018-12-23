@@ -40,6 +40,7 @@ public class User extends AbstractBaseEntity {
      */
     private Integer gender;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
     private String picture;
     private String location;

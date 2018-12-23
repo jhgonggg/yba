@@ -1,6 +1,7 @@
 package com.yb.yue.ba.admin.controller;
 
 import com.yb.yue.ba.admin.abstracts.AbstractBaseController;
+import com.yb.yue.ba.admin.commons.BaseResult;
 import com.yb.yue.ba.admin.entity.User;
 
 import com.yb.yue.ba.admin.service.UserService;
@@ -38,15 +39,20 @@ public class BackUserController extends AbstractBaseController<User, UserService
     public String save(User user, RedirectAttributes redirectAttributes){
         //为真，验证成功
         if(beanValidator(user,redirectAttributes)){
+
             service.save(user);
             sendMessage(redirectAttributes,"保存用户信息成功");
             return "redirect:/back/user/list";
         }
         //失败
         else{
-            return "redirect:/back/user/form";
+            return "/back/user/form";
         }
     }
 
-
+    @GetMapping("delOne")
+    public String delOne(String id){
+        service.delOne(id);
+        return "redirect:/back/user/list";
+    }
 }

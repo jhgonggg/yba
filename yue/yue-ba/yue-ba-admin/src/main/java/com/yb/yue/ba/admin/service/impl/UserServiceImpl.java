@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
-import com.yb.yue.ba.admin.entity.UserInfo;
 import com.yb.yue.ba.admin.mapper.UserGoodFriendMapper;
 import com.yb.yue.ba.admin.mapper.UserInfoMapper;
 import com.yb.yue.ba.admin.mapper.UserMapper;
@@ -12,6 +11,7 @@ import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
@@ -88,7 +88,6 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         for (Long friendId : friendIds) {
             friendList.add(mapper.getById(friendId));
         }
-
         return friendList;
     }
 
@@ -110,6 +109,15 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         map.put("length", length);
 
         return mapper.page(map);
+    }
 
+    /**
+     * 删除单个
+     *
+     */
+    @Transactional(readOnly = false)
+    @Override
+    public void delOne(String id) {
+        mapper.delOne(id);
     }
 }
