@@ -21,12 +21,12 @@
 }
 .quick-sidebar-toggler {
 
-    background:#c93756;
+    background:none;
 
 }
 .page-quick-sidebar-wrapper {
 
-    background-image: url("/static/images/timg2.jpg");
+    background-image: url("/static/images/timg3.jpg");
 }
 .page-quick-sidebar-wrapper .page-quick-sidebar .list-items>li {
 
@@ -44,10 +44,10 @@
     background:none;
 }
 .page-quick-sidebar-wrapper .page-quick-sidebar .list-items>li:hover {
-    background:lightgreen;
+    background:lightgrey;
 }
 .dropdown-menu-v2>li>a:hover {
-    background: #21282e;
+    background: rgba(255, 186, 202, 0.32);
     text-decoration: none;
     color: #c3272b;
 }
@@ -122,5 +122,14 @@ p {
     overflow-x:hidden;
     height: 400px;
 }
+.audiojs {
+    width: 460px;
+    height: 36px;
+    background: palevioletred;
+    overflow: hidden;
+    font-family: monospace;
+    font-size: 12px;
+}
+
 
 

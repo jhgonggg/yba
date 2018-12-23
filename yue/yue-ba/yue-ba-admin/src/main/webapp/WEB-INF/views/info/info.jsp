@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <!--<![endif]-->
@@ -41,12 +42,12 @@
                 <div class="row isotope_items">
                     <!-- item -->
                     <div class="col-md-4">
-                        <a class="work-item work-image" href="/static/images/1.jpg">
-                            <img src="/static/images/1.jpg" alt="">
+                        <a class="work-item work-image" href="#">
+                            <img src="${requestScope.user.picture}" alt="">
                             <i class="ti-image"></i>
                             <div class="work-info">
-                                <h3><span>${sessionScope.user.username}</span></h3>
-                                <p><span>爆肝工程师</span></p>
+                                <h3><span>${requestScope.user.username}</span></h3>
+                                <p><span>${requestScope.user.userInfo.personalSignature}</span></p>
                             </div>
 
                         </a>
@@ -58,13 +59,13 @@
                             <form class="form-horizontal" role="form">
                                 <div class="form-body">
                                     <%--${user.id ==uid  ? "我的" : "个人"}--%>
-                                    <h3 class="form-section">个人资料</h3>
+                                    <h3 class="form-section">${requestScope.user.username}的资料</h3>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">昵称:</label>
+                                                <label class="control-label col-md-3">用户名:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static"> ${sessionScope.user.username} </p>
+                                                    <p class="form-control-static"> ${requestScope.user.username} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,7 +74,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">性别:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static"> ${sessionScope.user.gender == 1? '男' : '女'} </p>
+                                                    <p class="form-control-static"> ${requestScope.user.gender == 1? '男' : '女'} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -85,7 +86,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">生日:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static"> ${sessionScope.user.birth} </p>
+                                                    <p class="form-control-static"><fmt:formatDate value='${requestScope.user.birth}'></fmt:formatDate> </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -94,7 +95,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">所在地:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static">广州天河</p>
+                                                    <p class="form-control-static">${requestScope.user.location}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,7 +107,15 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">职业:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static"> 学生 </p>
+                                                    <p class="form-control-static"> ${requestScope.user.userInfo.profession} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">电话:</label>
+                                                <div class="col-md-9">
+                                                    <p class="form-control-static"> ${requestScope.user.phone} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +127,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">签名:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static">爆肝工程师</p>
+                                                    <p class="form-control-static">${requestScope.user.userInfo.personalSignature}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -128,10 +137,13 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">爱好:</label>
                                                 <div class="col-md-9">
-                                                    <p class="form-control-static">篮球</p>
-                                                    <p class="form-control-static">约P</p>
-                                                    <p class="form-control-static">健身</p>
-                                                    <p class="form-control-static"></p>
+
+                                                    <p class="form-control-static">${requestScope.user.userInfo.hobby}</p>
+
+                                                    <%--<p class="form-control-static">篮球</p>--%>
+                                                    <%--<p class="form-control-static">约P</p>--%>
+                                                    <%--<p class="form-control-static">健身</p>--%>
+                                                    <%--<p class="form-control-static"></p>--%>
                                                 </div>
                                             </div>
                                         </div>
@@ -151,20 +163,25 @@
                                 </div>
                             </form>
                             <div class="pull-right">
-                                <a href="javascript:;" class="btn btn-circle btn-icon-only">
+                                <form id="testform" action="/user/add" method="post">
+                                    <input type="hidden" name="id" value="${sessionScope.user.id}">
+                                    <input type="hidden" name="uid" value="${requestScope.user.id}">
+                                </form>
+                                <a href="#" class="btn btn-circle btn-icon-only" title="喜欢" onclick="test_post()">
                                     <i class="fa fa-heart" style="font-size: 30px;color: red"></i>
                                 </a>
-                                <a href="javascript:;" class="btn btn-circle btn-icon-only ">
+                                <a href="javascript:;" class="btn btn-circle btn-icon-only " onclick="history.go(-1)" title="返回">
                                     <i class="fa fa-close" style="font-size: 40px;color: grey"></i>
                                 </a>
+
                             </div>
                             <%--<div class="pull-right">--%>
-                            <%--<a href="/index/update"><button type="submit" class="btn green">--%>
-                            <%--修改--%>
-                            <%--</button></a>--%>
-                            <%--<button type="button" class="btn default " onclick="history.go(-1)">--%>
-                            <%--返回--%>
-                            <%--</button>--%>
+                                <%--<a href="/user/update"><button type="submit" class="btn green">--%>
+                                    <%--修改--%>
+                                <%--</button></a>--%>
+                                <%--<button type="button" class="btn default " onclick="history.go(-1)">--%>
+                                    <%--返回--%>
+                                <%--</button>--%>
                             <%--</div>--%>
                             <!-- END FORM-->
                         </div>
@@ -175,8 +192,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
@@ -215,9 +231,6 @@
             'image',
             'table'
         ],
-            editor.customConfig.colors = [
-                '#000000',
-            ],
             editor.customConfig.onchange = function (html) {
                 $("#info").val(html)
             }
@@ -227,7 +240,21 @@
 
         editor.create();
 
+
+
     })
+
+    //  点击喜欢，提交隐藏的表单进行添加
+    function test_post() {
+        var testform=document.getElementById("testform");
+        testform.action="/user/add";
+        testform.submit();
+    }
+
+    //音乐播放
+    audiojs.events.ready(function() {
+        audiojs.createAll();
+    });
 </script>
 </body>
 </html>

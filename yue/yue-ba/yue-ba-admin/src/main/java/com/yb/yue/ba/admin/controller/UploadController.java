@@ -41,7 +41,7 @@ public class UploadController {
             }
             map.put("errno",0);
             map.put("data",paths);
-            ;        }
+        }
         return map;
     }
 

@@ -103,10 +103,7 @@ public class LoginController{
             return "1";
         }
     }
-    @GetMapping("/back/login")
-    public String backLogin(){
-        return "back/login";
-    }
+
 
 
 
@@ -129,8 +126,6 @@ public class LoginController{
 
         return "redirect:/login";
     }
-
-
 
 
 

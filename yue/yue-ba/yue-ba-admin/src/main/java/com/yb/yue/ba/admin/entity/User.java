@@ -41,7 +41,8 @@ public class User extends AbstractBaseEntity  {
      * 性别
      */
     private Integer gender;
-    @DateTimeFormat
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
     private String picture;
     private String location;
@@ -49,6 +50,10 @@ public class User extends AbstractBaseEntity  {
     // 判断是否为管理员 1->管理员  0->普通用户
     @Transient
     private Integer isRole;
+
+    // 用户的详情信息
+    @Transient
+    private UserInfo userInfo;
 
     // 判断是否在线 1->在线  0->离线
    private Integer isOnline;

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-1<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- saved from url=(0065)http://www.17sucai.com/preview/1266961/2018-06-19/3007/index.html -->
 <html lang="zxx"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Home</title>
@@ -47,28 +47,27 @@
 <!-- //title -->
 <!-- content -->
 <div class="sub-main-w3">
-    <form action="#" method="post">
+    <form action="/back/login" method="post">
         <h2>登陆
             <i class="fas fa-level-down-alt"></i>
         </h2>
 
-        <%--<div class="alert alert-block alert-danger fade in">--%>
-            <%--<button type="button" class="close" data-dismiss="alert"></button>--%>
-            <%--<h4 class="alert-heading">Error!</h4>--%>
-            <%--<p> Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. </p>--%>
-
+        <%--<div class="alert ${message == null ? 'display-hide' : message.contains('成功') ? 'alert-success' : 'alert-danger'}">--%>
+            <%--<button class="close" data-close="alert"></button>--%>
+            <%--<span> ${message} </span>--%>
         <%--</div>--%>
 
+        <%--<div class="form-style-agile">--%>
+            <%--<div id="msg" style="display: none" class="alert alert-danger &lt;%&ndash;${message == null ? 'display-hide' : ''}&ndash;%&gt;">--%>
+                <%--<button class="close" data-close="alert"></button>--%>
+                <%--1111111111--%>
+            <%--</div>--%>
         <div class="form-style-agile">
-            <div id="msg" style="display: none" class="alert alert-danger <%--${message == null ? 'display-hide' : ''}--%>">
-                <button class="close" data-close="alert"></button>
-                1111111111
-            </div>
             <label>
                 <i class="fas fa-user"></i>
                 用户名
             </label>
-            <input placeholder="用户名" id="name" name="name" type="text" required="">
+            <input placeholder="用户名" id="name" name="loginId" type="text" required="">
         </div>
         <div class="form-style-agile">
             <label>
@@ -92,7 +91,7 @@
             </ul>
         </div>
         <!-- //checkbox -->
-        <input type="button" value="登陆" onclick="login()">
+        <input type="submit" value="登陆" >
     </form>
 </div>
 <!-- //content -->
@@ -112,22 +111,22 @@
 <!-- //effect js -->
 
 <script >
-    function login() {
-        var name=$("#name").val();
-        var password=$("#password").val();
-        $.post("/login",{"loginId":name,"password":password},function(data){
-            if(data==0){
-                alert("用户名或密码错误")
-            }
-            else if(data==3){
-                location.href="/back/main";
-            }else{
-                alert("无权限访问")
-            }
-        })
+    // function login() {
+    //     var name=$("#name").val();
+    //     var password=$("#password").val();
+    //     $.post("/login",{"loginId":name,"password":password},function(data){
+    //         if(data==0){
+    //             alert("用户名或密码错误")
+    //         }
+    //         else if(data==3){
+    //             location.href="/back/main";
+    //         }else{
+    //             alert("无权限访问")
+    //         }
+    //     })
 
 
-    }
+   //}
 </script>
 
 

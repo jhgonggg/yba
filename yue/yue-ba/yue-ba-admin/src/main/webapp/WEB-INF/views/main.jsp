@@ -121,7 +121,7 @@
                 <div class="jq22-content bgcolor-3">
                     <div id="div1" style="height: 2992px;">
                         <c:forEach items="${show}" var="user">
-                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="#"><img src="${user.picture}" alt=""></a></div>
+                            <div class="box" style="opacity:0;filter:alpha(opacity=0);"><a href="/user/info?id=${user.id}"><img src="${user.picture}" alt=""></a></div>
                         </c:forEach>
                         <%--<div class="box" style="position: absolute; top: 0px; left: 130px; opacity: 1;"><a href="#"><img src="/static/upload/1.jpg" alt=""></a></div>--%>
                         <%--<div class="box" style="position: absolute; top: 0px; left: 402px; opacity: 1;"><img src="/static/upload/2.jpg" alt=""></div>--%>
@@ -144,14 +144,13 @@
 
     </div>
     <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
     <button type="button" class="quick-sidebar-toggler" data-toggle="collapse">
         <span class="sr-only"></span>
-        <%--<i class="icon-logout"></i>--%>
-        <span style="font-size: 20px;font-family: '微软雅黑 Light';color: hotpink">约</span>
+        <span aria-hidden="true" class="icon-bubbles" style="color: lightgreen;font-size: 40px"></span>
         <div class="quick-sidebar-notification">
             <span class="badge badge-danger"></span>
         </div>
@@ -177,6 +176,7 @@
         $(function () {
             //启动wangEditor
             var E = window.wangEditor;
+
             editor = new E('#editor1','#editor2');
             editor.customConfig.uploadImgShowBase64 = true;
             editor.customConfig.menus = [
@@ -195,16 +195,12 @@
             editor.customConfig.onchange = function (html) {
                  $("#info").val(html)
              }
-<<<<<<< HEAD
-=======
 
->>>>>>> 9d2940ace0f0f32c74503642ed75e422f532f337
             editor.create();
 
             //初始化goEasy对象
              goEasy = new GoEasy({
-                 appkey: 'BC-697822f1a335419da17331bb84427a10',
-
+                 appkey: 'BC-697822f1a335419da17331bb84427a10'
         })
 
 
@@ -228,7 +224,6 @@
                             $("#"+id).append("离线");
                         }
 
-<<<<<<< HEAD
                     }
                     else {
                         $("#record").append(" <div class=\"answer\">\n" +
@@ -247,15 +242,23 @@
                             "                        </div>");
                         $('#record').scrollTop( $('#record')[0].scrollHeight );
                     }
+
+
+            //初始化Vue
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    unreadCount: '89',
+                }
+            })
+
+           
                 }
             });
 
         })
 
-=======
 
-           
->>>>>>> 9d2940ace0f0f32c74503642ed75e422f532f337
 
 
 
@@ -311,14 +314,13 @@
                                 "                        </div>");
 
                             $('#record').scrollTop( $('#record')[0].scrollHeight );
+
                         }
-
                     }
-                }
-            });
+                });
 
 
-        }
+            }
 
 
         //推送消息
@@ -360,29 +362,30 @@
 
                     $('#record').scrollTop( $('#record')[0].scrollHeight );
 
-                }
 
-            })
-        }
+                    }
 
-        //去除富文本标签
-        function removeTAG(str,len){
-            return str.replace(/<[^>]+>/g, "");
-        }
-<<<<<<< HEAD
-=======
 
-    </script>
->>>>>>> 9d2940ace0f0f32c74503642ed75e422f532f337
+                })
+            }
 
-        //滚动条事件
+
+            //去除富文本标签
+            function removeTAG(str, len) {
+                return str.replace(/<[^>]+>/g, "");
+            }
+        })
+            //音乐播放
+            audiojs.events.ready(function() {
+                audiojs.createAll();
+            });
+   //滚动条事件
         $("#record").scroll(function() {
             var scrollTop = $(this).scrollTop();
             if(scrollTop == 0){
                 alert("12");
             }
         });
-
 
 
 </script>
@@ -403,13 +406,13 @@
                         // var data = JSON.parse(data);
                         var data = data;
                         var str = "";
-                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="{{src}}" /></div></div>'
+                        var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><a href="/user/info?id={{id}}"><img src="{{src}}" /></a></div></div>'
 
                         /*for(var i = 0; i < data.data.length; i++) {
                             str += templ.replace("{{src}}", data.data[i].src);
                         }*/
                         for(var i = 0; i < data.length; i++) {
-                            str += templ.replace("{{src}}", data[i].picture);
+                            str += templ.replace("{{src}}", data[i].picture).replace("{{id}}", data[i].id);
                         }
                         $(str).appendTo($("#div1"));
                         currentpage++;

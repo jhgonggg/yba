@@ -21,6 +21,16 @@
 
     <link href="/static/assets/plugins/commons.css" rel="stylesheet" type="text/css"/>
     <style>
+        .btn.white:not(.btn-outline).active, .btn.white:not(.btn-outline):active, .btn.white:not(.btn-outline):hover, .open>.btn.white:not(.btn-outline).dropdown-toggle {
+            color: #ffffff;
+            background-color: #ff2d51;
+            border-color: #e0e0e0;
+        }
+        .load2{
+            height: 90px;
+            width: 330px;
+            border: 1px solid pink;
+        }
         .dropzone-file-area {
             border: 2px dashed #f47983 !important;
             background: #fff !important;
@@ -34,6 +44,7 @@
             border-color: #e0e0e0;
         }
     </style>
+    <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4IU3oIAMpZhfWZsMu7xzqBBAf6vMHcoa"></script>
 </head>
 <body class="allyb">
@@ -103,35 +114,75 @@
                                         <div class="timeline-body-head-caption">
                                             <a href="javascript:;" class="timeline-body-title font-blue-madison">${friendMessage.uname}</a>
                                             <span class="timeline-body-time font-grey-cascade">发布于<fmt:formatDate value="${friendMessage.created}" pattern="yyyy-MM-dd HH:mm:ss"/> </span>
+                                            <span class="timeline-body-time font-grey-cascade">${friendMessage.location}</span>
                                         </div>
                                     </div>
                                     <div class="timeline-body-content">
 
-                                        <img class="timeline-body-img pull-right" src="${friendMessage.picture}" alt="">
-                                        <span class="font-grey-cascade">
+                                        <img class="timeline-body-img pull-right" src="${friendMessage.picture}" id="pic_${friendMessage.id}">
+                                        <span class="font-grey-cascade" id="content_${friendMessage.id}">
                                             <p>${friendMessage.content}</p>
                                         </span>
                                     </div>
                                         <div class="pull-left">
-                                            <button class="btn btn-circle btn-icon-only white" onclick="love(${friendMessage.id})">
+                                            <button class="btn btn-circle btn-icon-only white" onclick="Images.love(${sessionScope.user.id},${friendMessage.id})">
                                                 <i class="fa fa-thumbs-o-up"></i>${friendMessage.praiseNum}
                                             </button>
-                                            <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
+                                            <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="cc(${friendMessage.id})">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade" onclick="shareToXl('${friendMessage.id}')">
                                                 <i class="fa fa-link"></i>
-                                            </a></br></br>
+                                            </a>
+                                            <div class="" style="height: 10px"></div>
+                                            <div id="loadOrther_${friendMessage.id}" style="display: none">
+                                                <input type="hidden" id="loadInput_${friendMessage.id}" >
+                                                <div id="load1_${friendMessage.id}" class="load1">
+                                                </div>
+                                                <div id="load2_${friendMessage.id}" class="load2">
+                                                </div>
+                                                <button id="loadFriend_${friendMessage.id}" type="button" class="btn green" style="padding:4px 8px " onclick="sb(${friendMessage.id})">
+                                                    <span>确定</span>
+                                                </button>
+                                            </div>
+                                            <script>
+                                                var E = window.wangEditor;
+                                                var editor2 = new E('#load1_'+${friendMessage.id},'#load2_'+${friendMessage.id});
+                                                editor2.customConfig.menus = [
+                                                    'head',
+                                                    'bold',
+                                                    'italic',
+                                                    'underline',
+                                                    'emoticon',
+                                                    'undo',
+                                                    'image',
+                                                    'table'
+                                                ],
+                                                editor2.customConfig.onchange = function (html) {
+                                                    //过滤部分标签
+                                                    var content=html;
+                                                    content = content.replace(/(\n)/g, "");
+                                                    content = content.replace(/(\r)/g, "");
+                                                    content = content.replace(/(<br>)/g, "");
+                                                    content = content.replace(/<\/?p[^>]*>/gi, "");
+                                                    $("#loadInput_"+${friendMessage.id}).val(content);
+                                                };
+                                                editor2.create();
+                                            </script>
+                                            </br></br>
                                             <c:forEach items="${friendMessage.comments}" var="comment" >
-                                                    <span class="ellipsis">
+                                                <a class="ellipsis" onclick="pl(${comment.id},${friendMessage.id})">
                                                     【${comment.customer.username}】:
-                                                    </span>
+                                                </a>
                                                 <span class="ellipsis">${comment.content}</span>
-                                                <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${comment.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${comment.created}" pattern="yyyy/MM/dd HH:mm:ss" />
                                                     </span>
                                                 <br />
                                                 <c:if test="${!empty comment.replyComment}">
                                                     <c:forEach items="${comment.replyComment}" var="reply">
-                                                        【${reply.replyCustomer.username}】<a class="date-dz-pl pl-hf hf-con-block">回复</a>【${reply.customer.username}】:
-                                                        <span class="ellipsis">${reply.content}</span>
-                                                        <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${reply.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                        <a class="ellipsis" onclick="pl(${reply.id},${friendMessage.id})">【${reply.replyCustomer.username}】:</a><span class="date-dz-pl pl-hf hf-con-block">回复</span>【${reply.customer.username}】:
+                                                        <span class="ellipsis" >${reply.content}</span>
+                                                        <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${reply.created}" pattern="yyyy/MM/dd HH:mm:ss" />
     				                                        </span>
                                                         <br />
                                                     </c:forEach>
@@ -151,16 +202,15 @@
         <div class="clearfix"></div>
     </div>
     <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
     <button type="button" class="quick-sidebar-toggler" data-toggle="collapse">
         <span class="sr-only"></span>
-        <%--<i class="icon-logout"></i>--%>
-        <span style="font-size: 20px;font-family: '微软雅黑 Light';color: hotpink">约</span>
+        <span aria-hidden="true" class="icon-bubbles" style="color: lightgreen;font-size: 40px"></span>
         <div class="quick-sidebar-notification">
-            <span class="badge badge-danger">5</span>
+            <span class="badge badge-danger"></span>
         </div>
     </button>
 </div>
@@ -172,11 +222,10 @@
 <msg:modal/>
 <%@include file="../includes/chat.jsp"%>
 <%@include file="../includes/footer.jsp"%>
-<!--wangEditor-->
-<script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
 <!--dropZone-->
 <script src="/static/assets/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
 <script src="/static/assets/apps/wangEditor.js"></script>
+<script src="/static/assets/apps/friendImage.js"></script>
 <script>
     $(function () {
         //文件上传
@@ -191,33 +240,21 @@
             autoProcessQueue:true,
             init: function() {
                 this.on('success', function (files, data) {
+                    console.log(data.path);
                     //文件上传成功之后的操作
                     $("#picture").val(data.path);
                 });
             }
         };
     });
-
     //Wang Editor
     WangEditor.init("editor","content");
 
-    //点赞  id---朋友圈id
-    function love(id) {
-        var uid=${sessionScope.user.id};
-        $.ajax({
-            "url":"/praise/love",
-            "data":{"praiseUid":uid,"fcmId":id},
-            "type":"POST",
-            "dataType":"JSON",
-            "success":function (data) {
-                $(".modal-body").html(data.message);
-                $("#modal-danger").modal("show");
-                $("#check").click(function () {
-                    window.location.reload();
-                })
-            }
-        });
-    }
+    audiojs.events.ready(function() {
+        audiojs.createAll();
+    });
+
+
 </script>
 <script type="text/javascript" >
     var geolocation = new BMap.Geolocation();
@@ -235,8 +272,41 @@
             });
         }
     });
+    //朋友圈id
+    function cc(id) {
+        $('#'+('loadOrther_'+id)).toggle();
+    }
+    var parentCommentId;
+    //提交评论
+    function sb(fcmid) {
+        var uid=${sessionScope.user.id}
+        var content=$("#loadInput_"+fcmid).val();
+        $.ajax({
+            "url":"/comment/review",
+            "data":{"commentatorId":uid,"fcmid":fcmid,"content":content,"parentCommentId":parentCommentId},
+            "type":"POST",
+            "dataType":"JSON",
+            "success":function (data) {
+                window.location.reload();
+            }
+        });
+    }
+    //点击人名评论
+    function pl(id,fcmid) {
+        cc(fcmid);
+        parentCommentId=id;
+    }
 
-
+    function shareToXl(id){
+        var title=$("#content_"+id).html();
+        //去除内容的html标签
+        title=title.replace(/<[^>]+>/g,"");
+        //获取图片地址 并将\转换为/
+        var picurl=$("#pic_"+id).attr("src");
+        picurl=picurl.replace("\\", "\/");
+        var sharesinastring='http://v.t.sina.com.cn/share/share.php?title='+title+'&url='+document.URL+'&content=utf-8&sourceUrl='+document.URL+'&pic='+picurl;
+        window.open(sharesinastring,'newwindow','height=400,width=400,top=100,left=100');
+    }
 </script>
 </body>
 </html>

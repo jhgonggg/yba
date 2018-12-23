@@ -22,6 +22,8 @@
 <script src="/static/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
 <script src="/static/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
 
+<!--音乐播放器-->
+<script src="/static/assets/plugins/audio.min.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="/static/assets/global/scripts/app.min.js" type="text/javascript"></script>
@@ -37,3 +39,5 @@
 <!--GoEasy-->
 <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
 <script src = "/static/assets/apps/modal/dateutils.js"></script>
+<!--Vue-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
