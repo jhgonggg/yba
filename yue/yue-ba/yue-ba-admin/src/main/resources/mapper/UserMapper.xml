@@ -83,18 +83,16 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
     <select id="page" resultType="User" parameterType="java.util.Map">
         <include refid="allColumns"></include>
         <include refid="left"></include>
-        <!--模糊查询-->
-        <where>
-            <if test="user!=null and user.username!=null and user.username!=''">
-                AND a.username LIKE CONCAT ('%', #{user.username}, '%')
-            </if>
-            <if test="user!=null and user.phone!=null and user.phone!=''">
-                AND a.phone  LIKE CONCAT ('%', #{user.phone}, '%')
-            </if>
-            <if test="user!=null and user.email!=null and user.email!=''">
-                AND a.email  LIKE CONCAT ('%', #{user.email}, '%')
-            </if>
-        </where>
+        <if test="gender != null">
+            WHERE a.gender = #{gender}
+        </if>
+        <if test="list != null and list.size>0 and gender != null">
+            AND a.id NOT IN
+            <foreach collection="list" open="(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+
         ORDER by created DESC
         LIMIT #{start},#{length}
     </select>
