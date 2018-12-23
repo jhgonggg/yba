@@ -4,6 +4,7 @@ package com.yb.yue.ba.admin.controller;
 import com.yb.yue.ba.admin.abstracts.AbstractBaseController;
 import com.yb.yue.ba.admin.constants.SystemConstants;
 import com.yb.yue.ba.admin.entity.User;
+import com.yb.yue.ba.admin.service.UserGoodFriendService;
 import com.yb.yue.ba.admin.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "user")
 public class UserController extends AbstractBaseController<User, UserService> {
+
+    @Autowired
+    private UserGoodFriendService userGoodFriendService;
 
     /**
      * 格式化 前端表单提交的日期
@@ -93,30 +97,23 @@ public class UserController extends AbstractBaseController<User, UserService> {
     public List<User> show(int page, HttpServletRequest request){
         // 根据用户当前性别 搜索对象的性别
         User user = (User) request.getSession().getAttribute(SystemConstants.CACHE_KEY_USER);
-        int gender = user.getGender() == 1?0:1;
+
+        // 获取用户的所有好友 ID 的集合
+        List<Long> allFriends = userGoodFriendService.getAllFriends(user.getId());
+        // 把自己 与 管理员 去除
+        allFriends.add(user.getId());
+        allFriends.add((long) 1);
+
+        Integer gender = user.getGender() == 1?0:1;
         // 长度
         int length = 6;
         // 起始位置
         int start = (page-1) * length;
 
-        List<User> show = service.show(start, length);
+        List<User> show = service.show(allFriends, gender, start, length);
         System.out.println(page);
         System.out.println(show);
-        return show /*"{\n" +
-                "\t\"data\": [{\n" +
-                "\t\t\"src\": \"3.jpg\"\n" +
-                "\t}, {\n" +
-                "\t\t\"src\": \"4.jpg\"\n" +
-                "\t}, {\n" +
-                "\t\t\"src\": \"2.jpg\"\n" +
-                "\t}, {\n" +
-                "\t\t\"src\": \"5.jpg\"\n" +
-                "\t}, {\n" +
-                "\t\t\"src\": \"1.jpg\"\n" +
-                "\t}, {\n" +
-                "\t\t\"src\": \"6.jpg\"\n" +
-                "\t}]\n" +
-                "}"*/;
+        return show ;
     }
 
     /**
@@ -157,6 +154,12 @@ public class UserController extends AbstractBaseController<User, UserService> {
         }
         model.addAttribute("user",user);
         return "info/info";
+    }
+
+    @PostMapping(value = "add")
+    public String addFriend(Long id, Long uid){
+        userGoodFriendService.save(id, uid);
+        return "redirect:/main";
     }
 
 

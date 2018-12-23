@@ -12,10 +12,12 @@ public interface UserService extends BaseCrudService<User> {
 
     /**
      * 瀑布流的分页查询
+     * @param allFriends 好友的 ID 集合，在首页中不展示，所以过滤掉
+     * @param gender 根据性别来查询展示陌生人
      * @param start
      * @param length
      * @return
      */
-    public List<User> show(int start, int length);
+    public List<User> show(List<Long> allFriends, Integer gender, int start, int length);
 
 }

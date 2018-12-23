@@ -59,7 +59,7 @@
                             <form class="form-horizontal" role="form">
                                 <div class="form-body">
                                     <%--${user.id ==uid  ? "我的" : "个人"}--%>
-                                    <h3 class="form-section">${requestScope.user.username}资料</h3>
+                                    <h3 class="form-section">${requestScope.user.username}的资料</h3>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -163,20 +163,25 @@
                                 </div>
                             </form>
                             <div class="pull-right">
-                                <a href="javascript:;" class="btn btn-circle btn-icon-only">
+                                <form id="testform" action="/user/add" method="post">
+                                    <input type="hidden" name="id" value="${sessionScope.user.id}">
+                                    <input type="hidden" name="uid" value="${requestScope.user.id}">
+                                </form>
+                                <a href="#" class="btn btn-circle btn-icon-only" title="喜欢" onclick="test_post()">
                                     <i class="fa fa-heart" style="font-size: 30px;color: red"></i>
                                 </a>
-                                <a href="javascript:;" class="btn btn-circle btn-icon-only ">
+                                <a href="javascript:;" class="btn btn-circle btn-icon-only " onclick="history.go(-1)" title="返回">
                                     <i class="fa fa-close" style="font-size: 40px;color: grey"></i>
                                 </a>
+
                             </div>
                             <%--<div class="pull-right">--%>
                                 <%--<a href="/user/update"><button type="submit" class="btn green">--%>
                                     <%--修改--%>
                                 <%--</button></a>--%>
-                                <button type="button" class="btn default " onclick="history.go(-1)">
-                                    返回
-                                </button>
+                                <%--<button type="button" class="btn default " onclick="history.go(-1)">--%>
+                                    <%--返回--%>
+                                <%--</button>--%>
                             <%--</div>--%>
                             <!-- END FORM-->
                         </div>
@@ -240,6 +245,13 @@
         editor.create();
 
     })
+
+    //  点击喜欢，提交隐藏的表单进行添加
+    function test_post() {
+        var testform=document.getElementById("testform");
+        testform.action="/user/add";
+        testform.submit();
+    }
 </script>
 </body>
 </html>
