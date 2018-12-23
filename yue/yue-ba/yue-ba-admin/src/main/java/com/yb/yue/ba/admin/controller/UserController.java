@@ -6,6 +6,7 @@ import com.yb.yue.ba.admin.constants.SystemConstants;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.service.UserGoodFriendService;
 import com.yb.yue.ba.admin.service.UserService;
+import com.yb.yue.ba.admin.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,9 +58,28 @@ public class UserController extends AbstractBaseController<User, UserService> {
     @ResponseBody
     @PostMapping(value = "check")
     public String check(String user_name,String email){
-        System.out.println(user_name);
-        System.out.println(email);
-        return "1";
+        User user = new User();
+
+        //用户名为空,则邮箱不为空,验证邮箱
+        if(StringUtils.isEmpty(user_name)){
+
+            if (email.trim().length()==0){
+                return "-1";
+            }
+            user.setEmail(email);
+
+        }
+        //验证用户名
+        else{
+            user.setUsername(user_name);
+            if (user_name.trim().length()==0){
+                return "-1";
+            }
+
+            user.setUsername(user_name);
+
+        }
+        return service.countByItems(user).toString();
     }
 
 

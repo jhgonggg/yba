@@ -76,6 +76,10 @@
     background: #ddd;
     display: block;
 }
+.heard_img img {
+    height: 40px;
+    width: 40px;
+}
 .left {
     float: right;
 }
@@ -83,11 +87,11 @@
     float: left;
 }
 .answer_text p {
-    background: lightgreen;
+    background:  #fff;
     float: right;
 }
 .question_text p{
-    background-color: #fff;
+    background-color:lightgreen;
 }
 .question_text p, .answer_text p {
     border-radius: 10px;
@@ -116,7 +120,7 @@ p {
 }
 .chat-border{
     overflow-x:hidden;
-    height: 500px;
+    height: 400px;
 }
 
 

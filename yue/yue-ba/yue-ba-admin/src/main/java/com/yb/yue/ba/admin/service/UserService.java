@@ -18,4 +18,11 @@ public interface UserService extends BaseCrudService<User> {
      */
     public List<User> show(int start, int length);
 
+    /**
+     * 查重
+     * @param user
+     * @return
+     */
+    Integer countByItems(User user);
+
 }

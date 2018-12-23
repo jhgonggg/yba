@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Transient;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
@@ -17,7 +19,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 //只提供无参构造
-public class User extends AbstractBaseEntity {
+public class User extends AbstractBaseEntity  {
     /**
      * 旧密码错误
      */
@@ -49,7 +51,7 @@ public class User extends AbstractBaseEntity {
     private Integer isRole;
 
     // 判断是否在线 1->在线  0->离线
-   // private Integer isOnline;
+   private Integer isOnline;
     //------------------------扩展的属性 用于修改密码时---------------------------
     //实体bean中默认所有的字段都会被映射到数据库中，如果某个属性不想被映射到数据库中@Transient 依赖persistence-api
     @Transient
@@ -60,4 +62,7 @@ public class User extends AbstractBaseEntity {
     //分组 只验证组内属性
     @Pattern(regexp = RegexpUtils.PASSWORD,message="新密码格式不正确，请输入6-16位字母数字或下划线")
     private String newPwd;
+
+
+
 }

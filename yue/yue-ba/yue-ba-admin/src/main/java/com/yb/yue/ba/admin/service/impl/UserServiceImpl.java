@@ -96,4 +96,9 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         return mapper.page(map);
 
     }
+
+    @Override
+    public Integer countByItems(User user) {
+        return mapper.countByItems(user);
+    }
 }

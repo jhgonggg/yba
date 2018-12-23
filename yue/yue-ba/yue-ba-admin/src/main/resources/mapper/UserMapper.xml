@@ -18,7 +18,9 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
           a.location,
           a.phone,
           a.updated,
-          a.is_role AS isRole
+          a.is_role AS 'isRole',
+          a.is_online AS 'isOnline'
+
         FROM
           yb_user AS a
     </sql>
@@ -53,6 +55,9 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         </if>
         <if test=" gender!=null">
             gender=#{ gender},
+        </if>
+        <if test="isOnline!=null and isOnline!=''">
+            is_online=#{isOnline},
         </if>
         updated=#{updated}
         where
@@ -108,5 +113,18 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         </if>
     </delete>
 
+    <!--根据用户名或邮箱查询存在用户的个数-->
+    <select id="countByItems">
+        SELECT COUNT(*) FROM
+          yb_user
+        <where>
+            <if test="username!=null and username!=''">
+                AND a.username = #{username}
+            </if>
+            <if test="email!=null and email!=''">
+                AND a.email = #{email}
+            </if>
+        </where>
+    </select>
 
 </mapper>

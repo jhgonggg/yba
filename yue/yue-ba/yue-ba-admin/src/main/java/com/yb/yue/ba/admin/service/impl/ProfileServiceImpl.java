@@ -28,6 +28,7 @@ public class ProfileServiceImpl implements ProfileService {
         params.setUsername(loginId);
         params.setEmail(loginId);
         params.setPhone(loginId);
+
         User user = userMapper.login(params);
         /*密码加密*/
         String Md5password = DigestUtils.md5DigestAsHex(password.getBytes());

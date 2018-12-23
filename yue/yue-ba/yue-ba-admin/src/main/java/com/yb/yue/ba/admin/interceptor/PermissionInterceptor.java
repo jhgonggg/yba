@@ -2,6 +2,8 @@ package com.yb.yue.ba.admin.interceptor;
 import com.yb.yue.ba.admin.constants.SystemConstants;
 import com.yb.yue.ba.admin.entity.User;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,5 +19,15 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+
     }
 }

@@ -36,5 +36,4 @@
 <!-- END THEME LAYOUT SCRIPTS -->
 <!--GoEasy-->
 <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
-<!--Vue-->
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+<script src = "/static/assets/apps/modal/dateutils.js"></script>

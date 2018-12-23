@@ -12,6 +12,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.yb.yue.ba.admin.listener.OnlineUserListener</listener-class>
+    </listener>
     <!--设置过滤器 编码格式utf-8-->
     <filter>
         <filter-name>encodingFilter</filter-name>
@@ -51,4 +54,7 @@
         <!--/* 代表接收所有请求 包括静态的资源文件 以及.jsp页面的请求也接收 会导致请求.jsp页面都是404-->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+
+
 </web-app>
