@@ -22,6 +22,8 @@
 <script src="/static/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
 <script src="/static/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
 
+<!--音乐播放器-->
+<script src="/static/assets/plugins/audio.min.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="/static/assets/global/scripts/app.min.js" type="text/javascript"></script>

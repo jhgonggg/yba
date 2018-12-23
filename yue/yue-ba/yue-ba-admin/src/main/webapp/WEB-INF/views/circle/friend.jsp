@@ -202,16 +202,15 @@
         <div class="clearfix"></div>
     </div>
     <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
     <button type="button" class="quick-sidebar-toggler" data-toggle="collapse">
         <span class="sr-only"></span>
-        <%--<i class="icon-logout"></i>--%>
-        <span style="font-size: 20px;font-family: '微软雅黑 Light';color: hotpink">约</span>
+        <span aria-hidden="true" class="icon-bubbles" style="color: lightgreen;font-size: 40px"></span>
         <div class="quick-sidebar-notification">
-            <span class="badge badge-danger">5</span>
+            <span class="badge badge-danger"></span>
         </div>
     </button>
 </div>
@@ -250,6 +249,11 @@
     });
     //Wang Editor
     WangEditor.init("editor","content");
+
+    audiojs.events.ready(function() {
+        audiojs.createAll();
+    });
+
 
 </script>
 <script type="text/javascript" >

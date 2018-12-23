@@ -144,16 +144,15 @@
 
     </div>
     <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
     <button type="button" class="quick-sidebar-toggler" data-toggle="collapse">
         <span class="sr-only"></span>
-        <%--<i class="icon-logout"></i>--%>
-        <span style="font-size: 20px;font-family: '微软雅黑 Light';color: hotpink">约</span>
+        <span aria-hidden="true" class="icon-bubbles" style="color: lightgreen;font-size: 40px"></span>
         <div class="quick-sidebar-notification">
-            <span class="badge badge-danger">5</span>
+            <span class="badge badge-danger"></span>
         </div>
     </button>
 </div>
@@ -173,7 +172,7 @@
         $(function () {
             //启动wangEditor
             var E = window.wangEditor;
-            var editor = new E('#editor1','#editor2');
+            var editor = new E('#editor1', '#editor2');
             editor.customConfig.uploadImgShowBase64 = true;
             editor.customConfig.menus = [
                 'head',
@@ -185,42 +184,35 @@
                 'image',
                 'table'
             ],
-            editor.customConfig.colors = [
-                '#000000',
-            ],
-            editor.customConfig.onchange = function (html) {
-                 $("#info").val(html)
-             }
-
-            editor.create();
+                editor.create();
 
             //初始化Vue
             var vm = new Vue({
                 el: '#app',
                 data: {
-                    unreadCount : '89',
+                    unreadCount: '89',
                 }
             })
 
             //初始化goEasy对象
-             goEasy = new GoEasy({appkey: 'BC-697822f1a335419da17331bb84427a10'});
+            goEasy = new GoEasy({appkey: 'BC-697822f1a335419da17331bb84427a10'});
 
             //初始化监听接口，接受消息
             goEasy.subscribe({
-                channel:sender_id,
-                onMessage: function(message){
+                channel: sender_id,
+                onMessage: function (message) {
 
                     $("#record").append("<div class=\"recevie\">\n" +
                         "    <div class=\"row\">\n" +
                         "        <div class=\"col-md-1\"></div>\n" +
-                        "        <div class=\"col-md-11\" style=\"float: left\"><p >"+new Date() +"</p></div>\n" +
+                        "        <div class=\"col-md-11\" style=\"float: left\"><p >" + new Date() + "</p></div>\n" +
                         "    </div>\n" +
                         "    <div class=\"heard_img right\">\n" +
                         "        <img src=\"/static/images/1.jpg\">\n" +
                         "    </div>\n" +
                         "    <div style=\"width: 8px\"></div>\n" +
                         "    <div class=\"question_text clear\" style=\"max-width: 543px;\">\n" +
-                        "        <p>"+message.content+"</p>\n" +
+                        "        <p>" + message.content + "</p>\n" +
                         "        <i></i>\n" +
                         "    </div>\n" +
                         "</div>");
@@ -228,86 +220,85 @@
             });
 
 
+            //点击好友
+            function getRecord(friendId) {
+                recevier_id = friendId;
+                $.ajax({
+                    url: "/record/list",
+                    type: "post",
+                    data: {
+                        "uid": sender_id,
+                        "friendId": recevier_id
+                    },
+                    success: function (data) {
+                        //返回聊天记录
+                        $("#record").empty();
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].senderId == sender_id) {
+                                var created = DateFormat.formatDate(new Date(data[i].created));
+                                $("#record").append(" <div class=\"post in\">" + data[i].message + " </div><br/>");
+                            }
+                            else {
+                                $("#record").append(" <div class=\"post out\">" + data[i].message + " </div><br/>");
+                            }
 
-           
-
-
-
-        //点击好友
-        function getRecord(friendId) {
-            recevier_id = friendId;
-            $.ajax({
-                url:"/record/list",
-                type:"post",
-                data:{
-                  "uid":sender_id,
-                  "friendId":recevier_id
-                },
-                success:function (data) {
-                    //返回聊天记录
-                    $("#record").empty();
-                    for (var i = 0; i <data.length ; i++) {
-                        if(data[i].senderId==sender_id){
-                            var created = DateFormat.formatDate(new Date(data[i].created));
-                            $("#record").append(" <div class=\"post in\">"+data[i].message+" </div><br/>");
                         }
-                        else{
-                            $("#record").append(" <div class=\"post out\">"+data[i].message+" </div><br/>");
-                        }
+                    }
+                });
+
+
+            }
+
+
+            //推送消息
+            function send() {
+                var message = removeTAG($("#info").val());
+
+                //清空编辑区域
+                editor.txt.clear();
+                goEasy.publish({
+                    channel: recevier_id + "",
+                    message: message,
+                    onSuccess: function () {
+                        $.ajax({
+                            url: "/record/save",
+                            type: "post",
+                            data: {
+                                "senderId": sender_id,
+                                "recevierId": recevier_id,
+                                "message": message,
+                            }
+                        });
+                        $("#record").append("<div class=\"send\">\n" +
+                            "    <div class=\"row\">\n" +
+                            "        <div class=\"col-md-9\"></div>\n" +
+                            "        <div class=\"col-md-3\" style=\"float: right\">\n" +
+                            "            <p >17:50</p>\n" +
+                            "        </div>\n" +
+                            "    </div>\n" +
+                            "    <div class=\"heard_img left\"><img src=\"/static/images/1.jpg\"></div>\n" +
+                            "    <div style=\"width: 8px\"></div>\n" +
+                            "    <div class=\"answer_text\">\n" +
+                            "        <p>您可以向我提问哦</p>\n" +
+                            "        <i></i>\n" +
+                            "    </div>\n" +
+                            "</div>");
 
                     }
-                }
+
+                })
+            }
+
+
+            //去除富文本标签
+            function removeTAG(str, len) {
+                return str.replace(/<[^>]+>/g, "");
+            }
+        })
+            //音乐播放
+            audiojs.events.ready(function() {
+                audiojs.createAll();
             });
-
-
-        }
-
-
-        //推送消息
-        function send(){
-           var message =  removeTAG($("#info").val());
-
-           //清空编辑区域
-            editor.txt.clear();
-            goEasy.publish({
-                channel:recevier_id+"",
-                message:message,
-                onSuccess:function(){
-                    $.ajax({
-                        url:"/record/save",
-                        type:"post",
-                        data:{
-                            "senderId":sender_id,
-                            "recevierId":recevier_id,
-                            "message":message,
-                        }
-                    });
-                    $("#record").append("<div class=\"send\">\n" +
-                        "    <div class=\"row\">\n" +
-                        "        <div class=\"col-md-9\"></div>\n" +
-                        "        <div class=\"col-md-3\" style=\"float: right\">\n" +
-                        "            <p >17:50</p>\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "    <div class=\"heard_img left\"><img src=\"/static/images/1.jpg\"></div>\n" +
-                        "    <div style=\"width: 8px\"></div>\n" +
-                        "    <div class=\"answer_text\">\n" +
-                        "        <p>您可以向我提问哦</p>\n" +
-                        "        <i></i>\n" +
-                        "    </div>\n" +
-                        "</div>");
-
-                }
-
-            })
-        }
-
-
-        //去除富文本标签
-        function removeTAG(str,len){
-            return str.replace(/<[^>]+>/g, "");
-        }
-
     </script>
 
     <%--<script src="images/jquery.min(1).js"></script>--%>

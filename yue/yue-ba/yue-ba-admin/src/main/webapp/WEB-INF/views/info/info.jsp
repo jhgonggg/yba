@@ -187,8 +187,7 @@
         </div>
         <div class="clearfix"></div>
     </div>
-    <!-- BEGIN FOOTER -->
-    <p class="copyright-v2"> 2018 &copy; Metronic Theme By
+    <p class="copyright-v2"> 2018 &copy; 年轻人的约会天堂
         <a target="_blank" href="#">约吧</a>
     </p>
     <!-- BEGIN QUICK SIDEBAR TOGGLER -->
@@ -227,9 +226,6 @@
             'image',
             'table'
         ],
-            editor.customConfig.colors = [
-                '#000000',
-            ],
             editor.customConfig.onchange = function (html) {
                 $("#info").val(html)
             }
@@ -239,7 +235,13 @@
 
         editor.create();
 
+
+
     })
+    //音乐播放
+    audiojs.events.ready(function() {
+        audiojs.createAll();
+    });
 </script>
 </body>
 </html>
