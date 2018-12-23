@@ -119,22 +119,21 @@
                                     </div>
                                     <div class="timeline-body-content">
 
-                                        <img class="timeline-body-img pull-right" src="${friendMessage.picture}" alt="">
-                                        <span class="font-grey-cascade">
+                                        <img class="timeline-body-img pull-right" src="${friendMessage.picture}" id="pic_${friendMessage.id}">
+                                        <span class="font-grey-cascade" id="content_${friendMessage.id}">
                                             <p>${friendMessage.content}</p>
                                         </span>
                                     </div>
                                         <div class="pull-left">
-                                            <button class="btn btn-circle btn-icon-only white" onclick="love(${friendMessage.id})">
+                                            <button class="btn btn-circle btn-icon-only white" onclick="Images.love(${sessionScope.user.id},${friendMessage.id})">
                                                 <i class="fa fa-thumbs-o-up"></i>${friendMessage.praiseNum}
                                             </button>
                                             <a href="javascript:;" class="btn btn-circle btn-icon-only white" onclick="cc(${friendMessage.id})">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade">
+                                            <a href="javascript:;" class="btn btn-circle btn-icon-only grey-cascade" onclick="shareToXl('${friendMessage.id}')">
                                                 <i class="fa fa-link"></i>
                                             </a>
-                                            <a href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=真实的appkey',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','图片链接|默认为空','标题|默认当前页标题','内容链接|默认当前页location','页面编码gb2312|utf-8默认gb2312'));">分享至微博</a>
                                             <div class="" style="height: 10px"></div>
                                             <div id="loadOrther_${friendMessage.id}" style="display: none">
                                                 <input type="hidden" id="loadInput_${friendMessage.id}" >
@@ -164,8 +163,9 @@
                                                     var content=html;
                                                     content = content.replace(/(\n)/g, "");
                                                     content = content.replace(/(\r)/g, "");
+                                                    content = content.replace(/(<br>)/g, "");
                                                     content = content.replace(/<\/?p[^>]*>/gi, "");
-                                                    $("#loadInput_"+${friendMessage.id}).val(content)
+                                                    $("#loadInput_"+${friendMessage.id}).val(content);
                                                 };
                                                 editor2.create();
                                             </script>
@@ -226,6 +226,7 @@
 <!--dropZone-->
 <script src="/static/assets/global/plugins/dropzone/dropzone.min.js" type="text/javascript"></script>
 <script src="/static/assets/apps/wangEditor.js"></script>
+<script src="/static/assets/apps/friendImage.js"></script>
 <script>
     $(function () {
         //文件上传
@@ -247,27 +248,9 @@
             }
         };
     });
-
     //Wang Editor
     WangEditor.init("editor","content");
 
-    //点赞  id---朋友圈id
-    function love(id) {
-        var uid=${sessionScope.user.id};
-        $.ajax({
-            "url":"/praise/love",
-            "data":{"praiseUid":uid,"fcmId":id},
-            "type":"POST",
-            "dataType":"JSON",
-            "success":function (data) {
-                $(".modal-body").html(data.message);
-                $("#modal-danger").modal("show");
-                $("#check").click(function () {
-                    window.location.reload();
-                })
-            }
-        });
-    }
 </script>
 <script type="text/javascript" >
     var geolocation = new BMap.Geolocation();
@@ -308,6 +291,17 @@
     function pl(id,fcmid) {
         cc(fcmid);
         parentCommentId=id;
+    }
+
+    function shareToXl(id){
+        var title=$("#content_"+id).html();
+        //去除内容的html标签
+        title=title.replace(/<[^>]+>/g,"");
+        //获取图片地址 并将\转换为/
+        var picurl=$("#pic_"+id).attr("src");
+        picurl=picurl.replace("\\", "\/");
+        var sharesinastring='http://v.t.sina.com.cn/share/share.php?title='+title+'&url='+document.URL+'&content=utf-8&sourceUrl='+document.URL+'&pic='+picurl;
+        window.open(sharesinastring,'newwindow','height=400,width=400,top=100,left=100');
     }
 </script>
 </body>
