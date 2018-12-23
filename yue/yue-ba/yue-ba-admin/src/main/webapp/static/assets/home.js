@@ -202,7 +202,7 @@ var languages = {
                     email: c
                 },
                 success: function(b) {
-                    b ? ($text(d, ""), signup.check_suc(a), $hide(d, 500)) : ($text(d, text["email-used"]), signup.check_fail(a))
+                    b==1 ? ($text(d, ""), signup.check_suc(a), $hide(d, 500)) : ($text(d, text["email-used"]), signup.check_fail(a))
                 }
             })) : ($text(d, text["not-email"]), signup.check_fail(a)))
         },
@@ -230,7 +230,7 @@ var languages = {
                         /!*nickname: b.nickname,*!/
                         auth_token: b.auth_token,
                         "new": "Y"
-                    }, 360), $cookie.set("is_registered", "true", .04),*/ location.href = rootURL + ":8080/main")
+                    }, 360), $cookie.set("is_registered", "true", .04),*/ location.href = rootURL + ":8080/login")
                 }
             }))
         }

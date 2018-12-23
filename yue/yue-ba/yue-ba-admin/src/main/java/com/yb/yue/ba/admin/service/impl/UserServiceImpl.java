@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
+import com.yb.yue.ba.admin.entity.UserInfo;
 import com.yb.yue.ba.admin.mapper.UserGoodFriendMapper;
 import com.yb.yue.ba.admin.mapper.UserInfoMapper;
 import com.yb.yue.ba.admin.mapper.UserMapper;
@@ -45,6 +46,7 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         if (user.preSave(user)) {
             // 添加 yb_user 表
             mapper.insert(user);
+            user.setUserInfo(new UserInfo());
             user.getUserInfo().setUserId(user.getId());
             user.getUserInfo().setCreated(user.getCreated());
             user.getUserInfo().setUpdated(user.getUpdated());
