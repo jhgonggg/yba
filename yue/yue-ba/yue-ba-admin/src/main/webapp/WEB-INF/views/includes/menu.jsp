@@ -31,17 +31,6 @@
                             <span class="title">首页</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
-                        <a href="ui_colors.html" class="nav-link ">
-                            <span class="title">关于约吧</span>
-                        </a>
-                    </li>
-                    <li class="nav-item  ">
-                        <a href="ui_general.html" class="nav-link ">
-                            <span class="title">联系我们</span>
-                        </a>
-                    </li>
-
                 </ul>
             </li>
             <li class="heading">
@@ -64,12 +53,6 @@
                             <span class="title">我的好友</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
-                        <a href="ui_general.html" class="nav-link ">
-                            <span class="title">我的关注</span>
-                        </a>
-                    </li>
-
                 </ul>
             </li>
             <li class="nav-item  ">

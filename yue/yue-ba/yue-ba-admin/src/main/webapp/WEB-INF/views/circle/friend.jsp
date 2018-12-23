@@ -175,14 +175,14 @@
                                                     【${comment.customer.username}】:
                                                 </a>
                                                 <span class="ellipsis">${comment.content}</span>
-                                                <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${comment.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${comment.created}" pattern="yyyy/MM/dd HH:mm:ss" />
                                                     </span>
                                                 <br />
                                                 <c:if test="${!empty comment.replyComment}">
                                                     <c:forEach items="${comment.replyComment}" var="reply">
                                                         <a class="ellipsis" onclick="pl(${reply.id},${friendMessage.id})">【${reply.replyCustomer.username}】:</a><span class="date-dz-pl pl-hf hf-con-block">回复</span>【${reply.customer.username}】:
                                                         <span class="ellipsis" >${reply.content}</span>
-                                                        <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${reply.created}" pattern="yyyy-MM-dd HH:mm:ss" />
+                                                        <span class="ellipsis">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<fmt:formatDate value="${reply.created}" pattern="yyyy/MM/dd HH:mm:ss" />
     				                                        </span>
                                                         <br />
                                                     </c:forEach>

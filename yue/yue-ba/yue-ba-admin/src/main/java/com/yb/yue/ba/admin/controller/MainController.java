@@ -28,6 +28,11 @@ public class MainController extends AbstractBaseController<User, UserService> {
 
         // 根据用户当前性别 搜索对象的性别
         User user = (User) request.getSession().getAttribute(SystemConstants.CACHE_KEY_USER);
+
+        if(user==null){
+            return "/login";
+        }
+     
         Integer gender = user.getGender() == 1?0:1;
 
         // 获取用户的所有好友 ID 的集合
