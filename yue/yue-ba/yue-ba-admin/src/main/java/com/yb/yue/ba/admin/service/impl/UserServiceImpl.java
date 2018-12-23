@@ -4,9 +4,11 @@ import com.google.common.collect.Maps;
 import com.yb.yue.ba.admin.abstracts.impl.AbstractBaseCrudServiceImpl;
 import com.yb.yue.ba.admin.entity.User;
 import com.yb.yue.ba.admin.mapper.UserGoodFriendMapper;
+import com.yb.yue.ba.admin.mapper.UserInfoMapper;
 import com.yb.yue.ba.admin.mapper.UserMapper;
 import com.yb.yue.ba.admin.service.UserService;
 import com.yb.yue.ba.admin.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
@@ -24,6 +26,7 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
 
     /**
      * 重写基类的保存方法，在原有的基础上添加密码加密方法
+     *
      * @param user
      * @return
      */
@@ -31,29 +34,22 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
     public int save(User user) {
         String password = null;
         // 加密
-        if (StringUtils.isNoneBlank(user.getPassword())){
+        if (StringUtils.isNoneBlank(user.getPassword())) {
             password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
             user.setPassword(password);
         }
 
         //添加
-        if(user.preSave(user)){
+        if (user.preSave(user)) {
+            // 添加 yb_user 表
             mapper.insert(user);
+            user.getUserInfo().setUserId(user.getId());
+            user.getUserInfo().setCreated(user.getCreated());
+            user.getUserInfo().setUpdated(user.getUpdated());
+            userInfoMapper.insert(user.getUserInfo());
             return User.ADD;
         }
         //编辑
-        else {
-            mapper.update(user);
-        }
-        // 添加 yb_user 表
-        mapper.insert(user);
-        user.getUserInfo().setUserId(user.getId());
-        user.getUserInfo().setCreated(user.getCreated());
-        user.getUserInfo().setUpdated(user.getUpdated());
-        userInfoMapper.insert(user.getUserInfo());
-        return User.ADD;
-        }
-        //编辑啊
         else {
             // 更新 yb_user 表
             mapper.update(user);
@@ -63,8 +59,11 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
             // 更新 yb_user_info 表
             userInfoMapper.update(user.getUserInfo());
         }
+
         return User.UPDATE;
+
     }
+
 
     /**
      * 获取指定用户的好友
