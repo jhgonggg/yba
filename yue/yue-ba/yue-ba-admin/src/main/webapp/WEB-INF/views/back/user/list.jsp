@@ -165,7 +165,7 @@
             {"data": "email"},
             {
                 "data": function (row, type, set, meta) {
-                    return  DateFormat.formatDate(row.updated, 'yyyy-MM-dd');
+                    return  DateUtils.formatDate(row.updated, 'yyyy-MM-dd');
                 }
             },
             {
