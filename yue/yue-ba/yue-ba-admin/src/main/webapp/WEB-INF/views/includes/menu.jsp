@@ -48,11 +48,6 @@
                             <span class="title">个人资料</span>
                         </a>
                     </li>
-                    <li class="nav-item  ">
-                        <a href="ui_colors.html" class="nav-link ">
-                            <span class="title">我的好友</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
             <li class="nav-item  ">

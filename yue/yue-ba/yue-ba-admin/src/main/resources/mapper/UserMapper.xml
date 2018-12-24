@@ -88,13 +88,13 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
         <include refid="allColumns"></include>
         <include refid="left"></include>
         <where>
-            <if test="user.username!=null and user.username!=''">
+            <if test="user != null and user.username!=null and user.username!=''">
                 AND a.username LIKE CONCAT ('%', #{user.username}, '%')
             </if>
-            <if test="user.phone!=null and user.phone!=''">
+            <if test="user != null and user.phone!=null and user.phone!=''">
                 AND a.phone  LIKE CONCAT ('%', #{user.phone}, '%')
             </if>
-            <if test="user.email!=null and user.email!=''">
+            <if test="user != null and user.email!=null and user.email!=''">
                 AND a.email  LIKE CONCAT ('%', #{user.email}, '%')
             </if>
         </where>
@@ -152,15 +152,15 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
     </delete>
 
     <!--根据用户名或邮箱查询存在用户的个数-->
-    <select id="countByItems">
+    <select id="countByItems" resultType="Integer">
         SELECT COUNT(*) FROM
           yb_user
         <where>
             <if test="username!=null and username!=''">
-                AND a.username = #{username}
+                AND username = #{username}
             </if>
             <if test="email!=null and email!=''">
-                AND a.email = #{email}
+                AND email = #{email}
             </if>
         </where>
     </select>

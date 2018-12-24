@@ -103,7 +103,11 @@ public class UserController extends AbstractBaseController<User, UserService> {
             user.setUsername(user_name);
 
         }
-        return service.countByItems(user).toString();
+
+        if(service.countByItems(user) ==0){
+            return "1";
+        }
+        return "-1";
     }
 
 

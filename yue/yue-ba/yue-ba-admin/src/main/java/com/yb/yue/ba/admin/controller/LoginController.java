@@ -83,6 +83,9 @@ public class LoginController{
 
 
             List<User> friends = userService.getFriends(user.getId());
+//            for (User friend : friends) {
+//                System.out.println(friend);
+//            }
 
             //设置用户状态为在线
             user.setIsOnline(1);
