@@ -61,7 +61,9 @@ public class UserGoodFriendServiceImpl extends AbstractBaseCrudServiceImpl<UserG
         addTimeLine(timeLineList,ownMessage1,uid2);
         //将uid2发布的朋友圈添加到uid1的时间轴
         addTimeLine(timeLineList,ownMessage2,uid1);
-        timeLineMapper.insert(timeLineList);
+        if(!timeLineList.isEmpty()) {
+            timeLineMapper.insert(timeLineList);
+        }
     }
 
     /**
