@@ -166,6 +166,8 @@
 <%@include file="includes/footer.jsp"%>
 <!--wangEditor-->
 <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
+<script src="/static/assets/apps/modal/dateutils.js"></script>
+
 <script type="text/javascript">
         var sender_id= ${sessionScope.user.id}+"";
         var sender_img= "${sessionScope.user.picture}";
@@ -176,7 +178,6 @@
         $(function () {
             //启动wangEditor
             var E = window.wangEditor;
-
             editor = new E('#editor1','#editor2');
             editor.customConfig.uploadImgShowBase64 = true;
             editor.customConfig.menus = [
@@ -195,26 +196,30 @@
             editor.customConfig.onchange = function (html) {
                  $("#info").val(html)
              }
-
             editor.create();
 
             //初始化goEasy对象
-             goEasy = new GoEasy({
-                 appkey: 'BC-697822f1a335419da17331bb84427a10'
-        })
+             goEasy = new GoEasy({appkey: 'BC-697822f1a335419da17331bb84427a10',
+                 onConnected: function () {
+                    // alert("成功连接GoEasy。");
+                 },
+                 onDisconnected: function () {
+                     //alert("与GoEasy连接断开。");
+                 },
+                    onConnectFailed: function(error) {
+                       // alert("与GoEasy连接失败，错误编码："+error.code+"错误信息："+error.content);
+                    }
+             })
 
-
-
-            //初始化监听接口，接受消息
+            //初始化监听接口，接受好友消息
             goEasy.subscribe({
                 channel:sender_id,
-                channel:"sys_channel",
-                onMessage: function(message){
 
+                onMessage: function(message){
                     if(message.channel =="sys_channel"){
                         var msg = message.content;
 
-                       var id =  msg.substring(0, msg.lastIndexOf(":"));
+                        var id =  msg.substring(0, msg.lastIndexOf(":"));
                         if(msg.endsWith("in")){
                             $("#"+id).empty();
                             $("#"+id).append("在线");
@@ -226,11 +231,12 @@
 
                     }
                     else {
+
                         $("#record").append(" <div class=\"answer\">\n" +
                             "                            <div class=\"row\">\n" +
                             "                                <div class=\"col-md-9\"></div>\n" +
                             "                            <div class=\"col-md-3\" style=\"float: right\">\n" +
-                            "                                <p >" + DateFormat.formatDate(new Date()) + "</p>\n" +
+                            "                                <p >" + DateUtils.formatDate(new Date()) + "</p>\n" +
                             "                            </div>\n" +
                             "                            </div>\n" +
                             "                            <div class=\"heard_img left\"><img class=\"media-object\" style=\"\" src=\"" + img + "\"></div>\n" +
@@ -242,23 +248,39 @@
                             "                        </div>");
                         $('#record').scrollTop( $('#record')[0].scrollHeight );
                     }
-
-
-            //初始化Vue
-            var vm = new Vue({
-                el: '#app',
-                data: {
-                    unreadCount: '89',
+                },
+                onSuccess: function () {
+                   // alert("Channel订阅成功。");
+                },
+                onFailed: function (error) {
+                   // alert("Channel订阅失败, 错误编码：" + error.code + " 错误信息：" + error.content)
                 }
-            })
-
-           
+            });
+            //初始化监听接口，接受系统消息
+            goEasy.subscribe({
+                channel:"sys_channel",
+                onMessage: function(message){
+                        var msg = message.content;
+                        var id =  msg.substring(0, msg.lastIndexOf(":"));
+                        if(msg.endsWith("in")){
+                            $("#"+id).empty();
+                            $("#"+id).append("在线");
+                        }
+                        else{
+                            $("#"+id).empty();
+                            $("#"+id).append("离线");
+                        }
+                },
+                onSuccess: function () {
+                    // alert("Channel订阅成功。");
+                },
+                onFailed: function (error) {
+                    // alert("Channel订阅失败, 错误编码：" + error.code + " 错误信息：" + error.content)
                 }
             });
 
+
         })
-
-
 
 
 
@@ -267,60 +289,63 @@
             img = pictrue;
             recevier_id = friendId;
 
+            console.log(recevier_id);
             $.ajax({
-                url:"/record/list",
-                type:"post",
-                data:{
-                  "uid":sender_id,
-                  "friendId":recevier_id
+                url: "/record/list",
+                type: "post",
+                data: {
+                    "uid": sender_id,
+                    "friendId": recevier_id
                 },
-                success:function (data) {
+                success: function (data) {
                     //返回聊天记录
                     $("#record").empty();
-                    for (var i = 0; i <data.length ; i++) {
-                        if(data[i].senderId==sender_id){
-                            var created = DateFormat.formatDate(new Date(data[i].created));
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (data[i].senderId == sender_id) {
+                            var created = DateUtils.formatDate(new Date(data[i].created));
                             $("#record").append(" <div style=\"height: 5px\"></div>\n" +
                                 "                        <div class=\"question\">\n" +
                                 "                            <div class=\"row\">\n" +
                                 "                                <div class=\"col-md-1\"></div>\n" +
-                                "                                <div class=\"col-md-11\" style=\"float: left\"><p >"+created+"</p></div>\n" +
+                                "                                <div class=\"col-md-11\" style=\"float: left\"><p >" + created + "</p></div>\n" +
                                 "                            </div>\n" +
                                 "                            <div class=\"heard_img right media\">\n" +
-                                "                                <img  class=\"media-object\" src=\""+sender_img+"\">\n" +
+                                "                                <img  class=\"media-object\" src=\"" + sender_img + "\">\n" +
                                 "                            </div>\n" +
                                 "                            <div style=\"width: 8px\"></div>\n" +
                                 "                            <div class=\"question_text clear\" style=\"max-width: 543px;\">\n" +
-                                "                                <p>"+data[i].message+"</p>\n" +
+                                "                                <p>" + data[i].message + "</p>\n" +
                                 "                                <i></i>\n" +
                                 "                            </div>\n" +
                                 "                        </div>");
-                            $('#record').scrollTop( $('#record')[0].scrollHeight );
+                            $('#record').scrollTop($('#record')[0].scrollHeight);
                         }
-                        else{
+                        else {
                             $("#record").append(" <div class=\"answer\">\n" +
                                 "                            <div class=\"row\">\n" +
                                 "                                <div class=\"col-md-9\"></div>\n" +
                                 "                            <div class=\"col-md-3\" style=\"float: right\">\n" +
-                                "                                <p >"+created+"</p>\n" +
+                                "                                <p >" + created + "</p>\n" +
                                 "                            </div>\n" +
                                 "                            </div>\n" +
-                                "                            <div class=\"heard_img left media\"><img class=\"media-object\"  src=\""+img+"\"></div>\n" +
+                                "                            <div class=\"heard_img left media\"><img class=\"media-object\"  src=\"" + img + "\"></div>\n" +
                                 "                            <div style=\"width: 8px\"></div>\n" +
                                 "                            <div class=\"answer_text\">\n" +
-                                "                                <p>"+data[i].message+"</p>\n" +
+                                "                                <p>" + data[i].message + "</p>\n" +
                                 "                                <i></i>\n" +
                                 "                            </div>\n" +
                                 "                        </div>");
 
-                            $('#record').scrollTop( $('#record')[0].scrollHeight );
+                            $('#record').scrollTop($('#record')[0].scrollHeight);
 
                         }
                     }
-                });
+                },
 
 
-            }
+            })
+        }
 
 
         //推送消息
@@ -332,6 +357,8 @@
                 channel:recevier_id+"",
                 message:message,
                 onSuccess:function(){
+                    debugger;
+                    console.log(recevier_id);
                     $.ajax({
                         url:"/record/save",
                         type:"post",
@@ -348,7 +375,7 @@
                         "                        <div class=\"question\">\n" +
                         "                            <div class=\"row\">\n" +
                         "                                <div class=\"col-md-1\"></div>\n" +
-                        "                                <div class=\"col-md-11\" style=\"float: left\"><p >"+DateFormat.formatDate(new Date())+"</p></div>\n" +
+                        "                                <div class=\"col-md-11\" style=\"float: left\"><p >"+DateUtils.formatDate(new Date())+"</p></div>\n" +
                         "                            </div>\n" +
                         "                            <div class=\"heard_img right\">\n" +
                         "                                <img src=\""+sender_img+"\">\n" +
@@ -363,8 +390,10 @@
                     $('#record').scrollTop( $('#record')[0].scrollHeight );
 
 
-                    }
-
+                    },
+                onFailed: function (error) {
+                    alert("消息发送失败，错误编码："+error.code+" 错误信息："+error.content);
+                }
 
                 })
             }
@@ -374,18 +403,17 @@
             function removeTAG(str, len) {
                 return str.replace(/<[^>]+>/g, "");
             }
-        })
             //音乐播放
             audiojs.events.ready(function() {
                 audiojs.createAll();
             });
-   //滚动条事件
-        $("#record").scroll(function() {
-            var scrollTop = $(this).scrollTop();
-            if(scrollTop == 0){
-                alert("12");
-            }
-        });
+            //滚动条事件
+            $("#record").scroll(function() {
+                var scrollTop = $(this).scrollTop();
+                if(scrollTop == 0){
+
+                }
+            });
 
 
 </script>
