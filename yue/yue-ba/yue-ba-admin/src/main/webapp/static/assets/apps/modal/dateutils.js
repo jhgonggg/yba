@@ -1,12 +1,11 @@
-var DateFormat = function () {
-
+var DateUtils = function(){
     /**
      * 将日期格式化成指定格式的字符串
      * @param date 要格式化的日期，不传时默认当前时间，也可以是一个时间戳
      * @param fmt 目标字符串格式，支持的字符有：y,M,d,q,w,H,h,m,S，默认：yyyy-MM-dd HH:mm:ss
      * @returns 返回格式化后的日期字符串
      */
-   var formatDate =  function (date, fmt)
+   var formatForDate = function(date, fmt)
     {
         date = date == undefined ? new Date() : date;
         date = typeof date == 'number' ? new Date(date) : date;
@@ -38,9 +37,10 @@ var DateFormat = function () {
         return fmt;
     }
 
+
     return{
-        formatDate:function (date, fmt) {
-             return formatDate(date, fmt);
+        formatDate:function(date, fmt) {
+             return formatForDate(date,fmt);
         }
     }
-}()
+}();

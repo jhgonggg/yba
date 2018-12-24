@@ -9,8 +9,6 @@ import io.goeasy.publish.PublishListener;
  */
 public class ServerUtils {
 
-
-
     public static void publish(String content){
         GoEasy goEasy =
                 new GoEasy( "http://rest-hangzhou.goeasy.io", "BC-697822f1a335419da17331bb84427a10");

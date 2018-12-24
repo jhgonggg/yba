@@ -20,7 +20,7 @@ namespace等于mapper接口类路径，这样实现通过映射文件找到对�
           a.phone,
           a.updated,
           a.is_role AS 'isRole',
-          a.is_online AS 'isOnline'
+          a.is_online AS 'isOnline',
           b.profession AS 'userInfo.profession',
           b.personal_signature AS 'userInfo.personalSignature',
           b.hobby AS 'userInfo.hobby'
