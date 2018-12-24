@@ -202,7 +202,7 @@ var languages = {
                     email: c
                 },
                 success: function(b) {
-                    b==1 ? ($text(d, ""), signup.check_suc(a), $hide(d, 500)) : ($text(d, text["email-used"]), signup.check_fail(a))
+                    b==1 ? ($text(d, ""), signup.check_suc(a), $hide(d, 500)) : ($text(d, "此邮箱已用"), signup.check_fail(a))
                 }
             })) : ($text(d, text["not-email"]), signup.check_fail(a)))
         },

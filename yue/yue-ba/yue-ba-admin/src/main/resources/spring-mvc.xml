@@ -49,7 +49,7 @@
         <!--</mvc:interceptor>-->
         <!--<mvc:interceptor>-->
             <!--<mvc:mapping path="/back/login"/>-->
-            <!--<bean class="com.yb.yue.ba.admin.interceptor.BackPermissionInterceptor"></bean>-->
+        <!--<bean class="com.yb.yue.ba.admin.interceptor.BackPermissionInterceptor"></bean>-->
         <!--</mvc:interceptor>-->
     <!--</mvc:interceptors>-->
 
