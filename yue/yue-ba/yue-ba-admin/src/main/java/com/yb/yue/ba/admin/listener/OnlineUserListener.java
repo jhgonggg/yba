@@ -8,6 +8,11 @@ import javax.servlet.http.HttpSessionListener;
 
 public class OnlineUserListener implements HttpSessionListener {
 
+    @Override
+    public void sessionCreated(HttpSessionEvent se) {
+
+    }
+
     public void sessionDestroyed(HttpSessionEvent event){
         //监听Session状态,用户恶意退出,超出session过期时间
         HttpSession session=event.getSession();

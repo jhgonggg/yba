@@ -57,11 +57,14 @@ public class UserServiceImpl extends AbstractBaseCrudServiceImpl<User, UserMappe
         else {
             // 更新 yb_user 表
             mapper.update(user);
-            user.getUserInfo().setUserId(user.getId());
-            user.getUserInfo().setCreated(user.getCreated());
-            user.getUserInfo().setUpdated(user.getUpdated());
-            // 更新 yb_user_info 表
-            userInfoMapper.update(user.getUserInfo());
+            UserInfo userInfo = user.getUserInfo();
+           if(userInfo != null){
+               userInfo .setUserId(user.getId());
+               userInfo.setCreated(user.getCreated());
+               userInfo.setUpdated(user.getUpdated());
+               // 更新 yb_user_info 表
+               userInfoMapper.update(user.getUserInfo());
+           }
         }
 
         return User.UPDATE;

@@ -177,8 +177,10 @@ public class UserController extends AbstractBaseController<User, UserService> {
     }
 
     @PostMapping(value = "add")
-    public String addFriend(Long id, Long uid){
+    public String addFriend(Long id, Long uid,HttpServletRequest request){
         userGoodFriendService.save(id, uid);
+        List<User> friends = service.getFriends(id);
+        request.getSession().setAttribute(SystemConstants.CACHE_KEY_FRIENDS,friends);
         return "redirect:/main";
     }
 

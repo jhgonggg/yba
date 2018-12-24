@@ -27,7 +27,7 @@ public interface UserService extends BaseCrudService<User> {
      */
     Integer countByItems(User user);
 
-     * 删除单个
+     /** 删除单个
      */
     public void delOne(String id);
 }
